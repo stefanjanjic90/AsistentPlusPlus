@@ -1,0 +1,112 @@
+<div ng-controller="NewDutyController">
+					<div class="forme_dezurstava">
+						<p class="imenaFormi"> Заказивање обавезa</p>
+				
+						<form name="fZakazivanje" class="form-horizontal">
+	      		<fieldset>
+	
+
+						<div class="form-group">
+							<label for="selectSmer" class="col-lg-2 control-label">Група/Смер</label>
+							<div class="col-lg-10">
+								<select class="form-control" ng-model="smer" ng-required="true">
+									<option ng-repeat="smer in departure"> {{smer}} </option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="form-group" >
+							<label for="selectPredmet" class="col-lg-2 control-label">Предмет</label>
+							<div class="col-lg-10">
+								<select class="form-control" ng-model="predmet" ng-required="true">
+									<option ng-repeat="predmet in course"> {{predmet}} </option>
+								</select>
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label for="selectDatum" class="col-lg-2 control-label">Датум одржавања</label>
+							<div class="col-lg-10">								
+								<div class='input-group date' id='selectDatum'>
+									<input type='text' class="form-control" data-date-format="YYYY/MM/DD" placeholder="Датум" ng-model="datum" ng-required="true" >
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label for="timepicker1" class="col-lg-2 control-label">Време(од-до)</label>							
+							<div class='col-lg-5'>
+              	  <div class='input-group date' id='timepicker1'>
+                    <input type='text' class="form-control" ng-model="vremeOd" placeholder="Од" ng-required="true">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                    </span>
+           	 			</div>
+        			</div> 
+        			<div class='col-lg-5'>
+              	  <div class='input-group date' id='timepicker2'>
+                    <input type='text' class="form-control" ng-model="vremeDo" placeholder="До" ng-required="true">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                    </span>
+           	 			</div>
+        			</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label  class="col-lg-2 control-label">Потребне учионице</label>
+							<div class="col-lg-10">
+								<label class="checkbox-inline" ng-repeat="ucionica in classrooms">
+									<input type="checkbox" ng-change="sync(bool, ucionica, 'c')" ng-model="bool" ng-checked="isChecked(ucionica, 'c')"> {{ucionica}}
+								</label>
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label  class="col-lg-2 control-label">Број студената</label>
+							<div class="col-lg-10">
+		    				<input type="text" class="form-control" name="brStudenata" ng-model="brStudenata" placeholder="Очекивани број студената" ng-required="true" ng-pattern="/^[0-9]+$/">
+		  				</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label  class="col-lg-2 control-label">Број асистената</label>
+							<div class="col-lg-10">
+		    				<input type="text" class="form-control" name="brAsistenata" ng-model="brAsistenata" placeholder="Број потребних асистената" ng-required="true" ng-pattern="/^[0-9]+$/">
+		  				</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="selectSmer" class="col-lg-2 control-label">Додај асистента:</label>
+							<div class="col-lg-10">
+								<select class="form-control" ng-change="addAssistant(asistent)" ng-model="asistent">
+									<option ng-repeat="asistent in assistants" >{{asistent}}</option>
+								</select>
+							</div>
+						</div>
+				
+						<div class="form-group">
+							<label for="selectSmer" class="col-lg-2 control-label">Изабрани асистенти:</label>
+							<div class="col-lg-10" ng-repeat="a in selectedAssistant">
+									<span ng-model="a"> {{a}} </span>
+									<a title="Избриши" href="" ng-click="removeAssistant($index)"><span class="glyphicon glyphicon-minus"></span></a>
+							</div>
+						</div>
+						<div class="form-group">
+		  				<div class="col-lg-10 col-lg-offset-2">
+		    				<input type="reset" class="btn btn-default" value="Поништи" >
+		    				<input type="submit" class="btn btn-primary" value="Пошаљи" ng-disabled="!fZakazivanje.$valid">
+		  				</div>
+						</div>
+					  </fieldset>
+				    </form>
+						
+					</div> <!-- div forma dezurstava -->
+				</div> <!-- div najavljivanje obaveza -->

@@ -1,0 +1,93 @@
+<!--  
+tab sa informacijama o ucionicama i njihovim kapacitetima:
+  • formular u vidu tabele u cijim se redovima nalaze ime sale, tekstualno polje polje za
+  unos kapaciteta sale, tekstualno polje za unos raspolozivih racunara u sali; ispod
+  formulara treba da postoji dugme za cuvanje izmena.
+-->
+
+<div ng-controller="ucioniceControler">
+<div class="forme_dezurstava">
+  <p class="imenaFormi">Учионице</p>
+  
+  <div class="table-responsive"> 
+    <table class="table table-striped table-hover" ng-init="sort='datum'; reverse=false">
+      <thead>
+	<tr>
+	  <th ng-click="sort='ime'; reverse=!reverse">Име сале</th>
+	  <th ng-click="sort='kapacitet'; reverse=!reverse">Капацитет сале</th>
+	  <th ng-click="sort='racunari'; reverse=!reverse">Расположиви рачунари</th>
+	  <th>Опције</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr ng-repeat="u in ucionice | orderBy:sort:reverse">
+	 <td>{{u.ime}}</td>
+	 <td>{{u.kapacitet}}</td>
+	 <td>{{u.racunari}}</td>
+	 <td><button type="submit" class="btn btn-primary btn-sm" name="submit" ng-click="promeni(u.id, u.ime, u.kapacitet, u.racunari)"> Промени </button><td>
+	</tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>  <!-- forme dezurstva -->
+
+  <!-- forma za promenu vrednosti ucionice -->
+  <div class="loginform" ng-show="returnForm()">
+    <div class="login">
+    
+      <div class="logintop">
+	<div class="loginclose">
+	  <button type="button" name="closeButoon" class="close" data-dismiss="modal" aria-hidden="true" ng-click="setForm(false)">x</button>
+	</div>    
+      </div>
+	
+      <!-- poruka o uspesnosti -->
+      <div class="alert alert-dismissable alert-success clear" ng-show="success()">
+	<button type="button" class="close" data-dismiss="alert" ng-click="successSet(false)">×</button>
+	<strong>Успешна промена!</strong> {{msg}}
+      </div>
+  
+      <!-- poruka o gresci -->
+      <div class="alert alert-dismissable alert-danger clear" ng-show="error()">
+	<button type="button" class="close" data-dismiss="alert" ng-click="errorSet(false)">×</button>
+	<strong>Грешка!</strong> Дошло је до грешке. Молимо вас покушајте поново са променом.
+      </div>
+    
+      <div class="loginbody">
+	<form class="form-horizontal" name="form">
+	  <fieldset>
+	    <div class="form-group">
+	      <label class="col-lg-4 control-label">Сала</label>
+	      <div class="col-lg-8">
+		<input type="text" class="form-control" name="sala" ng-model="ucionica.ime" placeholder="Име сале" ng-reguired="true" ng-disabled="success()">
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-lg-4 control-label">Капацитет</label>
+	      <div class="col-lg-8">
+		<input type="number" min="0" class="form-control" name="kapacitet" ng-model="ucionica.kapacitet" placeholder="Капацитет" ng-required="true" ng-disabled="success()">
+	      </div>
+	    </div>
+
+	    <div class="form-group">
+	      <label class="col-lg-4 control-label">Рачунари</label>
+	      <div class="col-lg-8">
+		<input type="number" min="0" class="form-control" name="racunari" ng-model="ucionica.racunari" placeholder="Рачунари" ng-required="true" ng-disabled="success()">
+	      </div>
+	    </div>
+
+	    <div class="col-lg-10 col-lg-offset-2">
+	      <button type="reset" class="btn btn-default"  name="reset" ng-click="resetData()">Поништи</button>
+	      <button type="submit" class="btn btn-primary" name="submit" ng-disabled="form.$invalid" ng-click="submitData()">Пошаљи</button>
+	    </div>
+	  
+	</fieldset>
+      </form>
+      </div> <!-- loginbody -->
+    
+    </div> <!-- login -->
+  </div>  <!-- loginform -->
+
+</div>

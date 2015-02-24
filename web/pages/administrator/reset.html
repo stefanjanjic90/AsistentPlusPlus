@@ -1,0 +1,48 @@
+<!-- 
+tab za resetovanje sistema:
+  Resetovanje sistema se vrsi pocetkom skolske godine i podrazumeva anuliranje asistentskih aktivnosti. Anuliranje se realizuje po sledecem kriterijumu:
+  ukoliko je ukupan broj sati provedenih na dezurstvu znatno veci  (odluceno je da ±2 dezurstva budu uracunata) od prosenog broja sati, aistentu dati neki 
+  pozitivan skor (npr. razlika ukupnog broja sati I prosecnog broja sati), dok u slucaju da je ukupan broj sati provedenih na dezurstvu znatno manji od 
+  prosecnog broja sati asistentu dati neki negativan skor (npr. razlika prosecnog broja sati I ukupnog broja sati)
+  u svim ostalim slucajevima broj postaviti na nulu
+
+  Pre resetovanja sistema podatke iz prethodne skolske godine sacuvati u datoteci sa imenom obaveze_skolska_godina.txt npr. obaveze_2014-15.sql
+  (format za backup? mozda neki xml?)
+
+-->
+
+<!--  
+Kolone bi mogle da budu ime i prezime asistenta i broj sati proveden na dezurstvima (polje opterecenost iz tabele Nalog). Predlog je da na dnu ove tabele budu dva dugmeta: 
+  1. reset - kojim se vrednosti postavljaju na ocekivane u skladu sa uputstvom iz propozicija
+  2. sacuvaj izmene - kojim se vrednosti dobijene u prethodnom koraku mogu sacuvati u bazi podataka
+-->
+
+<div ng-controller="resetControler" ng-init="init()">
+<div class="forme_dezurstava">
+
+  <p class="imenaFormi">Ресет</p>
+  
+  <div class="table-responsive"> 
+    <table class="table table-striped table-hover" ng-init="sort='imeprezime'; reverse=false">
+      <thead>
+	<tr>
+	  <th ng-click="sort='imeprezime'; reverse=!reverse" title="Кликните за сортирање по имену и презимену асистента.">Асистент</th>
+	  <th ng-click="sort='sati'; reverse=!reverse" title="Кликните за сортирање по броју сати проведених на дежурству.">Број сати на дежурству</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr ng-repeat="asistent in asistenti | orderBy:sort:reverse">
+	  <td><a href="">{{ asistent.imeprezime }}</a></td> 
+	  <td>{{ asistent.sati }}</td>
+	</tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="text-center"> <!-- class="col-lg-8 col-lg-offset-4" -->
+    <button type="button" name="reset" class="btn btn-warning" title="Ресетуј вредности на подразумеване вредности система." ng-click="reset()" ng-disabled="resetovano">Ресетуј податке</button>
+    <button type="button" name="save" class="btn btn-primary" title="Измене ће бити трајно сачуване." ng-click="save()" ng-disabled="!forSave">Сачувај измене</button>
+  </div>
+  
+</div> <!-- forme dezurstva -->
+</div>

@@ -1,0 +1,12 @@
+{
+    "require": {
+        "doctrine/orm": "2.4.*"
+    },
+
+    "autoload": {
+        "psr-0": {"": "src\\",
+                  "AsistentPlusPlus\\Entity\\":"Entity\\"},
+        "classmap": ["src\\","Entity\\","Service\\"]
+
+    }
+}

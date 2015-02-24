@@ -1,0 +1,75 @@
+<div id="podesavanjeNaloga">
+					<div class="forme_dezurstava">
+						<p class="imenaFormi"> Подешавање налога </p>
+						<form class="form-horizontal">
+	      		<fieldset>
+	      			
+	      			<div class="form-group col-lg-10">
+								<div class="radio"> 
+									<label>
+										<input ng-click="view = 1" type="radio" name="optionsRadios" > Промена шифре
+									</label>
+								</div>		
+								<form class="form-horizontal" ng-show="view === 1">
+								<fieldset>
+									<div class="col-lg-10">
+										<br/>
+										<label class="col-lg-2 control-label">Стара шифра</label>
+										<div class="col-lg-10">
+				  						<input type="password" class="form-control" placeholder="Стара шифра">
+										</div>
+									</div>
+									<div class="col-lg-10">
+										<br/>
+										<label class="col-lg-2 control-label">Нова шифра</label>
+										<div class="col-lg-10">
+				  						<input type="password" class="form-control" placeholder="Нова шифра">
+										</div>
+									</div>
+									<div class="col-lg-10">
+										<br/>
+										<label class="col-lg-2 control-label">Поновите шифру</label>
+										<div class="col-lg-10">
+				  						<input type="password" class="form-control" placeholder="Поновљена шифра">
+										</div>
+									</div>									
+									
+									<div class="form-group">
+										<div class="col-lg-10 col-lg-offset-2">
+											<button type="reset" class="btn btn-default" >Поништи</button>
+											<button type="submit" class="btn btn-primary">Потврди</button>
+										</div>
+									</div>
+								</fieldset>
+								</form>
+
+								
+								<div class="radio">
+									<label>
+										<input ng-click="view = 2" type="radio" name="optionsRadios"> Промена е-маил адресе
+									</label>
+								</div>
+								<form class="form-horizontal" ng-show="view === 2" >
+								<fieldset>
+									<div class="col-lg-10">
+										<br/>
+										<label class="col-lg-2 control-label">Нова е-маил адреса</label>
+										<div class="col-lg-10">
+											<input type="email" class="form-control" placeholder="Нова е-маил адреса">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<div class="col-lg-10 col-lg-offset-2">
+											<button type="reset" class="btn btn-default" >Поништи</button>
+											<button type="submit" class="btn btn-primary" >Потврди</button>
+										</div>
+									</div>
+								</fieldset>
+								</form>
+
+						</div>
+	      		</fieldset>
+	      		</form>
+					</div> <!-- div forma dezurstva -->
+				</div> <!-- div podesavanje naloga -->

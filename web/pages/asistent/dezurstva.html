@@ -1,0 +1,78 @@
+			<section ng-init="tabSec = 1">
+				<ul class="nav nav-tabs">
+					<li ng-class="{ active:tabSec === 1}" > <a href ng-click="tabSec = 1">Споредна дежурства</a></li>
+					<li ng-class="{ active:tabSec === 2}" > <a href ng-click="tabSec = 2">Главна дежурства</a></li>
+				</ul>
+				</section>
+					<div class="forme_dezurstava" ng-controller="SecDutyController" ng-show="tabSec === 1">
+						<p class="imenaFormi"> </p>	
+						<div class="kartica" id="sporedna_kartica{{$index}}" ng-repeat="dezurstvo in duty">
+							<div class = "header" >															
+								<a title="Покушај замену" href="" ng-click="toggle($index)"><span id="grafZamena" class="glyphicon glyphicon-refresh"></span></a>
+								<span> <b> {{ dezurstvo.course }} </b> </span> <br/>
+								<span> {{dezurstvo.assistant}} </span> 
+								<br/>
+								<div id="zamena_asistenti{{$index}}" class="tabela_zamena">
+									<ul>
+										<li ng-repeat = "zamena in possibleRotate">
+										  <input type="checkbox" ng-change="sync(bool, zamena, 'r')" ng-model="bool" ng-checked="isChecked(zamena, 'r')"> {{zamena}} 
+										</li>							
+									</ul> 
+									<input type="button" class="btn btn-primary btnReplace" value="Понуди дежурство" ng-disabled="!checkedReplace.length" ng-click="sendRequest($index)">
+								</div> 
+							</div>
+							<div class = "bodyCard">
+								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
+								<span> Учионица: {{dezurstvo.classroom}} </span> <br/>
+								<span> Напомена:</span> <br/> <textarea class="napomena" rows="1" disabled>{{dezurstvo.remark}}</textarea> 
+							</div> 
+						</div>   <!-- div kartica -->
+					</div>	<!-- div sporedna forma dezurstva -->
+					
+					<div class="forme_dezurstava" ng-controller="PrimDutyController" ng-show="tabSec === 2">
+						<p class="imenaFormi"> </p>	
+						<div class="kartica" ng-repeat="dezurstvo in duty" >
+						<section  ng-init="tab$index = 1"> 
+						  <ul class="nav nav-tabs">
+						    <li ng-class="{active: tab$index===1}"><a href ng-click="tab$index=1">Основно</a></li>
+						    <li ng-class="{active: tab$index===2}"><a href ng-click="tab$index=2">Групе</a></li>
+						    <li ng-class="{active: tab$index===3}"><a href ng-click="tab$index=3">Коментари</a></li>
+						  </ul>
+						<section>
+
+						<!-- tab osnovno -->
+						<div class="tab-pane active" ng-show="tab$index===1">  
+							<div class = "header">
+								<button title="Откажи обавезу" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<span> <b> {{dezurstvo.course}} </b></span>
+							</div>
+							<div class = "bodyCard">
+								<span> Датум: {{ dezurstvo.date }}, {{ dezurstvo.timeSum }}h </span> <br/>
+							</div>
+						</div>						   
+					
+						<!-- tab grupe -->
+						<div class="tab-pane" ng-show="tab$index===2" ng-repeat="grupa in dezurstvo.groups"> 
+							<div class="{{bgColors[$index%3]}} malaGrupa" >
+						  	<label>{{grupa.name}}</label> ({{grupa.start}}-{{grupa.end}}h)
+						   	<div> Учионице: <span ng-repeat="room in grupa.classrooms">{{room}} </span></div>
+						   	<div> Асистенти: 
+						   		<ul>
+						   			<li ng-repeat="a in grupa.assistans">{{a}}</li>
+						   		</ul>
+						   	</div>
+							</div>
+						</div>
+						   
+						<!-- tab komentari -->
+							<div class="tab-pane" ng-show="tab$index===3">
+								<div class="divKomentar">
+									<textarea rows="4" cols="31" > </textarea>
+									<input type="submit" class="btn btn-primary" value="Постави коментар" ng-click="saveComment($index)" id="postaviKomentar{{$index}}">
+								</div>
+						 	</div>
+
+  
+						</div>  <!-- div kartica -->
+					</div> <!-- div glavna dezurstva -->
+				</div> <!-- kraj tab-a dezurstvo -->

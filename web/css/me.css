@@ -1,0 +1,288 @@
+body 
+{
+    background-color: #f2f2f5;
+    padding: 20px 10px;
+}
+
+#content
+{
+   position: relative;
+   width: 70%;
+   margin: 0px auto 0px auto;
+}
+#tab-container
+{
+   width: 126px;
+   position: absolute;
+   top: 50px;
+   left: -126px;
+}
+
+
+
+#main-container
+{
+   margin: 0px auto 0px auto;
+   padding: 25px 50px;
+   background-color: #fff;
+   border: 1px solid #337ab7;
+   border-radius: 15px;
+}
+
+#log_out
+{
+	float:right;
+	margin-bottom: 20px;
+}
+
+#log_in
+{
+	float:right;
+	margin-bottom: 20px;
+}
+
+#imeIprezime
+{
+	margin-right: 10px;
+}
+
+.forme_dezurstava
+{
+   display:block;
+   min-height: 500px;
+   /*max-height: 500px; */
+   padding: 20px;
+   background-color: #eee;
+   border: 1px solid #eee;
+   border-radius: 8px;
+   padding: 10px 20px;
+   overflow: auto;
+   clear: both;
+   
+ }
+
+.container
+ {
+   display:block;
+   min-height: 500px;
+   padding: 20px;
+   background-color: #eee;
+   border: 1px solid #eee;
+   border-radius: 8px;
+   padding: 10px 20px;
+   clear: both;
+   margin-top: 40px;
+   overflow: visible;
+   /*border-color: rgb(255,255,255);*/
+ }
+ 
+ 
+p.imenaFormi {
+	clear: both;
+	color: #777;
+	margin-top: 0px;
+	margin-bottom: 40px;
+	margin-left: 0px;
+	font-weight: 700;
+}
+
+
+.kartica
+{
+	height: auto;
+	width: 45%;
+	margin-left: 10px;
+	margin-right:10px;
+	margin-bottom: 10px;
+	min-height: 100px;
+	background-color: rgb(255,255,255);
+	border-radius: 10px;
+	color: #337ab7;
+	border: 2px solid #337ab7;
+}
+
+#grafZamena
+{
+	float:right;
+	color: #337ab7;
+
+}
+
+.napomena
+{
+	border: 1px solid white;
+	border-radius: 5px;
+	width: 305px;
+	padding: 3px;
+}
+
+#grafDodaj
+{
+	float:right;
+}
+.header
+{
+	padding: 8px;
+	border-bottom: 1px solid #337ab7;
+	font-size: 110%;
+}
+
+.bodyCard
+{
+	color: rgb(96,96,96);
+	padding: 8px;
+}
+
+.loginform 
+{
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000000;
+  overflow: hidden;
+  
+}
+
+.login
+{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  /*min-height: 400px;*/
+  margin-left: -200px;
+  margin-top: -200px;
+  border: 0px;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+}
+
+.logintop
+{
+  clear: both;
+  display: block;
+}
+
+.loginzamclose
+{
+  float: right;
+  margin-bottom: 10px;
+}
+
+.loginbody
+{
+  margin-top: auto;
+  text-align: center;
+  clear: both;
+}
+
+.loginbody img
+{
+  height: 190px;
+  width: 190px;
+}
+
+
+.clear
+{
+  clear: both;
+}
+
+.bold
+{
+	font-weight: bold;
+}
+
+.zamene
+{
+	width: 60%;
+	height: auto;
+	margin-right: 50px;
+}
+
+.div1 {
+    background: Brown;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    
+}
+.div1 ul {
+    position: relative;
+    top: 50%;
+}
+
+
+footer
+{
+	font-size: x-small;
+}
+
+#top
+{
+	margin-bottom: 40px;
+}
+
+
+
+.tableName 
+{
+		margin-top: 10px;
+		margin-bottom: 10px;
+}
+
+.duty-old
+{
+	background-color:#fcf8e3;
+}
+
+.duty-new
+{
+	background-color:#dff0d8;
+}
+
+.malaGrupa
+{
+	margin: 10px;
+	color: #555;
+}
+
+.divKomentar
+{
+	margin: 20px;
+}
+
+
+.grupa
+{
+	margin-left: 128px;
+	margin-bottom: 20px;
+	padding: 26px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	width: 70%;
+}
+
+.tabela_zamena
+{
+	display:  none;
+}
+
+.tabela_zamena ul
+{
+	list-style: none;
+}
+
+.btnReplace
+{
+	margin-left: 50px;
+}
+
+.btnSave
+{
+	margin-left: 226px;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns="http://www.w3.org/1999/xhtml" ng-app='App'>
+	<head>
+		<title> МАТФ Дежурства </title>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8;" />
+		
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"> </script>
+		<script type="text/javascript" src="js/angular.min.js"> </script>
+		<script type='text/javascript' src='js/angular-route.min.js'> </script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		
+<!-- 		<script type="text/javascript" src="js/app.js"></script> -->
+		
+		<script type="text/javascript" src="js/controllers.js"></script>
+		<script type="text/javascript" src="js/administrator.js"></script>
+		<script type="text/javascript" src="js/koordinator.js"></script>
+		<script type="text/javascript" src="js/publicpages.js"></script>
+		<script type="text/javascript" src="js/assistant.js"></script>
+		
+		<script type="text/javascript" src="js/directives.js"></script>
+		
+<!-- 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+<!-- 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+<!-- 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">  -->
+		
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/me.css">
+		<link rel='stylesheet' type='tex/css' href='css/css800px.css' media='screen and (max-width: 800px)'>
+	</head>
+
+	<body>
+	<div id="content" ng-controller="indexControler">
+	  
+	      <div class="loginform" ng-show="returnVisible()">
+		<div class="login">
+		
+		  <div class="logintop">
+		    <div class="loginclose">
+		      <button type="button" name="closeButoon" class="close" data-dismiss="modal" aria-hidden="true" ng-click="setVisible(false)">x</button>
+		    </div>
+		    
+		    <div>
+		    </div>
+		  </div>
+		    
+		  <div class="loginbody">
+				  <img src="images/matf.jpg" alt="МАТФ" />
+				  <form class="form-horizontal" name="loginform">
+				    <fieldset>
+				      <!-- <legend>Legend</legend>  -->
+	
+				      <div class="form-group">
+					<label for="inputUN" class="col-lg-4 control-label">Корисничко име</label>
+					<div class="col-lg-8">
+					  <input type="text" class="form-control" name="inputUN" ng-model="loginData.username" placeholder="Корисничко име" ng-required="true">
+					</div>
+				      </div>
+				      
+				      <div class="form-group">
+					<label for="inputP" class="col-lg-4 control-label">Шифра</label>
+					<div class="col-lg-8">
+					  <input type="password" class="form-control" name="inputP" ng-model="loginData.password" placeholder="Шифра" ng-required="true">
+					</div>
+				      </div>
+				      
+				      <div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+					    <button type="reset" class="btn btn-default" ng-click="resetData()" name="reset">Поништи</button>
+					    <button type="submit" class="btn btn-primary" ng-disabled="loginform.$invalid" ng-click="login()" name="submit">Пошаљи</button>
+					</div>
+				      </div>
+				    </fieldset>
+				    </form>
+		    </div> <!-- loginbody -->
+		  </div> <!-- login -->
+		</div>  <!-- loginform -->
+	
+	
+	
+		<!-- TODO:: ng-show u zavisnosti od moda(asistent...) -->
+		<div id="tab-container">
+			<ul class="nav nav-pills nav-stacked">
+				<!-- javne stranice -->
+				<li ng-class="{active:returnTab()===1}"><a href="#p1" ng-click="setTab(1)">Распоред обавеза</a></li>
+				<li ng-class="{active:returnTab()===2}"><a href="#p2" ng-click="setTab(2)">Заузетост асистената</a></li>
+				
+				<!-- asist()/admin()/koord() -->
+<!-- 				<li ng-class="{active:returnTab()===3}" class="btn btn-primary" ng-show="loged() && asist()"><a href="#p3" ng-click="setTab(3)">Обавештења</a></li> -->
+				<li ng-class="{active:returnTab()===4}" ng-show="loged() && asist()"><a href="#p4" ng-click="setTab(4)">Дежурства</a></li>
+				<li ng-class="{active:returnTab()===5}" ng-show="loged() && asist()"><a href="#p5" ng-click="setTab(5)">Најављивање обавеза</a></li>
+				<li ng-class="{active:returnTab()===6}" ng-show="loged() && asist()"><a href="#p6" ng-click="setTab(6)">Претходна дежурства</a></li>
+				<li ng-class="{active:returnTab()===7}" ng-show="loged() && asist()"><a href="#p7" ng-click="setTab(7)">Подешавање налога</a></li>
+				
+				<li ng-class="{active:returnTab()===8}" ng-show="loged() && koord()"><a href="#p8" ng-click="setTab(8)">Пристигле обавезе</a></li>
+				<li ng-class="{active:returnTab()===9}" ng-show="loged() && koord()"><a href="#p9" ng-click="setTab(9)">Најављивање обавеза</a></li>
+<!-- 				<li ng-class="{active:returnTab()===9}" ng-show="loged() && koord()"><a href="#p9" ng-click="setTab(9)">Заказане обавезе</a></li> -->
+<!-- 				<li ng-class="{active:returnTab()===10}" ng-show="loged() && koord()"><a href="#p10" ng-click="setTab(10)">Преглед рада асистената</a></li> -->
+				
+				<li ng-class="{active:returnTab()===10}" ng-show="loged() && admin()"><a href="#p10" ng-click="setTab(10)">Инфо</a></li>
+				<li ng-class="{active:returnTab()===11}" ng-show="loged() && admin()"><a href="#p11" ng-click="setTab(11)">Нови корисник</a></li>
+				<li ng-class="{active:returnTab()===12}" ng-show="loged() && admin()"><a href="#p12" ng-click="setTab(12)">Обриши корисника</a></li>
+				<li ng-class="{active:returnTab()===13}" ng-show="loged() && admin()"><a href="#p13" ng-click="setTab(13)">Ресет</a></li>
+				<li ng-class="{active:returnTab()===14}" ng-show="loged() && admin()"><a href="#p14" ng-click="setTab(14)">Учионице</a></li>
+			</ul>
+		</div>
+		
+		<div id="main-container">
+			<div id="top">
+				<div ng-show="!loged()">
+				    <button type="button" class="btn btn-primary" name="prijavljivanje" id="prijavljivanje" ng-click="setVisible(true)"> Пријављивање </button>
+				</div>
+				 
+				 <div ng-show="loged() && asist()">
+				  <a href="#p3" class="btn btn-primary">Обавештења</a>
+				 </div>
+				 
+				 <div id="log_out" ng-show="loged()">
+				    <a href="" id="imeIprezime"> {{whoAmI()}} </a>
+				    <button class="btn btn-primary" type="button" ng-click="logout()"> Одјава </button>
+				</div>
+			</div>
+			
+			<div id="center">
+			  <div ng-view>
+			  </div>
+				
+			</div>
+		</div>
+	</div>
+ 
+  </body>
+</html>
+
+
+
+

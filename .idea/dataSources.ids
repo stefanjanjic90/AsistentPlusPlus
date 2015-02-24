@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - mydb@localhost" uuid="0f221e31-f41c-4cb4-bde5-b9bdecb83bfd">
+    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="mydb"/>
+    <table name="katedra" schema="" catalog="mydb" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="naziv" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_Nalog_Katedra" table="nalog" schema="" catalog="mydb" columns="katedra"/>
+    </table>
+    <table name="lokacija" schema="" catalog="mydb" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="opis" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="adresa" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_Sala_Lokacija1" table="sala" schema="" catalog="mydb" columns="lokacija"/>
+    </table>
+    <table name="najavljenagrupa" schema="" catalog="mydb" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="obaveza" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="oznaka" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="datum" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="pocetakRezervacije" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
+      <column name="krajRezervacije" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
+      <column name="trajanjeDezurstvaPredmetnogAsistenta" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="pocetakDezurstvaPomocnogDezurnog" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
+      <column name="trajanjeDezurstvaPomocnogDezurnog" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="radNaRacunarima" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="brojDezurnih" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="napomenaZaKoordinatora" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="napomenaZaDezurne" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="brojOcekivanihStudenata" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="datumNajave" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_Grupa_Obaveza2" columns="obaveza" ref-table="obaveza" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_NajavljenaGrupaSala_NajavljenaGrupa1" table="najavljenagrupasala" schema="" catalog="mydb" columns="grupa"/>
+      <exported-key name="fk_ZakazanaGrupa_NajavljenaGrupa1" table="zakazanagrupa" schema="" catalog="mydb" columns="grupa"/>
+      <index name="id" unique="true" columns="id,obaveza"/>
+      <index name="fk_Grupa_Obaveza2_idx" unique="false" columns="obaveza"/>
+    </table>
+    <table name="najavljenagrupasala" schema="" catalog="mydb" type="TABLE">
+      <column name="sala" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="grupa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="sala,grupa"/>
+      <foreign-key name="fk_NajavljenaGrupaSala_Sala1" columns="sala" ref-table="sala" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_NajavljenaGrupaSala_NajavljenaGrupa1" columns="grupa" ref-table="najavljenagrupa" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_NajavljenaGrupaSala_NajavljenaGrupa1_idx" unique="false" columns="grupa"/>
+    </table>
+    <table name="nalog" schema="" catalog="mydb" type="TABLE">
+      <column name="korisnickoIme" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ime" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prezime" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="telefon" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="lozinka" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="katedra" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="jeDezurni" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="jeAdministrator" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="jeKoordinator" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="opterecenje" sqlType="DECIMAL" precision="3" scale="2" nullable="false" jdbcType="3"/>
+      <column name="status" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="napomena" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="korisnickoIme"/>
+      <foreign-key name="fk_Nalog_Katedra" columns="katedra" ref-table="katedra" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_Obaveza_Nalog1" table="obaveza" schema="" catalog="mydb" columns="korisnickoImeGlavnogDezurnog"/>
+      <exported-key name="fk_asistentiNaObavezi_Nalog1" table="predmetniasistentinaobavezi" schema="" catalog="mydb" columns="korisnickoIme"/>
+      <exported-key name="fk_ZakazanaGrupaDezurni_Nalog1" table="zakazanagrupadezurni" schema="" catalog="mydb" columns="korisnickoIme"/>
+      <index name="fk_Nalog_Katedra_idx" unique="false" columns="katedra"/>
+    </table>
+    <table name="napomenagrupa" schema="" catalog="mydb" type="TABLE">
+      <column name="korisnickoImeGlavnogDezurnog" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="grupa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="napomena" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="datumNapomene" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="vidljivost" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="korisnickoImeGlavnogDezurnog,grupa"/>
+      <foreign-key name="fk_NapomenaGrupa_ZakazanaGrupa1" columns="grupa" ref-table="zakazanagrupa" ref-schema="" ref-catalog="mydb" ref-columns="grupa" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_NapomenaGrupa_ZakazanaGrupa1_idx" unique="false" columns="grupa"/>
+    </table>
+    <table name="napomenagrupadezurni" schema="" catalog="mydb" type="TABLE">
+      <column name="korisnickoImeGlavnogDezurnog" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="grupa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="korisnickoImeDezurnog" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="napomena" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="datumNapomene" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <column name="vidljivost" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="procitano" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="korisnickoImeGlavnogDezurnog,grupa,korisnickoImeDezurnog"/>
+      <foreign-key name="fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1" columns="grupa,korisnickoImeDezurnog" ref-table="zakazanagrupadezurni" ref-schema="" ref-catalog="mydb" ref-columns="grupa,korisnickoIme" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1" unique="false" columns="grupa,korisnickoImeDezurnog"/>
+    </table>
+    <table name="obaveza" schema="" catalog="mydb" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="nazivObaveze" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="korisnickoImeGlavnogDezurnog" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_Obaveza_Nalog1" columns="korisnickoImeGlavnogDezurnog" ref-table="nalog" ref-schema="" ref-catalog="mydb" ref-columns="korisnickoIme" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_Grupa_Obaveza2" table="najavljenagrupa" schema="" catalog="mydb" columns="obaveza"/>
+      <exported-key name="fk_asistentiNaObavezi_Obaveza1" table="predmetniasistentinaobavezi" schema="" catalog="mydb" columns="obaveza"/>
+      <index name="fk_Obaveza_Nalog1_idx" unique="false" columns="korisnickoImeGlavnogDezurnog"/>
+    </table>
+    <table name="predmetniasistentinaobavezi" schema="" catalog="mydb" type="TABLE">
+      <column name="korisnickoIme" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="obaveza" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="korisnickoIme,obaveza"/>
+      <foreign-key name="fk_asistentiNaObavezi_Nalog1" columns="korisnickoIme" ref-table="nalog" ref-schema="" ref-catalog="mydb" ref-columns="korisnickoIme" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_asistentiNaObavezi_Obaveza1" columns="obaveza" ref-table="obaveza" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_asistentiNaObavezi_Obaveza1_idx" unique="false" columns="obaveza"/>
+    </table>
+    <table name="sala" schema="" catalog="mydb" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="oznaka" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="kapacitet" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="racunariKapacitet" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="lokacija" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_Sala_Lokacija1" columns="lokacija" ref-table="lokacija" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_NajavljenaGrupaSala_Sala1" table="najavljenagrupasala" schema="" catalog="mydb" columns="sala"/>
+      <exported-key name="fk_ZakazanaGrupaSala_Sala1" table="zakazanagrupasala" schema="" catalog="mydb" columns="sala"/>
+      <index name="fk_Sala_Lokacija1_idx" unique="false" columns="lokacija"/>
+    </table>
+    <table name="zakazanagrupa" schema="" catalog="mydb" type="TABLE">
+      <column name="grupa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="oznaka" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="datum" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="pocetakRezervacije" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="krajRezervacije" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="trajanjeDezurstvaPredmetnogAsistenta" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="pocetakDezurstvaPomocnogDezurnog" sqlType="TIME" precision="8" scale="0" nullable="false" jdbcType="92"/>
+      <column name="trajanjeDezurstvaPomocnogDezurnog" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="radNaRacunarima" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="brojDezurnih" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="napomenaZaDezurne" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="brojOcekivanihStudenata" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="brojPrijavljenih" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="brojIzaslih" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="datumObrade" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="grupa"/>
+      <foreign-key name="fk_ZakazanaGrupa_NajavljenaGrupa1" columns="grupa" ref-table="najavljenagrupa" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_NapomenaGrupa_ZakazanaGrupa1" table="napomenagrupa" schema="" catalog="mydb" columns="grupa"/>
+      <exported-key name="fk_ZakazanaGrupaDezurni_ZakazanaGrupa1" table="zakazanagrupadezurni" schema="" catalog="mydb" columns="grupa"/>
+      <exported-key name="fk_ZakazanaGrupaSala_ZakazanaGrupa1" table="zakazanagrupasala" schema="" catalog="mydb" columns="grupa"/>
+    </table>
+    <table name="zakazanagrupadezurni" schema="" catalog="mydb" type="TABLE">
+      <column name="grupa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="korisnickoIme" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="grupa,korisnickoIme"/>
+      <foreign-key name="fk_ZakazanaGrupaDezurni_ZakazanaGrupa1" columns="grupa" ref-table="zakazanagrupa" ref-schema="" ref-catalog="mydb" ref-columns="grupa" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_ZakazanaGrupaDezurni_Nalog1" columns="korisnickoIme" ref-table="nalog" ref-schema="" ref-catalog="mydb" ref-columns="korisnickoIme" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1" table="napomenagrupadezurni" schema="" catalog="mydb" columns="grupa,korisnickoImeDezurnog"/>
+      <index name="fk_ZakazanaGrupaDezurni_Nalog1_idx" unique="false" columns="korisnickoIme"/>
+    </table>
+    <table name="zakazanagrupasala" schema="" catalog="mydb" type="TABLE">
+      <column name="sala" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="grupa" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="sala,grupa"/>
+      <foreign-key name="fk_ZakazanaGrupaSala_Sala1" columns="sala" ref-table="sala" ref-schema="" ref-catalog="mydb" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_ZakazanaGrupaSala_ZakazanaGrupa1" columns="grupa" ref-table="zakazanagrupa" ref-schema="" ref-catalog="mydb" ref-columns="grupa" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_ZakazanaGrupaSala_ZakazanaGrupa1_idx" unique="false" columns="grupa"/>
+    </table>
+  </data-source>
+</component>

@@ -1,0 +1,35 @@
+<!-- tab pristigle obaveze -->
+			<div ng-controller="SecDutyController">	
+				<div class="forme_dezurstava">
+						<p class="imenaFormi"> Обрада обавеза </p>
+
+						<form class="form-horizontal">
+	      		<fieldset>
+							<div class="form-group">
+								<label for="selectSmer" class="col-lg-3 control-label">Сортирај обавезе по:</label>
+								<div class="col-lg-4">
+									<select class="form-control" ng-change="setSort(order)" ng-model="order">
+										<option value='1'> Датуму </option>
+										<option value='2'> Редоследу пристизања </option>
+									</select>
+								</div>
+								{{orderByDate}}
+							</div>
+						</fieldset>
+						</form>	<br/>
+
+						<div class="kartica" ng-repeat="dezurstvo in duty">
+							<div class = "header" >
+								<span> <b> Нова обавеза </b></span> 
+							
+							</div>
+							<div class = "bodyCard">
+								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
+								<span> Курс: {{dezurstvo.classroom}} </span> <br/>
+								<span> Обавезу пријавио:</span> <br/> <br/>
+								<button class="btn btn-primary" type="submit" > Обради </button>
+							</div> 
+						</div>   <!-- div kartica -->
+
+					</div> <!-- forme dezurstva -->
+				</div> <!-- tab pristigle obaveze -->

@@ -1,0 +1,40 @@
+<div ng-controller="HoursOnCallController">
+<div class="forme_dezurstava">
+				<table class="table table-striped">
+					<tr class="bold">
+						<td>Aсистент</td><td>Број сати дежурства</td>
+					</tr>
+					<tr ng-repeat="row in totalHoursOfDuty | orderBy: 'hours'">
+						<td><a href="" ng-click="showAsTable($index)">{{row.assistant}}</a></td><td>{{row.hours}}</td>
+					</tr>
+				</table>
+				
+				<!-- tabela za asistenta koja se prikazuje klikom na asistenta(sve njegove obaveze) -->
+				
+				<div class="loginform" ng-show="asTableVisible">
+					<div class="login">
+					
+						<div class="logintop">
+							<div class="loginclose">
+							<button type="button" name="closeTableButoon" class="close" data-dismiss="modal" aria-hidden="true" ng-click="setVisible(false)">x</button>
+							</div>
+						</div>
+						
+						<div class="loginbody">
+							<p class="tableName"> {{tableName}} </p>
+							<table class="table table-bordered">
+								<tr class="bold">
+									<td>Датум</td><td>Време</td><td>Обавеза</td>
+								</tr>
+								<tr ng-repeat="row in asTable | orderBy: 'date'" class="duty-{{returnDutyTime($index)}}">
+									<td>{{row.date}}</td><td>{{row.time}}</td><td>{{row.typeOfDuty}}</td>
+								</tr>
+							</table>
+						</div> <!-- loginbody -->
+					</div> <!-- login -->
+				</div>  <!-- loginform -->
+				
+				<!-- -->
+				
+			</div> <!--forma dezusrstva -->
+</div>

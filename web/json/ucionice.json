@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 11
+  },
+  {
+    "id": 2,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 7
+  },
+  {
+    "id": 3,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 4,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 5,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 6,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 7,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 8,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 9,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 10,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 11,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 12,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "id": 13,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  },
+  {
+    "ic": 14,
+    "ime": "Учионица 1",
+    "kapacitet": 10,
+    "racunari": 3
+  }
+]
