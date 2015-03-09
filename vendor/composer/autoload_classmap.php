@@ -20,4 +20,9 @@ return array(
     'AsistentPlusPlus\\Entity\\ZakazanaGrupa' => $baseDir . '/Entity/ZakazanaGrupa.php',
     'AsistentPlusPlus\\Entity\\ZakazanaGrupaDezurni' => $baseDir . '/Entity/ZakazanaGrupaDezurni.php',
     'AsistentPlusPlus\\Entity\\ZakazanaGrupaSala' => $baseDir . '/Entity/ZakazanaGrupaSala.php',
+    'AsistentPlusPlus\\Service\\KatedreServis' => $baseDir . '/Service/KatedraServis.php',
+    'AsistentPlusPlus\\Service\\NajavljenaGrupaServis' => $baseDir . '/Service/NajavljenaGrupaServis.php',
+    'AsistentPlusPlus\\Service\\NalogServis' => $baseDir . '/Service/NalogServis.php',
+    'AsistentPlusPlus\\Service\\NapomenaGrupaServis' => $baseDir . '/Service/NapomenaGrupaServis.php',
+    'AsistentPlusPlus\\Service\\SalaServis' => $baseDir . '/Service/SalaServis.php',
 );

@@ -30,6 +30,15 @@ class ZakazanaGrupa
     private $grupa;
 
     /**
+     *
+     * @ManyToOne(targetEntity="Obaveza")
+     * @JoinColumns({
+     *   @JoinColumn(name="obaveza", referencedColumnName="id")
+     * })
+     */
+    private $obaveza;
+
+    /**
      * @var string
      *
      * @Column(name="oznaka", type="string", length=45, nullable=false)
@@ -182,6 +191,18 @@ class ZakazanaGrupa
     {
         return $this->grupa;
     }
+
+    public function getObaveza()
+    {
+        return $this->obaveza;
+    }
+
+    public function setObaveza($obaveza)
+    {
+        $this->obaveza = $obaveza;
+    }
+
+
 
     public function setOznaka($oznaka)
     {

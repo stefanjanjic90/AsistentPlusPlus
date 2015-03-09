@@ -19,7 +19,6 @@ class Katedra
      *
      * @Column(name="id", type="integer", nullable=false)
      * @Id
-     * @GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

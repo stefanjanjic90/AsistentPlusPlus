@@ -21,7 +21,7 @@ insert into lokacija values (1,"Studentski trg 16","Stud trg","studentski@matf.b
 insert into sala values (1,"718", 40, "25", 1), (2,"706", 90, "0", 1), (3,"830", 35, "25", 1), (4,"Jag1", 80, "0", 2),(5,"Jag3", 20, "20", 2);
 
 
-insert into zakazanagrupa values (1,1,1,"Oznaka obaveze br 1", "2014-03-15", "09:00", "12:00", 3, "09:00", 3, true, 3, "Bez neta i literature", 45,null, null,
+insert into zakazanagrupa values (1,1,1,1,"Oznaka obaveze br 1", "2014-03-15", "09:00", "12:00", 3, "09:00", 3, true, 3, "Bez neta i literature", 45,null, null,
 "2014-02-12", true); 
 
 insert into najavljenagrupasala values (1,1,1), (2,1,2);

@@ -171,6 +171,7 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`ZakazanaGrupa` (
   `rbrZakazivanja` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `rbrNajave` int NOT NULL,
   `grupa` INT NOT NULL ,
+  `obaveza` INT NOT NULL,
   `oznaka` VARCHAR(45) NOT NULL ,
   `datum` DATE NOT NULL ,
   `pocetakRezervacije` TIME NOT NULL ,
@@ -191,6 +192,11 @@ CREATE  TABLE IF NOT EXISTS `mydb`.`ZakazanaGrupa` (
   CONSTRAINT `fk_ZakazanaGrupa_NajavljenaGrupa1`
     FOREIGN KEY (`rbrNajave` )
     REFERENCES `mydb`.`NajavljenaGrupa` (`rbrNajave` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+ CONSTRAINT `fk_ZakazanaGrupa_Obaveza`
+    FOREIGN KEY (`obaveza` )
+    REFERENCES `mydb`.`Obaveza` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

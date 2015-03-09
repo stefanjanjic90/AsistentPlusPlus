@@ -8,4 +8,4 @@ $dbParams = [
     'password' => ''
 ];
 
-$dev=false;
+$dev=true;

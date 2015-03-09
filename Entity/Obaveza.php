@@ -3,7 +3,8 @@
 
 namespace AsistentPlusPlus\Entity;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Obaveza
  *
