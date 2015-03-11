@@ -1,0 +1,15 @@
+RewriteEngine On
+Options -Indexes
+
+<filesMatch "^(Route\.php|Router\.php|composer\.json|\.htaccess|composer\.lock)$">
+Order Allow,Deny
+Deny from all
+</filesMatch>
+
+RewriteBase /asistentplusplus/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ dispetcher.php?requestedURI=$1 [QSA,L]
+

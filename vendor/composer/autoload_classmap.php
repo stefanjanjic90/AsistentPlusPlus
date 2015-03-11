@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AsistentPlusPlus\\Controller\\NajavljenaGrupaKontroler' => $baseDir . '/Controller/NajavljenaGrupaKontroler.php',
     'AsistentPlusPlus\\Entity\\Katedra' => $baseDir . '/Entity/Katedra.php',
     'AsistentPlusPlus\\Entity\\Lokacija' => $baseDir . '/Entity/Lokacija.php',
     'AsistentPlusPlus\\Entity\\NajavljenaGrupa' => $baseDir . '/Entity/NajavljenaGrupa.php',

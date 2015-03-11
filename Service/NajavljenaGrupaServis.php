@@ -22,13 +22,19 @@ class NajavljenaGrupaServis {
 
     public function pronadjiSvePoObavezi($obavezaId){
         $query = $this->entityManager->createQuery(
-                        'SELECT ng FROM'
-                        .'AsistentPlusPlus\Entity\NajavljenaGrupa ng'
-                        .'JOIN AsistentPlusPlus\Entity\Obaveza o '
-                        .'WHERE ng.obaveza = o.id AND o.id = :obavezaId');
+                        ' SELECT ng FROM '
+                        .' AsistentPlusPlus\Entity\NajavljenaGrupa ng '
+                        .' JOIN AsistentPlusPlus\Entity\Obaveza o '
+                        .' WHERE ng.obaveza = o.id AND o.id = :obavezaId ');
 
         $query->setParameter('obavezaId',$obavezaId);
 
         return $query->getResult();
+    }
+
+    public function unesi(NajavljenaGrupa $najavljenaGrupaEntity)
+    {
+        $this->entityManager->persist($najavljenaGrupaEntity);
+        $this->entityManager->flush();
     }
 }
