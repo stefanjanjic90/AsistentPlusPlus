@@ -23,18 +23,37 @@ class ZakazanaGrupaServis {
         $this->repository = $this->entityManager->getRepository('AsistentPlusPlus\Entity\ZakazanaGrupa');
     }
 
-    public function pronadjiPoRbrZakazivanja($rbrZakazivanja){
-        return $this->repository->find($rbrZakazivanja);
+    public function pronadjiSveAktivnePoRbrZakazivanja($rbrZakazivanja){
+        $query = $this->entityManager->createQuery(
+            ' SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' WHERE zg.rbrZakazivanja := rbrZakazivanja and zg.status = false');
+
+        $query->setParameter('rbrZakazivanja',$rbrZakazivanja);
+
+        return $query->getResult();
     }
 
-    public function pronadjiSvePoObavezi($obavezaId){
+    public function pronadjiSveAktivnePoObavezi($obavezaId){
         $query = $this->entityManager->createQuery(
-            'SELECT zg FROM'
-            .'AsistentPlusPlus\Entity\ZakazanaGrupa zg'
-            .'JOIN AsistentPlusPlus\Entity\Obaveza o '
-            .'WHERE zg.obaveza = o.id AND o.id = :obavezaId');
+            ' SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' JOIN AsistentPlusPlus\Entity\Obaveza o '
+            .' WHERE zg.obaveza = o.id AND o.id = :obavezaId and zg.status = false');
 
         $query->setParameter('obavezaId',$obavezaId);
+
+        return $query->getResult();
+    }
+
+    public function pronadjiSve(){
+        return $this->repository->findAll();
+    }
+
+    public function pronadjiSveAktivne(){
+        $query = $this->entityManager->createQuery('SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' WHERE zg.status = false ');
 
         return $query->getResult();
     }

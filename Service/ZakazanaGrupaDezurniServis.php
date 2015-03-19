@@ -37,9 +37,12 @@ class ZakazanaGrupaDezurniServis {
     }
 
     public function pronadjiPoKorisnickomImenu($korisnickoIme){
-        $query = $this->entityManager->createQuery('SELECT zgd FROM'
-            .' AsistentPlusPlus\Entity\ZakazanaGrupaDezurni zgd'
-            .' WHERE zgd.korisnickoIme=:korisnickoIme');
+        $query = $this->entityManager->createQuery('SELECT zgd FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupaDezurni zgd '
+            .' JOIN AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' WHERE zgd.rbrZakazivanja = zg.rbrZakazivanja '
+            .' AND zgd.korisnickoIme=:korisnickoIme '
+            .' AND zg.status = false');
         $query->setParameter('korisnickoIme',$korisnickoIme);
         return $query->getResult();
     }

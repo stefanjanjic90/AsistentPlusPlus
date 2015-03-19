@@ -6,10 +6,11 @@ Order Allow,Deny
 Deny from all
 </filesMatch>
 
-RewriteBase /asistentplusplus/
+RewriteBase /AsistentPlusPlus/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/AsistentPlusPlus/web/(.*)
 
 RewriteRule ^(.*)$ dispetcher.php?requestedURI=$1 [QSA,L]
 

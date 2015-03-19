@@ -1,14 +1,40 @@
 <?php
+session_start();
 require_once __DIR__.'\vendor\autoload.php';
+use AsistentPlusPlus\Controller\DezurstvaKontroler;
+use AsistentPlusPlus\Controller\KatedraKontroler;
+use AsistentPlusPlus\Controller\KorisniciKontroler;
+use AsistentPlusPlus\Controller\SalaKontroler;
+use AsistentPlusPlus\Controller\ZakazanaGrupaKontroler;
 include 'Router.php';
-use AsistentPlusPlus\Controller\NajavljenaGrupaKontroler;
-
 
 $router = new Router();
 
-$router->add("najavljenaGrupa/get(/([0-9]+))?", new NajavljenaGrupaKontroler(), "getGrupa");
+if(!isset($_SESSION['LoggedIn']) && !isset($_SESSION['Username']) && !isset($_POST['inputUN']) && !isset($_POST['inputP'])){
+    $router->userNotLoggedIn();
+}elseif(isset($_POST['inputUN']) && isset($_POST['inputP'])){
+    $router->logInUser();
+}else{
+    $dezurstvaKontroler = new DezurstvaKontroler();
+    $router->add("glavnaDezurstva/([_A-Za-z0-9]+)", $dezurstvaKontroler, "glavnaDezurstva");
+    $router->add("sporednaDezurstva/([_A-Za-z0-9]+)", $dezurstvaKontroler, "sporednaDezurstva");
+    $router->add("satiNaDezurstvu/([_A-Za-z0-9]+)", $dezurstvaKontroler, "satiNaDezurstvu");
+    $router->add("ponudjeneZamene/([_A-Za-z0-9]+)/([1-9][0-9]*)", $dezurstvaKontroler, "ponudjeneZamene");
 
-$router->routeRequest();
+    $katedraKontroler = new KatedraKontroler();
+    $router->add("katedre", $katedraKontroler, "vratiSveKatedre");
 
-echo '<br> In Dispecher';
+    $korisniciKontroler = new KorisniciKontroler();
+    $router->add("korisnici", $korisniciKontroler, "vratiSveKorisnike");
+
+    $salaKontroler = new SalaKontroler();
+    $router->add("ucionice", $salaKontroler, "vratiSveSale");
+
+    $zakazanaGrupaKontroler = new ZakazanaGrupaKontroler();
+    $router->add("raspored", $zakazanaGrupaKontroler, "vratiZakazaneGrupe");
+
+    $router->routeRequest();
+
+
+}
 

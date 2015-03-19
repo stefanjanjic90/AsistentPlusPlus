@@ -67,9 +67,9 @@ class ZakazanaGrupa
     private $krajRezervacije;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @Column(name="trajanjeDezurstvaPredmetnogAsistenta", type="boolean", nullable=false)
+     * @Column(name="trajanjeDezurstvaPredmetnogAsistenta", type="integer", nullable=false)
      */
     private $trajanjeDezurstvaPredmetnogAsistenta;
 
@@ -81,9 +81,9 @@ class ZakazanaGrupa
     private $pocetakDezurstvaPomocnogDezurnog;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @Column(name="trajanjeDezurstvaPomocnogDezurnog", type="boolean", nullable=false)
+     * @Column(name="trajanjeDezurstvaPomocnogDezurnog", type="integer", nullable=false)
      */
     private $trajanjeDezurstvaPomocnogDezurnog;
 
@@ -95,9 +95,9 @@ class ZakazanaGrupa
     private $radNaRacunarima;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @Column(name="brojDezurnih", type="boolean", nullable=false)
+     * @Column(name="brojDezurnih", type="integer", nullable=false)
      */
     private $brojDezurnih;
 

@@ -1,0 +1,28 @@
+[
+  {
+  	"id": "1",
+    "course": "Тест из програмирања за веб",
+    "groups": [{"name":"Група 1", "start":"09", "end":"10", "assistants":["Мика", "Пера"], "numOfStudent": "20", "classrooms":["718","716"]},
+						   {"name":"Група 2", "start":"10", "end":"11", "assistants":["Мика", "Пера"], "numOfStudent": "20", "classrooms":["718","716"]},
+						   {"name":"Група 3", "start":"11", "end":"12", "assistants":["Мика", "Пера"], "numOfStudent": "20", "classrooms":["718","716"]}],
+    "date": "29.10.2014.",
+    "timeSum": "09:00-12:00",
+    "remark": "Искључити мрежу пре почетка испита"
+  },
+  { 
+		"id": "2",
+		"course": "Тест из Развоја софтвера", 
+		"groups": [{"name":"Група 1", "start":"09", "end":"10", "assistants":["Мика", "Неко"], "numOfStudent": "20", "classrooms":["718","716"]}],
+		"date": "29.10.2014.",
+		"timeSum": "09:00-12:00",
+		"remark": ""
+	},
+  { 
+		"id": "2",
+		"course": "Тест из Развоја софтвера", 
+		"groups": [{"name":"Група 1", "start":"09", "end":"10", "assistants":["Мика", "Неко"], "numOfStudent": "20", "classrooms":["718","716"]}],
+		"date": "29.10.2014.",
+		"timeSum": "09:00-12:00",
+		"remark": ""
+	}
+]

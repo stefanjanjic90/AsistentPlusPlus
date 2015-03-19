@@ -28,6 +28,12 @@ class ObavezaServis {
         return $query->getResult();
     }
 
+    public function pronadjiPoKorisnickomImenuGlavnogDezurnog($korisnickoIme){
+        $query = $this->entityManager->createQuery('SELECT o FROM AsistentPlusPlus\Entity\Obaveza o WHERE o.korisnickoImeGlavnogDezurnog=:korisnickoIme');
+        $query->setParameter('korisnickoIme',$korisnickoIme);
+        return $query->getResult();
+    }
+
     public function unesi(Obaveza $obavezaEntity)
     {
         $this->entityManager->persist($obavezaEntity);

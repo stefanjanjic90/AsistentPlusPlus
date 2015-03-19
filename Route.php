@@ -10,8 +10,7 @@ class Route {
     public function executeRouteFunctuion(){
         $obj = $this->object;
         $method = $this->objectMethod;
-
-        $obj->$method();
+        $obj->$method(func_get_args());
     }
 
     public function getUri()
