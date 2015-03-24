@@ -8,7 +8,7 @@ korisnici.json /AsistentPlusPlus/korisnici
 
 glavna_dezurstva.json - /AsistentPlusPlus/glavnaDezurstva/{korisnckoIme}
 sporedna_dezurstva.json - /AsistentPlusPlus/sporednaDezurstva/{korisnickoIme}
-zavrsena_dezurstva.json - /AsistentPlusPlus/{korisnickoIme}  - jos nismo implementirali ali ce biti ovaj url
+zavrsena_dezurstva.json - /AsistentPlusPlus/{korisnickoIme}
 sati_na_dezurstvu.json - /AsistentPlusPlus/{korisnickoIme}
 ponude_za_zamenu_dezurstva.json /AsistentPlusPlus/{korisnickoIme}/{rbrZakazivanja}
 

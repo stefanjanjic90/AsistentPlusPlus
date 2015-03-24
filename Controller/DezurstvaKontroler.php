@@ -5,22 +5,19 @@ require_once __DIR__.'\..\vendor\autoload.php';
 use AsistentPlusPlus\Service\NalogServis;
 use AsistentPlusPlus\Service\ObavezaServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaDezurniServis;
-use AsistentPlusPlus\Service\ZakazanaGrupaSalaServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaServis;
 
 class DezurstvaKontroler {
 
     private $obavezaServis;
     private $zakazanaGrupaServis;
-    private $zakazanaGrupaDezurni;
-    private $zakazanaGrupaSala;
+    private $zakazanaGrupaDezurniServis;
     private $nalogServis;
 
     public function __construct(){
         $this->obavezaServis = new ObavezaServis();
         $this->zakazanaGrupaServis = new ZakazanaGrupaServis();
-        $this->zakazanaGrupaDezurni = new ZakazanaGrupaDezurniServis();
-        $this->zakazanaGrupaSala = new ZakazanaGrupaSalaServis();
+        $this->zakazanaGrupaDezurniServis = new ZakazanaGrupaDezurniServis();
         $this->nalogServis = new NalogServis();
     }
 
@@ -37,6 +34,8 @@ class DezurstvaKontroler {
 
             $dezurstvoObject->id = $obavezaGlavnogDezurnog->getId();
             $dezurstvoObject->course = $obavezaGlavnogDezurnog->getNazivObaveze();
+
+            // TODO
             //$dezurstvoObject->date = $obavezaGlavnogDezurnog->getDatum();
 
             //$dezurstvoObject->remark = $obavezaGlavnogDezurnog->getNapomenaZaDezurne();
@@ -93,15 +92,15 @@ class DezurstvaKontroler {
     public function sporednaDezurstva($parametri){
         $korisnickoIme = $parametri[0][1];
 
-        $zakazaneGrupeDezurni = $this->zakazanaGrupaDezurni->pronadjiAktivnePoKorisnickomImenu($korisnickoIme);
+        $zakazaneGrupeDezurni = $this->zakazanaGrupaDezurniServis->pronadjiAktivnePoKorisnickomImenu($korisnickoIme);
 
         $sporednaDezurstva = array();
 
-        foreach($zakazaneGrupeDezurni as $zakazaneGrupaDezurni){
+        foreach($zakazaneGrupeDezurni as $zakazanaGrupaDezurni){
 
             $dezurstvoObject = new \stdClass();
 
-            $zakazanaGrupa = $zakazaneGrupaDezurni->getRbrZakazivanja();
+            $zakazanaGrupa = $zakazanaGrupaDezurni->getRbrZakazivanja();
 
             // course
             $dezurstvoObject->course = $zakazanaGrupa->getObaveza()-> getNazivObaveze();
@@ -180,21 +179,27 @@ class DezurstvaKontroler {
     {
         $korisnickoIme = $parametri[0][1];
 
-        $zakazanaGrupaDezurni=$this->zakazanaGrupaDezurniServis->pronadjiZavrsenePoKorisnickomImenu($korisnickoIme);
+        $zavrseneZakazaneGrupe = $this->zakazanaGrupaServis->pronadjiZavrsenePoKorisnickomImenu($korisnickoIme);
 
-        foreach ($zakazanaGrupaDezurni as $zg)
-        {
-            $zakazanaGrupa=$this->zakazanaGrupa->pronadjiSveZavrsenePoObavezi($zg->getObaveza());
+        $zavrseneDezurstvaJson = array();
+        foreach ($zavrseneZakazaneGrupe as $zavrsenaZakazanaGrupa){
+            $zavrsenaZakazanaGrupaObject = new \stdClass();
 
-            $jsonObject = new \stdClass();
-            $jsonObject->course=$zakazanaGrupa->getNazivOBaveze();
-            $jsonObject->date=$zakazanaGrupa->getDatum()->format("d.m.Y");
-            //TODO - proveriti da li radi, nisam uspela da testiram, bilo je prekasno, a prijaviljivalo ono class not found - STEFI pliz :D
-            $jsonObject->duration=$zakazanaGrupa->getKrajRezervacije()-$zakazanaGrupa->getPocetakRezervacije();
+
+            $zavrsenaZakazanaGrupaObject->course = $zavrsenaZakazanaGrupa->getObaveza()->getNazivObaveze();
+            $zavrsenaZakazanaGrupaObject->date = $zavrsenaZakazanaGrupa->getDatum()->format('d.m.Y');
+
+            if($zavrsenaZakazanaGrupa->getObaveza()->getKorisnickoImeGlavnogDezurnog() === $korisnickoIme){
+                $zavrsenaZakazanaGrupaObject->duration = $zavrsenaZakazanaGrupa->getTrajanjeDezurstvaPredmetnogAsistenta() . "h";
+            }else{
+                $zavrsenaZakazanaGrupaObject->duration = $zavrsenaZakazanaGrupa->getTrajanjeDezurstvaPomocnogDezurnog() . "h";
+            }
+
+            $zavrseneDezurstvaJson [] = $zavrsenaZakazanaGrupaObject;
         }
 
         header('Content-Type: application/json');
-        echo json_encode($jsonObject, JSON_PRETTY_PRINT);
+        echo json_encode($zavrseneDezurstvaJson, JSON_PRETTY_PRINT);
     }
 
 }

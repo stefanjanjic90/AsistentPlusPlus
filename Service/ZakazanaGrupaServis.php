@@ -46,15 +46,14 @@ class ZakazanaGrupaServis {
         return $query->getResult();
     }
 
-    public function pronadjiSveZavrsenePoObavezi($obavezaId){
-        $query = $this->entityManager->createQuery(
-            ' SELECT zg FROM '
-            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
-            .' JOIN AsistentPlusPlus\Entity\Obaveza o '
-            .' WHERE zg.obaveza = o.id AND o.id = :obavezaId and zg.status = true');
-
-        $query->setParameter('obavezaId',$obavezaId);
-
+    public function pronadjiZavrsenePoKorisnickomImenu($korisnickoIme){
+        $query = $this->entityManager->createQuery('SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupaDezurni zgd '
+            .' JOIN AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' WHERE zgd.rbrZakazivanja = zg.rbrZakazivanja '
+            .' AND zgd.korisnickoIme=:korisnickoIme '
+            .' AND zg.status = true');
+        $query->setParameter('korisnickoIme',$korisnickoIme);
         return $query->getResult();
     }
 

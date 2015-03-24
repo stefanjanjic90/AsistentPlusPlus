@@ -34,6 +34,31 @@ class ObavezaServis {
         return $query->getResult();
     }
 
+    public function pronadjiSveZavrseneObavezePoKorisnickomImenu($korisnickoIme){
+
+        $notInAktivne = $this->entityManager->createQueryBuilder()
+            ->select('IDENTITY(zg.obaveza)')
+            ->from('AsistentPlusPlus\Entity\ZakazanaGrupa ','zg')
+            ->where('zg.status=FALSE')->getDQL();
+
+        $notInNeaktivne = $this->entityManager->createQueryBuilder()
+            ->select('IDENTITY(zg2.obaveza)')
+            ->from('AsistentPlusPlus\Entity\ZakazanaGrupa ','zg2')
+            ->where('zg2.status=TRUE')->getDQL();
+
+        $query = $this->entityManager->createQueryBuilder();
+        $query->select('o')
+            ->from('AsistentPlusPlus\Entity\Obaveza','o')
+            ->join('AsistentPlusPlus\Entity\PredmetniAsistentiNaObavezi', 'pao')
+            ->where('o.id=pao.obaveza')
+            ->andWhere('pao.korisnickoIme = :korisnickoIme')
+            ->andWhere($query->expr()->notIn('o.id',$notInAktivne))
+            ->andWhere($query->expr()->in('o.id',$notInNeaktivne))
+            ->setParameter('korisnickoIme', $korisnickoIme);
+
+        return $query->getQuery()->getResult();
+    }
+
     public function unesi(Obaveza $obavezaEntity)
     {
         $this->entityManager->persist($obavezaEntity);
