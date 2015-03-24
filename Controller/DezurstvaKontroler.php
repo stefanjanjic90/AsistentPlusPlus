@@ -93,7 +93,7 @@ class DezurstvaKontroler {
     public function sporednaDezurstva($parametri){
         $korisnickoIme = $parametri[0][1];
 
-        $zakazaneGrupeDezurni = $this->zakazanaGrupaDezurni->pronadjiPoKorisnickomImenu($korisnickoIme);
+        $zakazaneGrupeDezurni = $this->zakazanaGrupaDezurni->pronadjiAktivnePoKorisnickomImenu($korisnickoIme);
 
         $sporednaDezurstva = array();
 
@@ -175,4 +175,26 @@ class DezurstvaKontroler {
         header('Content-Type: application/json');
         echo json_encode($jsonObject, JSON_PRETTY_PRINT);
     }
+
+    public function zavrsenaDezurstva($parametri)
+    {
+        $korisnickoIme = $parametri[0][1];
+
+        $zakazanaGrupaDezurni=$this->zakazanaGrupaDezurniServis->pronadjiZavrsenePoKorisnickomImenu($korisnickoIme);
+
+        foreach ($zakazanaGrupaDezurni as $zg)
+        {
+            $zakazanaGrupa=$this->zakazanaGrupa->pronadjiSveZavrsenePoObavezi($zg->getObaveza());
+
+            $jsonObject = new \stdClass();
+            $jsonObject->course=$zakazanaGrupa->getNazivOBaveze();
+            $jsonObject->date=$zakazanaGrupa->getDatum()->format("d.m.Y");
+            //TODO - proveriti da li radi, nisam uspela da testiram, bilo je prekasno, a prijaviljivalo ono class not found - STEFI pliz :D
+            $jsonObject->duration=$zakazanaGrupa->getKrajRezervacije()-$zakazanaGrupa->getPocetakRezervacije();
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($jsonObject, JSON_PRETTY_PRINT);
+    }
+
 }

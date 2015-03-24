@@ -46,6 +46,18 @@ class ZakazanaGrupaServis {
         return $query->getResult();
     }
 
+    public function pronadjiSveZavrsenePoObavezi($obavezaId){
+        $query = $this->entityManager->createQuery(
+            ' SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' JOIN AsistentPlusPlus\Entity\Obaveza o '
+            .' WHERE zg.obaveza = o.id AND o.id = :obavezaId and zg.status = true');
+
+        $query->setParameter('obavezaId',$obavezaId);
+
+        return $query->getResult();
+    }
+
     public function pronadjiSve(){
         return $this->repository->findAll();
     }

@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__.'\..\src\bootstrap.php';
+require_once __DIR__.'\..\src\autoload.php';
 
-$nalogServis = new \AsistentPlusPlus\Service\NalogServis();
+/*$nalogServis = new \AsistentPlusPlus\Service\NalogServis();
 $andj = $nalogServis->pronadjiPoKorisnickomImenu("andjelkaz");
 
 
@@ -29,6 +30,10 @@ $katedraServis = new \AsistentPlusPlus\Service\KatedreServis();
 $sveKatedre = $katedraServis->pronadjiSveKatedre();
 
 $najavljenaGrupaServis = new AsistentPlusPlus\Service\NajavljenaGrupaServis();
-$najavljeneGrupePoObavezi = $najavljenaGrupaServis->pronadjiSvePoObavezi(1);
+$najavljeneGrupePoObavezi = $najavljenaGrupaServis->pronadjiSvePoObavezi(1);*/
+
+$kontroler1=new \AsistentPlusPlus\Controller\KatedraKontroler();
+
+echo $kontroler1->vratiSveKatedre();
 
 echo "DONE!";
