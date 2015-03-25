@@ -206,4 +206,26 @@ class DezurstvaKontroler {
         echo json_encode($zavrseneDezurstvaJson, JSON_PRETTY_PRINT);
     }
 
+    public function moguceZamene($parametri)
+    {
+        $datum = $parametri[0][1];
+        $vreme = $parametri[0][2];
+
+        // TODO MILICA : validacija datuma i vremena
+        $slobodniAsistenti = $this->zakazanaGrupaDezurniServis->pronadjiSveSlobodneAsistente($datum, $vreme);
+        $slobodniJson = array();
+
+        foreach($slobodniAsistenti as $slobodan) {
+            $jsonObject = new \stdClass();
+            $jsonObject->korisnickoIme = $slobodan->getKorisnickoIme();
+            $jsonObject->imePrezime = $slobodan->getIme() . " " . $slobodan->getPrezime();
+
+            $slobodniJson[] = $jsonObject;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($slobodniJson, JSON_PRETTY_PRINT);
+    }
+
+
 }
