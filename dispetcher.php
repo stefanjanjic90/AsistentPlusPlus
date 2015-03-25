@@ -6,6 +6,7 @@ use AsistentPlusPlus\Controller\KatedraKontroler;
 use AsistentPlusPlus\Controller\KorisniciKontroler;
 use AsistentPlusPlus\Controller\SalaKontroler;
 use AsistentPlusPlus\Controller\ZakazanaGrupaKontroler;
+use AsistentPlusPlus\Controller\AdministracijaKontroler;
 include 'Router.php';
 
 $router = new Router();
@@ -33,6 +34,9 @@ if(!isset($_SESSION['LoggedIn']) && !isset($_SESSION['Username']) && !isset($_PO
 
     $zakazanaGrupaKontroler = new ZakazanaGrupaKontroler();
     $router->add("raspored", $zakazanaGrupaKontroler, "vratiZakazaneGrupe");
+
+    $administracijaKontroler = new AdministracijaKontroler();
+    $router->add("info", $administracijaKontroler, "info");
 
     $router->routeRequest();
 

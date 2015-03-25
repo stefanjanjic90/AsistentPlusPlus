@@ -12,7 +12,7 @@ zavrsena_dezurstva.json - /AsistentPlusPlus/zavrsenaDezurstva/{korisnickoIme}
 sati_na_dezurstvu.json - /AsistentPlusPlus/satiNaDezurstvu/{korisnickoIme}
 ponude_za_zamenu_dezurstva.json /AsistentPlusPlus/ponudjeneZamene/{korisnickoIme}/{rbrZakazivanja}
 
-info.json -  /AsistentPlusPlus/info  - jos malo pa gotovo :)
+info.json -  /AsistentPlusPlus/info
 
 - Ova tri json-a morate malo da nam pojasnite, nismo sigurno sta tacno da vam saljemo
 

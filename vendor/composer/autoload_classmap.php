@@ -6,11 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AsistentPlusPlus\\Controller\\AdministracijaKontroler' => $baseDir . '/Controller/AdministracijaKontroler.php',
     'AsistentPlusPlus\\Controller\\DezurstvaKontroler' => $baseDir . '/Controller/DezurstvaKontroler.php',
     'AsistentPlusPlus\\Controller\\KatedraKontroler' => $baseDir . '/Controller/KatedraKontroler.php',
     'AsistentPlusPlus\\Controller\\KorisniciKontroler' => $baseDir . '/Controller/KorisniciKontroler.php',
     'AsistentPlusPlus\\Controller\\LogInOutController' => $baseDir . '/Controller/LogInOutController.php',
-    'AsistentPlusPlus\\Controller\\NajavljenaGrupaKontroler' => $baseDir . '/Controller/NajavljenaGrupaKontroler.php',
     'AsistentPlusPlus\\Controller\\SalaKontroler' => $baseDir . '/Controller/SalaKontroler.php',
     'AsistentPlusPlus\\Controller\\ZakazanaGrupaKontroler' => $baseDir . '/Controller/ZakazanaGrupaKontroler.php',
     'AsistentPlusPlus\\Entity\\Katedra' => $baseDir . '/Entity/Katedra.php',
