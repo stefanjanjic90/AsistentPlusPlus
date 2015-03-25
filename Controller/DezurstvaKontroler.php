@@ -35,12 +35,7 @@ class DezurstvaKontroler {
             $dezurstvoObject->id = $obavezaGlavnogDezurnog->getId();
             $dezurstvoObject->course = $obavezaGlavnogDezurnog->getNazivObaveze();
 
-            // TODO
-            //$dezurstvoObject->date = $obavezaGlavnogDezurnog->getDatum();
-
-            //$dezurstvoObject->remark = $obavezaGlavnogDezurnog->getNapomenaZaDezurne();
-
-            $timeSumValues = array();
+            //$timeSumValues = array();
 
             // groups
             $dezurstvoObject->groups = array();
@@ -53,9 +48,11 @@ class DezurstvaKontroler {
                 $zakazanaGrupaObject->end = $zakazanaGrupa->getKrajRezervacije()->format('H:i');
                 $zakazanaGrupaObject->numOfStudents = $zakazanaGrupa->getBrojPrijavljenih();
 
+                /* TODO koristi se za timeSum - dogovor
                 // save start and end time for later calculation of timeSum field
                 $timeSumValues[] = $zakazanaGrupa->getPocetakRezervacije();
                 $timeSumValues[] = $zakazanaGrupa->getKrajRezervacije();
+                */
 
                 // assistants
                 $asistentiNaObavezi = $zakazanaGrupa->getZakazaneGrupeDezurni();
@@ -71,9 +68,16 @@ class DezurstvaKontroler {
                     $zakazanaGrupaObject->classrooms[]=$zakazanaGrupaSala->getSala()->getOznaka();
                 }
 
+                // date
+                $zakazanaGrupaObject->date = $zakazanaGrupa->getDatum()->format('d.m.Y');
+
+                // remark
+                $zakazanaGrupaObject->remark = $zakazanaGrupa->getNapomenaZaDezurne();
+
                 $dezurstvoObject->groups[] = $zakazanaGrupaObject;
             }
 
+            /* TODO oko ovoga moramo jos da se dogovorimo
             //timeSum
             sort($timeSumValues);
             reset($timeSumValues);
@@ -81,7 +85,7 @@ class DezurstvaKontroler {
             end($timeSumValues);
             $do = current($timeSumValues);
             $dezurstvoObject->timeSum = $od->format("H:i") ."-". $do->format("H:i");
-
+            */
 
             $glavnaDezurstva[] = $dezurstvoObject;
         }
