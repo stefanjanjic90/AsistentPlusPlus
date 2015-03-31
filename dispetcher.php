@@ -22,6 +22,8 @@ if(!isset($_SESSION['LoggedIn']) && !isset($_SESSION['Username']) && !isset($_PO
     $router->add("satiNaDezurstvu/([_A-Za-z0-9]+)", $dezurstvaKontroler, "satiNaDezurstvu");
     $router->add("zavrsenaDezurstva/([_A-Za-z0-9]+)", $dezurstvaKontroler, "zavrsenaDezurstva");
     $router->add("ponudjeneZamene/([_A-Za-z0-9]+)/([1-9][0-9]*)", $dezurstvaKontroler, "ponudjeneZamene");
+    $router->add("moguceZamene/([0-9]{4}\\-[0-9]{2}\\-[0-9]{2})/([0-9]{2}:[0-9]{2})", $dezurstvaKontroler, "moguceZamene");
+
 
     $katedraKontroler = new KatedraKontroler();
     $router->add("katedre", $katedraKontroler, "vratiSveKatedre");

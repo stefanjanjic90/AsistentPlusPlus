@@ -47,6 +47,30 @@ class ZakazanaGrupaDezurniServis {
         return $query->getResult();
     }
 
+    public function pronadjiSveSlobodneAsistente($datum, $vreme){
+
+        $notInZauzet = $this->entityManager->createQueryBuilder()
+            ->select('IDENTITY(zgd.korisnickoIme)')
+            ->from('AsistentPlusPlus\Entity\ZakazanaGrupa ','zg')
+            ->join('AsistentPlusPlus\Entity\ZakazanaGrupaDezurni','zgd')
+            ->where('zg.rbrZakazivanja=zgd.rbrZakazivanja')
+            ->where('zg.datum=:datum')
+            ->andWhere('zg.pocetakRezervacije!=:vreme OR zg.krajRezervacije!=:vreme')
+            ->andWhere(':vreme NOT BETWEEN zg.pocetakRezervacije AND zg.krajRezervacije')
+            ->getDQL();
+
+        $query = $this->entityManager->createQueryBuilder();
+        $query->select('n')
+            ->from('AsistentPlusPlus\Entity\Nalog','n')
+            ->where($query->expr()->notIn('n.korisnickoIme',$notInZauzet));
+
+        $query->setParameter('datum',$datum);
+        $query->setParameter('vreme',$vreme);
+
+        return $query->getQuery()->getResult();
+    }
+
+
 
     public function unesi(ZakazanaGrupaDezurni $zakazanaGrupaDezurniEntity)
     {
