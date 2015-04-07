@@ -17,11 +17,10 @@
 						<td width="7%"></td> <td width="93%"> Коментари </td>
 					</tr>
 					<tr ng-repeat="komentar in comments">
-						<td> <input type="checkbox" title="Обележи као прочитано" ></td>
+						<td> <input type="checkbox" title="Обележи као прочитано" ng-model="bool" ng-change="sync(bool, komentar.id_duty)" ng-checked="isChecked(komentar.id_duty)"></td>
 						<td>{{komentar.comment}}<footer class="text-info">Kоментар оставио/ла: {{komentar.assistant}}, {{komentar.course}}, датум: {{komentar.date}}</footer></td>	
-					</tr>
-				</table>	  			
-
+					</tr> 
+				</table>  			
 		<!-- Tabela za prikaz ukupan broj sati asistenta koje je provedeo na dezurstvu -->
 		<div class="loginform" ng-show="tableVisible">
 			<div class="login">

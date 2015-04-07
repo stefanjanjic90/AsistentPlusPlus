@@ -186,6 +186,9 @@ p.imenaFormi {
   margin-top: auto;
   text-align: center;
   clear: both;
+  max-height: 380px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .loginbody img
@@ -236,11 +239,11 @@ footer
 }
 
 
-
 .tableName 
 {
 		margin-top: 10px;
 		margin-bottom: 10px;
+		font-weight: bold;
 }
 
 .duty-old

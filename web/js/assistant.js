@@ -407,7 +407,7 @@ account.controller('NewDutyController', function($scope, $http){
 		$scope.group.dateToShow = $scope.groups[index].dateToShow;
 	}
 
-	$scope.isChecked = function(item, mod){
+	 $scope.isChecked = function(item, mod){
 		var match = false;
 		
 		if(mod === 'c')
@@ -429,22 +429,19 @@ account.controller('NewDutyController', function($scope, $http){
 		if(mod === 'c')
 		{
 			if(bool)
-			{
-			 	$scope.group.classrooms.push(item);
-			} 
-		 else 
-		 {
+			 	$scope.group.classrooms.push(item); 
+		 	else 
+		 	{
 				for(var i=0 ; i < $scope.group.classrooms.length; i++) 
 					if($scope.group.classrooms[i] === item)
 				  	$scope.group.classrooms.splice(i,1);
-				}
+			}
 		}
 		else if(mod === 'g')
 		{
 			if(bool)
-			{
 			 	$scope.groupsToRemove.push(item);
-			} 
+			
 		 	else 
 		 	{
 				for(var i=0 ; i < $scope.groupsToRemove.length; i++) 
@@ -453,6 +450,7 @@ account.controller('NewDutyController', function($scope, $http){
 			}
 		}
 	};
+
 
 	$scope.saveGroup = function(index)
 	{
@@ -700,11 +698,31 @@ account.controller('CommentsController', function($scope, $http){
 	  
 */
 
-
 	$http.get('json/komentari.json').success(function(data){
  	 $scope.comments = angular.fromJson(data);
 	});
 
+	 $scope.checkedComments = [];
+	 $scope.isChecked = function(item){
+		var match = false;
+		
+			for(var i=0 ; i < $scope.checkedComments.length; i++)
+				if($scope.checkedComments[i] === item)
+					match = true;
+		return match;
+	};
+
+	$scope.sync = function(bool, item, mod)
+	{
+			if(bool)
+			 	$scope.checkedComments.push(item); 
+		 	else 
+		 	{
+				for(var i=0 ; i < $scope.checkedComments.length; i++) 
+					if($scope.checkedComments[i] === item)
+				  	$scope.checkedComments.splice(i,1);
+			}
+	};
 
 });
 
