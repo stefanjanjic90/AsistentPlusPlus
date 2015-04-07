@@ -1,72 +1,74 @@
 [
-  {
-  	"id": "1",
-    "course": "Тест из програмирања за веб",
-    "groups": [{"name":"Група 1", "start":"09", "end":"10", "assistants":["Мика", "Пера"], "numOfStudent": "20", "classrooms":["718","716"]},
-						   {"name":"Група 2", "start":"10", "end":"11", "assistants":["Мика", "Пера"], "numOfStudent": "20", "classrooms":["718","716"]},
-						   {"name":"Група 3", "start":"11", "end":"12", "assistants":["Мика", "Пера"], "numOfStudent": "20", "classrooms":["718","716"]}],
-    "date": "29.10.2014.",
-    "timeSum": "09:00-12:00",
-    "remark": "Искључити мрежу пре почетка испита"
-  },
-  { 
+	{
+		"id": "1",
+		"course": "Тест из Развоја софтвера",
+		"groups": [
+							{
+							"name":"Група 1",
+							"start":"09", "end":"10",
+							"assistants":[{"id": "3","name": "Мика"}, {"id": "4","name": "Пера"}],
+							"numOfStudent": "20",
+							"classrooms":["718","716"],
+							"date": "29.10.2014.",
+							"remark": "iskljuciti mrezu"
+							},
+							{
+							"name":"Група 2",
+							"start":"10", "end":"11",
+							"assistants":[{"id": "1","name": "Мика"}, {"id": "2","name": "Пера"}],
+							"numOfStudent": "20",
+							"classrooms":["718","716"],
+							"date": "29.10.2014.",
+							"remark": ""
+							},
+							{
+							"name":"Група 3",
+							"start":"11",
+							"end":"12",
+							"assistants":[{"id": "5","name": "Мика"}, {"id": "6","name": "Пера"}],
+							"numOfStudent": "20",
+							"classrooms":["718","716"],
+							"date": "30.10.2014.",
+							"remark": ""
+							}
+							],
+			"useJagRooms": "false",
+			"useSRooms": "false",
+			"timeSum": "09:00-12:00"
+},
+	{
 		"id": "2",
-		"course": "Тест из Развоја софтвера", 
-		"groups": [{"name":"Група 1", "start":"09", "end":"10", "assistants":["Мика", "Неко"], "numOfStudent": "20", "classrooms":["718","716"]}],
-		"date": "29.10.2014.",
-		"timeSum": "09:00-12:00",
-		"remark": ""
-	},
-  { 
-		"id": "2",
-		"course": "Тест из Развоја софтвера", 
-		"groups": [{"name":"Група 1", "start":"09", "end":"10", "assistants":["Мика", "Неко"], "numOfStudent": "20", "classrooms":["718","716"]}],
-		"date": "29.10.2014.",
-		"timeSum": "09:00-12:00",
-		"remark": ""
-	}
-]
-    // neke od informacija su na nivou zakazane grupe, a ne obaveze (npr. datum,remark...)
-    // mogu se razlikovati u zavisnosti od grupe do grupe pa ne mogu biti na nivu obaveze
-    // ovo ti je moj predlog formata, ti pogledaj pa ako su potrebne neke izmene samo mi javi :)
- /*   {
-        "id": "2",
-        "course": "Тест из Развоја софтвера",
-        "groups": [
-            {
-                "name":"Група 1",
-                "start":"09", "end":"10",
-                "assistants":["Мика", "Пера"],
-                "numOfStudent": "20",  // da li je ovo broj prijavljenih ili broj ocekivanih studenata?
-                "classrooms":["718","716"],
-                "date": "29.10.2014.",
-                "remark": "iskljuciti mrezu"
-            },
-            {
-                "name":"Група 2",
-                "start":"10", "end":"11",
-                "assistants":["Мика", "Пера"],
-                "numOfStudent": "20",
-                "classrooms":["718","716"],
-                "date": "29.10.2014.",
-                "remark": ""
-            },
-            {
-                "name":"Група 3",
-                "start":"11",
-                "end":"12",
-                "assistants":["Мика", "Пера"],
-                "numOfStudent": "20",
-                "classrooms":["718","716"],
-                "date": "30.10.2014.",
-                "remark": ""
-            }
-        ],
-
-        "timeSum": "09:00-12:00" // ovaj podatak trenutno nema smisla posto dve zakazane grupe mogu da budu razlicitih dana
-
-    }
-
-]*/
-
-
+		"course": "Тест из Развоја софтвера",
+		"groups": [
+							{
+							"name":"Група 1",
+							"start":"09", "end":"10",
+							"assistants":[{"id": "3","name": "Мика"}, {"id": "4","name": "Пера"}],
+							"numOfStudent": "20",
+							"classrooms":["718","716"],
+							"date": "29.10.2014.",
+							"remark": "iskljuciti mrezu"
+							},
+							{
+							"name":"Група 2",
+							"start":"10", "end":"11",
+							"assistants":[{"id": "1","name": "Мика"}, {"id": "2","name": "Пера"}],
+							"numOfStudent": "20",
+							"classrooms":["718","716"],
+							"date": "29.10.2014.",
+							"remark": ""
+							},
+							{
+							"name":"Група 3",
+							"start":"11",
+							"end":"12",
+							"assistants":[{"id": "5","name": "Мика"}, {"id": "6","name": "Пера"}],
+							"numOfStudent": "20",
+							"classrooms":["718","716"],
+							"date": "30.10.2014.",
+							"remark": ""
+							}
+							],
+			"useJagRooms": "false",
+			"useSRooms": "false",
+			"timeSum": "09:00-12:00"}]

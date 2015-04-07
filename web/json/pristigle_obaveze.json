@@ -1,0 +1,25 @@
+[{"id": "1",
+	"date": "01-10-2014",
+	"time": "09:00-10:00",
+	"course": "Ispit iz UOR-a",
+	"assistant": "Andjelka Zecevic"
+	},
+	{"id": "2",
+	"date": "01-12-2015",
+	"time": "09:00-10:00",
+	"course": "Kolokvijum iz RPB-a",
+	"assistant": "Nina Radivojevic"
+	},
+	{"id": "3",
+	"date": "03-10-2015",
+	"time": "09:00-10:00",
+	"course": "Kolokvijum iz istrazivanja podataka",
+	"assistant": "Mirjana Mijalkovic"
+	},
+	{"id": "4",
+	"date": "01-10-2013",
+	"time": "09:00-10:00",
+	"course": "Kolokvijum iz programiranja",
+	"assistant": "Andjelka Zecevic"
+	}
+]

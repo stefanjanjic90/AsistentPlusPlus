@@ -1,43 +1,41 @@
-<div id="podesavanjeNaloga">
+<div ng-controller="SetUpController">
 					<div class="forme_dezurstava">
 						<p class="imenaFormi"> Подешавање налога </p>
-						<form class="form-horizontal">
-	      		<fieldset>
-	      			
+			  			
 	      			<div class="form-group col-lg-10">
 								<div class="radio"> 
 									<label>
-										<input ng-click="view = 1" type="radio" name="optionsRadios" > Промена шифре
+										<input ng-click="view = 1" type="radio" name="optionsRadios"> Промена шифре
 									</label>
 								</div>		
-								<form class="form-horizontal" ng-show="view === 1">
+								<form class="form-horizontal" ng-show="view === 1" name="formPass" id="formPass">
 								<fieldset>
 									<div class="col-lg-10">
 										<br/>
 										<label class="col-lg-2 control-label">Стара шифра</label>
 										<div class="col-lg-10">
-				  						<input type="password" class="form-control" placeholder="Стара шифра">
+				  						<input type="password" class="form-control" placeholder="Стара шифра" ng-model="newPassObject.oldPass" ng-required="true">
 										</div>
 									</div>
 									<div class="col-lg-10">
 										<br/>
 										<label class="col-lg-2 control-label">Нова шифра</label>
 										<div class="col-lg-10">
-				  						<input type="password" class="form-control" placeholder="Нова шифра">
+				  						<input type="password" class="form-control" placeholder="Нова шифра" ng-model="newPassObject.newPass" ng-required="true">
 										</div>
 									</div>
 									<div class="col-lg-10">
 										<br/>
 										<label class="col-lg-2 control-label">Поновите шифру</label>
 										<div class="col-lg-10">
-				  						<input type="password" class="form-control" placeholder="Поновљена шифра">
+				  						<input type="password" class="form-control" placeholder="Поновљена шифра" ng-model="newPassAgain" ng-required="true">
 										</div>
 									</div>									
 									
 									<div class="form-group">
 										<div class="col-lg-10 col-lg-offset-2">
 											<button type="reset" class="btn btn-default" >Поништи</button>
-											<button type="submit" class="btn btn-primary">Потврди</button>
+											<button type="submit" class="btn btn-primary" ng-click="sendNewPass()" ng-disabled="!formPass.$valid">Потврди</button>
 										</div>
 									</div>
 								</fieldset>
@@ -46,30 +44,47 @@
 								
 								<div class="radio">
 									<label>
-										<input ng-click="view = 2" type="radio" name="optionsRadios"> Промена е-маил адресе
+										<input ng-click="view = 2" type="radio" name="optionsRadios" > Промена е-маил адресе
 									</label>
 								</div>
-								<form class="form-horizontal" ng-show="view === 2" >
+								<form class="form-horizontal" ng-show="view === 2" name="formEmail">
 								<fieldset>
 									<div class="col-lg-10">
 										<br/>
 										<label class="col-lg-2 control-label">Нова е-маил адреса</label>
 										<div class="col-lg-10">
-											<input type="email" class="form-control" placeholder="Нова е-маил адреса">
+											<input type="email" class="form-control" placeholder="Нова е-маил адреса" ng-model="newEmail.email" ng-required="true">
 										</div>
 									</div>
 									
 									<div class="form-group">
 										<div class="col-lg-10 col-lg-offset-2">
 											<button type="reset" class="btn btn-default" >Поништи</button>
-											<button type="submit" class="btn btn-primary" >Потврди</button>
+											<button type="submit" class="btn btn-primary" ng-click="sendNewEmail()" ng-disabled="!formEmail.$valid">Потврди</button>
 										</div>
 									</div>
 								</fieldset>
 								</form>
 
+							<!-- poruka o uspesnosti -->
+							<div class="alert alert-dismissable alert-success clear" ng-show="success()">
+								<button type="button" class="close" data-dismiss="alert" ng-click="showMsgSet(1, false)">×</button>
+								<strong>{{msgText}}</strong>
+							</div>
+		
+							<!-- poruka o gresci -->
+							<div class="alert alert-dismissable alert-danger clear" ng-show="error()">
+								<button type="button" class="close" data-dismiss="alert" ng-click="showMsgSet(2, false)">×</button>
+								<strong>Грешка!</strong> {{msgText}}
+							</div>						
+					
+							<!-- poruka upozorenja -->
+							<div class="alert alert-dismissable alert-warning clear" ng-show="warning()">
+								<button type="button" class="close" data-dismiss="alert" ng-click="showMsgSet(3, false)">×</button>
+								<strong>Грешка!</strong> {{msgText}}
+							</div>						
+
+
 						</div>
-	      		</fieldset>
-	      		</form>
 					</div> <!-- div forma dezurstva -->
 				</div> <!-- div podesavanje naloga -->

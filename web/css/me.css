@@ -14,7 +14,7 @@ body
 {
    width: 126px;
    position: absolute;
-   top: 50px;
+   top: 129px;
    left: -126px;
 }
 
@@ -58,7 +58,6 @@ body
    padding: 10px 20px;
    overflow: auto;
    clear: both;
-   
  }
 
 .container
@@ -86,11 +85,20 @@ p.imenaFormi {
 	font-weight: 700;
 }
 
+.left
+{
+	float:left;
+}
+
+.right
+{
+	float:right;
+}
 
 .kartica
 {
 	height: auto;
-	width: 45%;
+	width: 50%;
 	margin-left: 10px;
 	margin-right:10px;
 	margin-bottom: 10px;
@@ -101,7 +109,7 @@ p.imenaFormi {
 	border: 2px solid #337ab7;
 }
 
-#grafZamena
+.grafZamena
 {
 	float:right;
 	color: #337ab7;
@@ -112,8 +120,9 @@ p.imenaFormi {
 {
 	border: 1px solid white;
 	border-radius: 5px;
-	width: 305px;
+	width: 100%;
 	padding: 3px;
+	resize: none;
 }
 
 #grafDodaj
@@ -143,7 +152,6 @@ p.imenaFormi {
   height: 100%;
   z-index: 1000000;
   overflow: hidden;
-  
 }
 
 .login
@@ -224,7 +232,7 @@ footer
 
 #top
 {
-	margin-bottom: 40px;
+	margin-bottom: 100px;
 }
 
 
@@ -249,6 +257,55 @@ footer
 {
 	margin: 10px;
 	color: #555;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.malaGrupa ul 
+{
+	color: #555;
+}
+
+.malaGrupa li
+{
+	height: 20px;
+}
+
+.malaGrupa a 
+{	
+	color: #555;
+}
+
+.malaGrupa a:hover
+{
+	color: #555;
+}
+
+.opcije
+{
+	padding-left: 2px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.opcije ul 
+{
+	color: #555;
+}
+
+.opcije li
+{
+	height: 25px;
+}
+
+.opcije a 
+{	
+	color: #555;
+}
+
+.opcije a:hover
+{
+	color: #555;
 }
 
 .divKomentar
@@ -256,15 +313,20 @@ footer
 	margin: 20px;
 }
 
+textarea
+{
+	resize: none;
+}
+
 
 .grupa
 {
-	margin-left: 128px;
-	margin-bottom: 20px;
+	margin-left: 8%;
+	margin-bottom: 10px;
 	padding: 26px;
 	border: 1px solid gray;
 	border-radius: 5px;
-	width: 70%;
+	width: 85%;
 }
 
 .tabela_zamena
@@ -282,7 +344,37 @@ footer
 	margin-left: 50px;
 }
 
+#visibleComm
+{
+	color: #555;
+	margin-top: 2%;
+	margin-bottom: 5%;
+}
+
+
+.btnComm
+{
+	margin-left: 54%;
+}
+
 .btnSave
 {
-	margin-left: 226px;
+	margin-top: 3%;
+	margin-left: 62%;
+}
+
+span.left
+{
+	color: #595957;
+}
+
+#savedGroup
+{
+	width: 80%;
+	margin-left: 10%;
+}
+
+.unbold
+{
+	font-weight: normal;
 }

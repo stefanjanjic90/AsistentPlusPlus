@@ -1,16 +1,19 @@
-<div ng-controller="CompletedDutyController">
+				<div ng-controller="CompletedDutyController">
 					<div class="forme_dezurstava">
 						<p class="imenaFormi"> Претходна дежурства </p>
-							
-	      			<div class="kartica" ng-repeat="obaveza in compDuty">
-							<div class = "header">
-								<span> <b> {{obaveza.course}} </b></span> 
-								<br/>
-							</div>
-							<div class = "bodyCard">
-								<span> Датум: {{obaveza.date}}, {{obaveza.duration}} </span> <br/>
-							</div> 
-						</div>
-	      			
+						
+						<label class="col-lg-3 control-label">Претражи табелу: </label><input type="text" ng-model="search.$" /> <br/><br/>
+						
+						<table class="table table-striped">
+							<tr>
+								<th>Назив обавезе</th>
+								<th ng-click="reverseSort = !reverseSort">Датум
+									<span ng-show="!reverseSort" class="unbold"><small>&nbsp &nbspv</small></span><span ng-show="reverseSort" class="unbold">&nbsp ^</span></span></th>
+								<th>Трајање</th>
+							</tr>
+							<tr ng-repeat="obaveza in compDuty| orderBy: orderByDateFunc: reverseSort | filter: search">
+							<td>{{obaveza.course}}</td><td>{{obaveza.date}}</td><td>{{obaveza.duration}}</td> <!-- napraviti sortiranje po datumu-->
+						</tr>
+					</table>
 	  			</div>
 				</div> <!-- div realizovanih obaveza -->

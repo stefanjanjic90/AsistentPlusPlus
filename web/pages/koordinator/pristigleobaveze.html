@@ -1,33 +1,63 @@
 <!-- tab pristigle obaveze -->
-			<div ng-controller="SecDutyController">	
+			<div ng-controller="NewOrderController">	
 				<div class="forme_dezurstava">
 						<p class="imenaFormi"> Обрада обавеза </p>
-
 						<form class="form-horizontal">
 	      		<fieldset>
 							<div class="form-group">
-								<label for="selectSmer" class="col-lg-3 control-label">Сортирај обавезе по:</label>
+								<label class="col-lg-3 control-label">Сортирај обавезе по:</label>
 								<div class="col-lg-4">
-									<select class="form-control" ng-change="setSort(order)" ng-model="order">
-										<option value='1'> Датуму </option>
-										<option value='2'> Редоследу пристизања </option>
+									<select class="form-control" ng-model="selected" ng-change="setSort()">
+										<option value='orderByRecentFunc'> Редоследу пристизања </option>
+										<option value='orderByDateFunc'> Датуму </option>
 									</select>
 								</div>
-								{{orderByDate}}
 							</div>
 						</fieldset>
 						</form>	<br/>
 
-						<div class="kartica" ng-repeat="dezurstvo in duty">
+						<label class="col-lg-3 control-label">Претражи табелу: </label><input type="text" ng-model="search.$" /> <br/><br/>
+
+					<table class="table table-striped" ng-init="reverseSort = false">
+							<tr>
+								<th>Назив обавезе</th>
+								<th ng-click="reverseSort = !reverseSort">Датум
+									<span ng-show="!reverseSort" class="unbold"><small>&nbsp &nbspv</small></span>
+									<span ng-show="reverseSort" class="unbold">&nbsp ^</span></span></th> 		
+								<th>Обавезу пријавио</th>
+								<th></th>
+							</tr>
+							<tr ng-repeat="obaveza in duty| orderBy: sort: reverseSort | filter: search">
+								<td>{{obaveza.course}}</td><td>{{obaveza.date}}, {{obaveza.time}}</td><td>{{obaveza.assistant}}</td>
+								<td><button class="btn btn-primary" type="button" > Обради </button></td>
+						</tr>
+					</table>
+
+
+						<!--<div class="kartica" ng-repeat="dezurstvo in duty" ng-show="selected === 1">
 							<div class = "header" >
-								<span> <b> Нова обавеза </b></span> 
+								<span> <b> Пристигла обавеза </b></span> 
 							
 							</div>
 							<div class = "bodyCard">
 								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
-								<span> Курс: {{dezurstvo.classroom}} </span> <br/>
-								<span> Обавезу пријавио:</span> <br/> <br/>
-								<button class="btn btn-primary" type="submit" > Обради </button>
+								<span> Курс: {{dezurstvo.course}} </span> <br/>
+								<span> Обавезу пријавио: {{dezurstvo.assistant}}</span> <br/> <br/>
+								<button class="btn btn-primary" type="button" > Обради </button>
+							</div> 
+						</div>   <!-- div kartica -->
+
+
+						<!--<div class="kartica" ng-repeat="dezurstvo in duty |orderBy: orderByDateFunc" ng-show="selected === 2">
+							<div class = "header" >
+								<span> <b> Пристигла обавеза </b></span> 
+							
+							</div>
+							<div class = "bodyCard">
+								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
+								<span> Курс: {{dezurstvo.course}} </span> <br/>
+								<span> Обавезу пријавио: {{dezurstvo.assistant}}</span> <br/> <br/>
+								<button class="btn btn-primary" type="button" > Обради </button>
 							</div> 
 						</div>   <!-- div kartica -->
 

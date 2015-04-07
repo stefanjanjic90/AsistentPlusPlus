@@ -1,78 +1,186 @@
 			<section ng-init="tabSec = 1">
 				<ul class="nav nav-tabs">
-					<li ng-class="{ active:tabSec === 1}" > <a href ng-click="tabSec = 1">Споредна дежурства</a></li>
-					<li ng-class="{ active:tabSec === 2}" > <a href ng-click="tabSec = 2">Главна дежурства</a></li>
+					<li ng-class="{ active:tabSec === 1}" > <a href ng-click="tabSec = 1">Главна дежурства</a></li>
+					<li ng-class="{ active:tabSec === 2}" > <a href ng-click="tabSec = 2">Споредна дежурства</a></li>
+					<li ng-class="{ active:tabSec === 3}" > <a href ng-click="tabSec = 3">Понуђена дежурства</a></li>
 				</ul>
 				</section>
-					<div class="forme_dezurstava" ng-controller="SecDutyController" ng-show="tabSec === 1">
-						<p class="imenaFormi"> </p>	
-						<div class="kartica" id="sporedna_kartica{{$index}}" ng-repeat="dezurstvo in duty">
-							<div class = "header" >															
-								<a title="Покушај замену" href="" ng-click="toggle($index)"><span id="grafZamena" class="glyphicon glyphicon-refresh"></span></a>
-								<span> <b> {{ dezurstvo.course }} </b> </span> <br/>
-								<span> {{dezurstvo.assistant}} </span> 
-								<br/>
-								<div id="zamena_asistenti{{$index}}" class="tabela_zamena">
-									<ul>
-										<li ng-repeat = "zamena in possibleRotate">
-										  <input type="checkbox" ng-change="sync(bool, zamena, 'r')" ng-model="bool" ng-checked="isChecked(zamena, 'r')"> {{zamena}} 
-										</li>							
-									</ul> 
-									<input type="button" class="btn btn-primary btnReplace" value="Понуди дежурство" ng-disabled="!checkedReplace.length" ng-click="sendRequest($index)">
-								</div> 
-							</div>
-							<div class = "bodyCard">
-								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
-								<span> Учионица: {{dezurstvo.classroom}} </span> <br/>
-								<span> Напомена:</span> <br/> <textarea class="napomena" rows="1" disabled>{{dezurstvo.remark}}</textarea> 
-							</div> 
-						</div>   <!-- div kartica -->
-					</div>	<!-- div sporedna forma dezurstva -->
-					
-					<div class="forme_dezurstava" ng-controller="PrimDutyController" ng-show="tabSec === 2">
-						<p class="imenaFormi"> </p>	
-						<div class="kartica" ng-repeat="dezurstvo in duty" >
+									
+					<div class="forme_dezurstava" ng-controller="PrimDutyController" ng-show="tabSec === 1">
+						<p class="imenaFormi">Заказане обавезе</p>
+						<div class="kartica" ng-repeat="dezurstvo in duty" id="{{dezurstvo.id}}" >
 						<section  ng-init="tab$index = 1"> 
 						  <ul class="nav nav-tabs">
 						    <li ng-class="{active: tab$index===1}"><a href ng-click="tab$index=1">Основно</a></li>
 						    <li ng-class="{active: tab$index===2}"><a href ng-click="tab$index=2">Групе</a></li>
 						    <li ng-class="{active: tab$index===3}"><a href ng-click="tab$index=3">Коментари</a></li>
+ 						    <li ng-class="{active: tab$index===4}"><a href ng-click="tab$index=4">Опције</a></li>
 						  </ul>
 						<section>
 
 						<!-- tab osnovno -->
 						<div class="tab-pane active" ng-show="tab$index===1">  
 							<div class = "header">
-								<button title="Откажи обавезу" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<span> <b> {{dezurstvo.course}} </b></span>
+								<button title="Откажи обавезу" type="button" class="close" aria-label="Close" ng-click="closeDuty(dezurstvo.id)">
+									<span aria-hidden="true">&times;</span>
+								</button>			
+								<span><b> {{dezurstvo.course}} </b></span>
 							</div>
 							<div class = "bodyCard">
-								<span> Датум: {{ dezurstvo.date }}, {{ dezurstvo.timeSum }}h </span> <br/>
+								<span> Датум: <!--{{ dezurstvo.date }}, {{ dezurstvo.timeSum }}h--> </span> <br/>
 							</div>
 						</div>						   
 					
 						<!-- tab grupe -->
 						<div class="tab-pane" ng-show="tab$index===2" ng-repeat="grupa in dezurstvo.groups"> 
 							<div class="{{bgColors[$index%3]}} malaGrupa" >
+								<label>{{grupa.date}}</label> </br>
 						  	<label>{{grupa.name}}</label> ({{grupa.start}}-{{grupa.end}}h)
 						   	<div> Учионице: <span ng-repeat="room in grupa.classrooms">{{room}} </span></div>
+						   	<div>Број студената: <span>{{grupa.numOfStudent}}</span></div>
 						   	<div> Асистенти: 
 						   		<ul>
-						   			<li ng-repeat="a in grupa.assistans">{{a}}</li>
+						   			<li ng-repeat="a in grupa.assistants">
+						   				<a class="btn btn-link" data-toggle="modal" data-target="#commModal" ng-click="showCommModal(dezurstvo.id, a.id)" title="Oстави коментар" >{{a.name}}</a>
+						   			</li> 
 						   		</ul>
 						   	</div>
 							</div>
 						</div>
+						
+						<!--div za ostavljanje komentara pojedinacnom asistentu-->
+								<div class="modal fade" id="commModal" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title">Oстави коментар</h4>
+											</div>
+											<div class="modal-body">
+												<form>
+													<div class="form-group">
+														<label class="control-label">Коментар:</label>
+														<textarea class="form-control" ng-model="singleComment.text"></textarea>
+													</div>
+													<div class="checkbox">
+														<label><input type="checkbox" ng-model="singleComment.public">Oзначите коментар као јаван</label>
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+												<button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!singleComment.text.length" ng-click="saveSingleComment()">Постави коментар</button>
+											</div>
+										</div>
+									</div>
+								</div>
+						
 						   
 						<!-- tab komentari -->
 							<div class="tab-pane" ng-show="tab$index===3">
-								<div class="divKomentar">
-									<textarea rows="4" cols="31" > </textarea>
-									<input type="submit" class="btn btn-primary" value="Постави коментар" ng-click="saveComment($index)" id="postaviKomentar{{$index}}">
+								<div class="divKomentar" id="komentar{{$index}}">
+									<textarea rows="4" cols="36" ng-model="comment.text" placeholder="Поставите коментар на нивоу целокупне активности"> </textarea>
+									<div class="checkbox" id="visibleComm">
+										<label><input type="checkbox" name="visibleComm" ng-model="comment.public" >Oзначите коментар као јаван</label>
+									</div>									
+									<input type="submit" class="btn btn-primary btnComm" value="Постави коментар" ng-disabled="!comment.text.length" ng-click="saveComment($index)" >
 								</div>
 						 	</div>
 
+						<!-- tab opcije -->
+							<div class="tab-pane" ng-show="tab$index===4">
+								<div class="opcije">
+								<section>
+									<ul>
+										<li>
+											<a class="btn btn-link" data-toggle="modal" data-target="#msgModal" ng-click="showMsgModal(dezurstvo.id, 1)">Послати поруку свим помоћним дежурнима</a>
+										</li>
+										<li>
+											<a class="btn btn-link" data-toggle="modal" data-target="#msgModal" ng-click="showMsgModal(dezurstvo.id, 2)" ng-disabled="!dezurstvo.useSRooms">
+											Послати поруку особљу сервер сале</a>
+										</li>
+										<li>
+											<a class="btn btn-link" data-toggle="modal" data-target="#msgModal" ng-click="showMsgModal(dezurstvo.id, 3)" ng-disabled="!dezurstvo.useJagRooms">
+											Послати поруку особљу у Јагићевој</a>
+										</li>
+									</ul>
+								</section>
+								</div>
+							</div>
+								
+								<!-- div za slanje poruke dezurnima-->
+								<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title">Нова порука</h4>
+											</div>
+											<div class="modal-body">
+												<form>
+													<div class="form-group">
+														<label class="control-label">Примаоци:</label>
+														<input type="text" class="form-control" ng-model="recipientsString"> 
+													</div>
+													<div class="form-group">
+														<label class="control-label">Порука:</label>
+														<textarea class="form-control"></textarea>
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+												<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sendMessage()">Послати поруку</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							
   
-						</div>  <!-- div kartica -->
-					</div> <!-- div glavna dezurstva -->
+						</div>  <!-- kraj div kartica -->
+					</div> <!-- kraj div glavna dezurstva -->
+					
+					<!-- sporedna dezurstva -->
+					<div class="forme_dezurstava" ng-controller="SecDutyController" ng-show="tabSec === 2">
+						<p class="imenaFormi">Заказане обавезе</p>
+						<div class="kartica" id="sporedna_kartica{{$index}}" ng-repeat="dezurstvo in duty" >
+							<div class = "header" >															
+								<a title="Покушај замену" href="" ng-click="toggle($index)"><span class="grafZamena glyphicon glyphicon-refresh"></span></a>
+								<span> <b> {{ dezurstvo.course }} </b> </span> <br/>
+								<span> {{dezurstvo.assistant}} </span> 
+								<br/>
+								<div id="zamena_asistenti{{$index}}" class="tabela_zamena">
+									<ul>
+										<li ng-repeat = "zamena in possibleRotate">
+										  <label class="unbold">
+										  	<input type="checkbox" ng-change="sync(bool, zamena.id_assistant, 'r')" ng-model="bool" ng-checked="isChecked(zamena.id_assistant, 'r')"> 	
+										  	{{zamena.name}} 
+										  </label> 
+										</li>							
+									</ul> 
+									<input type="button" class="btn btn-primary btnReplace" value="Понуди дежурство" ng-disabled="!checkedReplace.length" ng-click="sendRequest($index)">
+								</div>
+							</div>
+							<div class = "bodyCard">
+								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
+								<span> Учионица: {{dezurstvo.classroom}} </span> <br/>
+								<span> Напомена:</span> <br/> <textarea class="napomena" rows="1" disabled>{{dezurstvo.remark}}</textarea> 
+							</div> 
+						</div>   <!-- div kartica -->	
+					</div>	<!-- div sporedna forma dezurstva -->
+					
+					<!-- div ponudjena dezurstva -->
+					<div class="forme_dezurstava" ng-controller="SecDutyController" ng-show="tabSec === 3">
+						<p class="imenaFormi">Понуђена дежурства</p>	
+						<div ng-repeat="dezurstvo in offeredDuty" >
+							<div class = "header" >															
+								<span> <b> {{ dezurstvo.course }} </b> </span> <br/>
+								<span> Датум: {{dezurstvo.date }}, {{dezurstvo.time}} </span> <br/>
+							</div> 
+							<div class="bodyCard">
+								<span>ПОНУЂЕНО ДЕЖУРСТВО</span>
+							</div>
+						</div>   <!-- div kartica -->
+					</div>	<!-- div ponudjena dezurstva -->
+					
 				</div> <!-- kraj tab-a dezurstvo -->

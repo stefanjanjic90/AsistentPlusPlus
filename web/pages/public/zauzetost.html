@@ -1,16 +1,21 @@
 <div ng-controller="HoursOnCallController">
-<div class="forme_dezurstava">
+	<div class="forme_dezurstava">	
+			<p class="imenaFormi"> Број сати на дежурству </p>
+				
+				<label class="col-lg-3 control-label">Претражи табелу: </label><input type="text" ng-model="search.$" /> <br/><br/>
+	
 				<table class="table table-striped">
-					<tr class="bold">
-						<td>Aсистент</td><td>Број сати дежурства</td>
+					<tr>
+						<th>Aсистент</th>
+						<th ng-click="reverseSort = !reverseSort">Број сати дежурства
+							<span ng-show="!reverseSort" class="unbold"><small>&nbsp &nbspv</small></span><span ng-show="reverseSort" class="unbold">&nbsp ^</span></span></th>
 					</tr>
-					<tr ng-repeat="row in totalHoursOfDuty | orderBy: 'hours'">
-						<td><a href="" ng-click="showAsTable($index)">{{row.assistant}}</a></td><td>{{row.hours}}</td>
+					<tr ng-repeat="row in totalHoursOfDuty | orderBy: orderByHoursFunc: reverseSort| filter: search">
+						<td><a id="{{row.id_assistant}}" ng-click="showAsTable(row.id_assistant)">{{row.name}}</a></td><td>{{row.hours}}</td>
 					</tr>
 				</table>
 				
-				<!-- tabela za asistenta koja se prikazuje klikom na asistenta(sve njegove obaveze) -->
-				
+				<!-- tabela za asistenta koja se prikazuje klikom na asistenta(sve njegove obaveze) -->				
 				<div class="loginform" ng-show="asTableVisible">
 					<div class="login">
 					
@@ -26,7 +31,7 @@
 								<tr class="bold">
 									<td>Датум</td><td>Време</td><td>Обавеза</td>
 								</tr>
-								<tr ng-repeat="row in asTable | orderBy: 'date'" class="duty-{{returnDutyTime($index)}}">
+								<tr ng-repeat="row in asTable |orderBy: orderByDateFunc" class="duty-{{returnDutyTime($index)}}">
 									<td>{{row.date}}</td><td>{{row.time}}</td><td>{{row.typeOfDuty}}</td>
 								</tr>
 							</table>
@@ -34,7 +39,5 @@
 					</div> <!-- login -->
 				</div>  <!-- loginform -->
 				
-				<!-- -->
-				
-			</div> <!--forma dezusrstva -->
+	</div> <!--forma dezusrstva -->
 </div>

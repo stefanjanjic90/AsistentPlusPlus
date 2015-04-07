@@ -205,50 +205,98 @@ publicpages.filter('filterRaspored', function() {
 
 
 
-publicpages.controller('HoursOnCallController', function($scope, $http, $filter){
+publicpages.controller('HoursOnCallController', function($scope, $http){
+
 
 	$scope.asTable = []; // tabela svih obaveza asistenta u tekucoj godini koje se nalaze u bazi [datum, vreme, opis_obaveze]
 	$scope.asTableVisible = false; // vidljivost tabele 
-	$scope.totalHoursOfDuty = []; //totalHoursOfDuty [ime asistenta, broj sati dezurstva]
-	$scope.msg = "";
+	$scope.totalHoursOfDuty = []; 
+	$scope.reverseSort = false;
 	
-	  	$http.get('sati_dezuranja.php', {responseType: 'JSON'}).success(function(data){
-    		$scope.totalHoursOfDuty = angular.fromJson(data);    		
-	}).error(function(data, status, headers, config){
-							$scope.msg=status+": an error occured";	});
+	/*   			
+	$http.get('sati_na_dezurstvu_svi.php?user='+$scope.user, {responseType: 'JSON'}).
+		success(function(data, status, headers, config){
+			if(data!=="null")
+				$scope.totalHoursOfDuty = angular.fromJson(data);
+			}).
+		error(function(data, status, headers, config){
+			console.log("error: " + status);
+	});
+*/
 
- $scope.totalHoursOfDuty = [{assistant: 'Neko Neko',username: '...', hours:10},{assistant: 'Neko Neko',username: '...', hours:11},{assistant: 'Neko Neko ',username: '...', hours:2}];
+	$http.get('json/sati_na_dezurstvu_svi.json').success(function(data){
+ 	 $scope.totalHoursOfDuty = angular.fromJson(data);
+	});
 
+	$scope.dateSortFunc = function(a, b)
+	{
+		var parts1 = a.date.split('-');
+		var parts2 = b.date.split('-');
+		
+		var dateA = new Date(parseInt(parts1[2]), parseInt(parts1[1]), parseInt(parts1[0]),0,0,0,0).getTime;
+		var dateB = new Date(parseInt(parts2[2]), parseInt(parts2[1]), parseInt(parts2[0]),0,0,0,0).getTime;
+		
+		if(dateA < dateB)
+			return -1;
+		else if(dateA > dateB)
+		  return 1;
+		
+		return 0;
+	}
 
-$scope.showAsTable = function(index)
-{
-	$scope.asTableVisible = true; // tabela svih dezurstava asistenta iz baze (ako moze da se dobije sortirana hronoloski-po datumu)
-	$scope.tableName = $scope.totalHoursOfDuty[index].assistant
-	$http.get('sveObavezeAsistenta.php?user='+$scope.totalHoursOfDuty[index].username, {responseType: 'JSON'}).success(function(data){
-		$scope.asTable = angular.fromJson(data);
-   		}).error(function(data, status, headers, config){
-					$scope.msg=status+": an error occured";	});
-					
-	$scope.asTable = [{date: '2014-01-29', time:'2h', typeOfDuty: 'kolokvijum iz Programiranja1'},
-										{date: '2014-10-29', time:'2h', typeOfDuty: 'kolokvijum iz Programiranja1'},
-										{date: '2014-11-29', time:'2h', typeOfDuty: 'kolokvijum iz Programiranja1'},
-										{date: '2016-05-29', time:'2h', typeOfDuty: 'kolokvijum iz Programiranja1'}];
-}
+	$scope.showAsTable = function(id)
+	{
+		$scope.asTableVisible = true;
+		
+		var result = $.grep($scope.totalHoursOfDuty, function(e){ return e.id_assistant === id; });
+		$scope.tableName = result[0].name;
+		
+	/*   			
+	$http.get('sve_obaveze_asistenta.php?user='+$scope.user, {responseType: 'JSON'}).
+		success(function(data, status, headers, config){
+			if(data!=="null")
+				$scope.asTable = angular.fromJson(data);
+			}).
+		error(function(data, status, headers, config){
+			console.log("error: " + status);
+	});
+	*/
 
-$scope.setVisible = function(value)
-{
-	$scope.asTableVisible = value;
-}
+		$http.get('json/sve_obaveze_asistenta.json').success(function(data){
+	 	 $scope.asTable = angular.fromJson(data);
+		});
+		 $scope.asTable.sort(dateSortFunc);
+	}
 
-$scope.returnDutyTime = function(index)
-{
-	var newDate = new Date($scope.asTable[index].date).getTime();  
-	var curDate = new Date().getTime();
+	$scope.setVisible = function(value)
+	{
+		$scope.asTableVisible = value;
+	}
+
+	$scope.returnDutyTime = function(index)
+	{
+		var parts = $scope.asTable[index].date.split('-');		
+		var newDate = new Date(parseInt(parts[2]), parseInt(parts[1]), parseInt(parts[0]),0,0,0,0).getTime;  
+		var curDate = new Date().getTime();
 	
-	if(newDate >= curDate)
-		return 'new';
-	else 
-		return 'old';
-}
+		if(newDate >= curDate)
+			return 'new';
+		else 
+			return 'old';
+	}
+
+	$scope.orderByHoursFunc = function(item)
+	{
+		return parseInt(item.hours);
+	}
+	
+	$scope.orderByDateFunc = function(item)
+	{
+		var parts = item.date.split('-');
+		var date = new Date(parseInt(parts[2]), parseInt(parts[1]), parseInt(parts[0]),0,0,0,0);
+
+		return date.getTime();
+	}
 
 });
+

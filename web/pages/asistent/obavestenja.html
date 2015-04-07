@@ -1,27 +1,51 @@
-<!-- div sa porukama -->
-				<div>
-					<div class="forme_dezurstava" >
-						<p class="imenaFormi"> Табеле обавештења </p>
-							<table class="table table-striped table-bordered table-hover" ng-controller="UserOfferController">
-								<caption>  </caption>
-									<tr class="bold">
-										<td width="70%"> Порукe </td> <td width="30%"> Опције</td>
-									</tr>
-									<tr ng-repeat="ponuda in offer">
-										<td><a>{{ponuda.assistant}}</a> је понудио/ла дежурство за {{ponuda.date}}., {{ponuda.time}}<br/>({{ponuda.course}})</td>	
-										<td><button type="submit" class="btn btn-primary btn-sm">Прихвати</button>
-												<button type="submit" class="btn btn-warning btn-sm" title="Биће послатa порука асистенту">Извињење</button></td>
-									</tr>
-							</table>
-							<br /> <br /> <br /> <br />
-							<table class="table table-striped table-bordered table-hover" ng-controller="CommentsController">
-									<tr class="bold">
-										<td width="7%"></td> <td width="93%"> Коментари </td>
-									</tr>
-									<tr ng-repeat="komentar in comments">
-										<td> <input type="checkbox" title="Обележи као прочитано" ></td>
-										<td>{{komentar.comment}}<footer class="text-info">Kоментар оставио/ла: {{komentar.assistant}}, {{komentar.course}}, датум: {{komentar.date}}</footer></td>	
-									</tr>
-							</table>
-	  			</div>
-				</div> <!-- div sa porukama -->
+
+			<div class="forme_dezurstava" ng-controller="UserOfferController">
+				<p class="imenaFormi"> Табелa обавештења </p>
+				<table class="table table-striped table-bordered table-hover" >
+					<tr class="bold">
+						<td width="70%"> Порукe </td> <td width="30%"> Опције</td>
+					</tr>
+					<tr ng-repeat="ponuda in offer" id="ponuda{{$index}}">
+						<td><a ng-click="showTable($index)">{{ponuda.assistant}}</a> је понудио/ла дежурство за {{ponuda.date}}., {{ponuda.time}}<br/>({{ponuda.course}})</td>	
+						<td id="ponude_dugmad{{$index}}"><button type="button" class="btn btn-primary btn-sm" ng-click="acceptOffer($index)">Прихвати</button>
+								<button type="button" class="btn btn-warning btn-sm" title="Биће послатa порука асистенту" ng-click="refuseOffer($index)">Извињење</button></td>
+					</tr>
+				</table>	
+				<br /> <br /> <br /> <br />
+				<table class="table table-striped table-bordered table-hover" ng-controller="CommentsController">
+					<tr class="bold">
+						<td width="7%"></td> <td width="93%"> Коментари </td>
+					</tr>
+					<tr ng-repeat="komentar in comments">
+						<td> <input type="checkbox" title="Обележи као прочитано" ></td>
+						<td>{{komentar.comment}}<footer class="text-info">Kоментар оставио/ла: {{komentar.assistant}}, {{komentar.course}}, датум: {{komentar.date}}</footer></td>	
+					</tr>
+				</table>	  			
+
+		<!-- Tabela za prikaz ukupan broj sati asistenta koje je provedeo na dezurstvu -->
+		<div class="loginform" ng-show="tableVisible">
+			<div class="login">
+			
+				<div class="logintop">
+					<div class="loginclose">
+						<button type="button" name="closeTableButoon" class="close" data-dismiss="modal" aria-hidden="true" ng-click="setVisible(false)">x</button>
+					</div>
+				</div>
+						
+				<div class="loginbody">
+					<p class="tableName"> </p>
+					<table class="table table-bordered">
+						<tr class="bold">
+							<td>Име и презиме</td><td>Укупан број сати</td>
+						</tr>
+						<tr>
+							<td >{{timeOfWork.assistant}}</td><td>{{timeOfWork.time}}</td>
+						</tr>
+					</table>
+				</div> <!-- loginbody -->
+			</div> <!-- login -->
+		</div>  <!-- loginform -->
+	</div>
+				
+				
+

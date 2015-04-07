@@ -1,0 +1,81 @@
+Izmene u json-u i napomene:
+
+* glavna_dezurstva.json -> izmenjen format (na Andjelkin format dodato jos nesto --)
+* komentari.json -> novi json, svi komentari koji su ostavljeni ulogovanom asistentu
+* pristigle_obaveze.json -> novi json, za koordinatora, sve obaveze koje su najavljene, one koje koordinator treba da obradi, 
+														slati uredjeno po datumu kako su zakazivane(najkasnije zakazane su posednje) 
+* sati_na_dezurstvu.json -> salje se id_asistenta, vraca se koliko ima sati na dezurstvu i ime asistenta
+
+* sati_na_dezurstvu_svi.json -> novi json, za sve asistente
+
+* sve_obaveze_asistenta.json -> novi json, sve obaveze na kojima je asistent dezurao, salje se id asistenta
+	- date -> datum
+	- time -> trajanje obaveze
+	- typeOfDuty -> naziv obaveze
+
+* sporedna_dezurstva.json -> izmenjen fajl, dodat id obaveze i to da li je ponudjen ta obaveza nekom (offered)
+
+* moguce_zamene.json -> izmenjen, treba mi i id asistenta
+
+(* sporedna_dezurstva1.json -> pomocni fajl, ne treba da se implementira)
+
+** kod glavnog_dezurstva treba vracati i one obaveze koje su zavrsene ukoliko nije prosao jedan ceo dan od tada, zbog naknadnog ostavljanja komentara
+	 od strane glavnog dezurnog, a ako se postavi komentar za to vreme onda se vise ne vraca obaveza 
+
+
+
+
+
+Ono sto vam saljem sa post metodom za upis u bazu:
+
+* postavljanje komentara na nivou cele obaveze od glavnog dezurnog
+		- saljem objekat comment -> {id_obaveze, text, public} 
+			  public -> da li je javan komentar ili ne
+
+* postavljanje komentara za pojedinacnog asistenta
+		- saljem objekat singleComment -> {id_assistant, id_duty, text, public}
+				id_assistant -> kome se ostavlja komentar 
+				id_duty -> id obaveze
+
+* najavljivanje nove obaveze 
+		- salje se kao niz objekata (objekat = grupa u okviru te obaveze)
+			- objekat group -> {name, dateRadio, startDuty, endDuty, startRes, endRes, classrooms, onComputer, numStudent, numAssistants, remarkA, remarkK, date, dateToShow}
+			
+				name -> ime grupe
+				dateRadio -> da li se najavljuje za konkretan datum ili u kolokvijumskoj nedelji (false - u kolokvijumskoj nedelji, true - tacan datum)
+				startDuty -> vreme pocetka obaveze
+				endDuty -> vreme zavrsetka obaveze
+				startRes -> vreme pocetka rezervacije
+				endRes -> vreme zavrsetka rezervacije
+				classrooms -> niz id-ova potrebnih ucionica
+				onComputer -> da li se radi na racunaru (true, false)
+				numStudent -> broj ocekivanih studenata
+				numAssistants -> broj potrebnih asistenata
+				remarkA -> napomena dezurnima
+				remarkK -> napomena koordinatoru
+				date -> string datuma (DD-MM-YYY) (moze i u drugom formatu ako vam treba)
+				dateToShow -> ovo je nesto sto je meni trebalo
+			
+			- polja koja nisu obavezna - potrebne ucionice, napomena za koordinatora i napomena za asistenta	
+			- ako je izabrana opcija za tacan datum(dateRadio == true) onda su popunjena i polja date, startDuty, endDuty, startRes, endRes, inace nisu
+				
+* zahtev za promenu pasvorda
+		- salje se objekat newPassObject -> {id_assistant, oldPass, newPass}
+		
+		
+* zahtev za promenu email-a
+		- salje se objekat newEmail -> {id_assistant, email}
+		
+* zahtev za zemenu dezurstva
+		- salje se objekat offer -> {id_assistant, id_duty, date, time, toAssistants}
+				- id_assistant -> ko nudi
+				- id_duty -> za koju obavezu (id obaveze)
+				- date -> datum
+				- time -> vreme
+				- toAssistants -> niz onima kojima se nudi zamena (id-evi asistenata)
+		
+Ono sto saljem delete metodom:
+
+* za brisanje obaveze, salje se samo id obaveze;
+
+** format datuma sam svuda stavila da bude DD-MM-YYY
