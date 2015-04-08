@@ -5,10 +5,10 @@
 					<tr class="bold">
 						<td width="70%"> Порукe </td> <td width="30%"> Опције</td>
 					</tr>
-					<tr ng-repeat="ponuda in offer" id="ponuda{{$index}}">
+					<tr ng-repeat="ponuda in offer" id="ponuda{{ponuda.id_duty}}">
 						<td><a ng-click="showTable($index)">{{ponuda.assistant}}</a> је понудио/ла дежурство за {{ponuda.date}}., {{ponuda.time}}<br/>({{ponuda.course}})</td>	
-						<td id="ponude_dugmad{{$index}}"><button type="button" class="btn btn-primary btn-sm" ng-click="acceptOffer($index)">Прихвати</button>
-								<button type="button" class="btn btn-warning btn-sm" title="Биће послатa порука асистенту" ng-click="refuseOffer($index)">Извињење</button></td>
+						<td id="ponude_dugmad{{ponuda.id_duty}}"><button type="button" class="btn btn-primary btn-sm" ng-click="acceptOffer(ponuda.id_duty)">Прихвати</button>
+								<button type="button" class="btn btn-warning btn-sm" title="Биће послатa порука асистенту" ng-click="refuseOffer(ponuda.id_duty)">Извињење</button></td>
 					</tr>
 				</table>	
 				<br /> <br /> <br /> <br />
@@ -16,8 +16,8 @@
 					<tr class="bold">
 						<td width="7%"></td> <td width="93%"> Коментари </td>
 					</tr>
-					<tr ng-repeat="komentar in comments">
-						<td> <input type="checkbox" title="Обележи као прочитано" ng-model="bool" ng-change="sync(bool, komentar.id_duty)" ng-checked="isChecked(komentar.id_duty)"></td>
+					<tr ng-repeat="komentar in comments" id="komentar{{komentar.id_duty}}">
+						<td> <input type="checkbox" title="Обележи као прочитано" ng-model="bool" ng-change="markComment(komentar.id_duty)"></td>
 						<td>{{komentar.comment}}<footer class="text-info">Kоментар оставио/ла: {{komentar.assistant}}, {{komentar.course}}, датум: {{komentar.date}}</footer></td>	
 					</tr> 
 				</table>  			

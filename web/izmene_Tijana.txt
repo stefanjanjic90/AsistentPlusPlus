@@ -1,7 +1,8 @@
 Izmene u json-u i napomene:
 
 * glavna_dezurstva.json -> izmenjen format (na Andjelkin format dodato jos nesto --)
-* komentari.json -> novi json, svi komentari koji su ostavljeni ulogovanom asistentu
+* komentari.json -> novi json, svi komentari koji su ostavljeni ulogovanom asistentu, id_duty je id obaveze za  koju je ostavljen komentar, salju se samo oni koji su 	
+										oznaceni kao neprocitani
 * pristigle_obaveze.json -> novi json, za koordinatora, sve obaveze koje su najavljene, one koje koordinator treba da obradi, 
 														slati uredjeno po datumu kako su zakazivane(najkasnije zakazane su posednje) 
 * sati_na_dezurstvu.json -> salje se id_asistenta, vraca se koliko ima sati na dezurstvu i ime asistenta
@@ -18,6 +19,8 @@ Izmene u json-u i napomene:
 * moguce_zamene.json -> izmenjen, treba mi i id asistenta
 
 (* sporedna_dezurstva1.json -> pomocni fajl, ne treba da se implementira)
+
+*ponude_za_zamenu_dezurstva.json -> id_obaveze je preimenovano u id_duty
 
 ** kod glavnog_dezurstva treba vracati i one obaveze koje su zavrsene ukoliko nije prosao jedan ceo dan od tada, zbog naknadnog ostavljanja komentara
 	 od strane glavnog dezurnog, a ako se postavi komentar za to vreme onda se vise ne vraca obaveza 
@@ -73,9 +76,22 @@ Ono sto vam saljem sa post metodom za upis u bazu:
 				- date -> datum
 				- time -> vreme
 				- toAssistants -> niz onima kojima se nudi zamena (id-evi asistenata)
-		
+
+* oznacavanje komentara kao ne procitan
+		- salje se objekat markedComment -> {id_duty, id_assistant}
+			- id_duty -> id obaveze
+			- id_assistant -> asistent koji je oznacio komentar kao procitan
+
+* slanje zahteva da je prihvacena ponuda za zamenu dezurstva
+		- saljem se objekat acceptedOffer -> {id_who_accepted, id_duty}
+		- id_who_accepted -> ko je prihvatio
+		- id_duty -> koju obavezu 	
+
 Ono sto saljem delete metodom:
 
 * za brisanje obaveze, salje se samo id obaveze;
+
+* za brisanje ponude za zamenu dezurstvo koja je odbijena, ponuda valjda treba da se brise onda iz baze
+		-salje se objekat reffusedOffer -> {id_who_reffused, id_duty}
 
 ** format datuma sam svuda stavila da bude DD-MM-YYY

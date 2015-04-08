@@ -204,35 +204,33 @@ account.controller('PrimDutyController', function($scope, $http){
 		
 		$scope.closeDuty = function(id)
 		{
-
-			bootbox.confirm("Да ли сте сигурни да желите да откажете обавезу?", function(result) {			
-				
-				
+			bootbox.confirm("Да ли сте сигурни да желите да откажете обавезу?", function(result) {					
 				if(result)
 				{		
 					$('#'+id).remove();
 		
-					var dataToDelete = angular.toJson(id);  // treba poslati zahtev za brisanje
+					var dataToDelete = angular.toJson(id);  
 
-				/*$http({
-				  method: 'delete',
-				  url: 'test.php',
-				  data: dataToSubmit,
-				  responseType: 'JSON',
-				  headers: {
-					'Content-Type': 'application/json; charset=UTF-8'
-										}
-				})
-				.success(function(data, status, headers, config){
-				  console.log("success: " + status);
-				  console.log(data);
-				})
-				.error(function(data, status, headers, config){
-				  console.log("error: " + status);
-				  alert("Отказивање обавезе није успело!");
-				});
-					*/
-				}		
+					// ne moze da se izvrsi pa je pod komentarom
+					/*$http({
+						method: 'delete',
+						url: 'test.php',
+						data: dataToSubmit,
+						responseType: 'JSON',
+						headers: {
+						'Content-Type': 'application/json; charset=UTF-8'
+											}
+					})
+					.success(function(data, status, headers, config){
+						console.log("success: " + status);
+						console.log(data);
+					})
+					.error(function(data, status, headers, config){
+						console.log("error: " + status);
+						alert("Отказивање обавезе није успело!");
+					});*/			
+			}		
+			alert("da");
 			}); 	
 		}
 
@@ -644,46 +642,73 @@ account.controller('UserOfferController', function($scope, $http){
 		$scope.setVisible(true);
 	}
 
-	$scope.acceptOffer = function(index)	
+	$scope.acceptOffer = function(id_duty)	//salje se da je prihvacena ponuda i premesta se dezurstvo sa jednog na drugog asistenta
 	{
-		//salje se da je prihvacena ponuda i premesta se dezurstvo sa jednog na drugog asistenta
-		$("#ponude_dugmad"+index).empty();
-		$("#ponude_dugmad"+index).html("<p class='text-info'><i>Прихваћено</i></p>");
-		$("#ponuda"+index).addClass("info text-muted");
+		$("#ponude_dugmad"+id_duty).empty();
+		$("#ponude_dugmad"+id_duty).html("<p class='text-info'><i>Прихваћено</i></p>");
+		$("#ponuda"+id_duty).addClass("info text-muted");
 		
-		//salje se zahtev za brisanje ponude, u bazi se menja obaveza (offer[index].id_obaveze), stavlja se umesto asistenta (offer[index].assistant) trenutno ulogovani asistent
-		/*
-		$http.post('test.php', {}, 
-			{
-				responseType:'JSON',
-				headers: {
-							'content-type': 'application/json'
-							}
-			}).success(function(data, status, headers, config){
-							if(data!=="null")	
-							{
-							}
-			}).error(function(data, status, headers, config){
-							$scope.msg="An error occured!";
-						});
-			*/
+			
+		var acceptedOffer = {};
+		acceptedOffer.id_who_accepted = user; // proveriti promenljivu user ??
+		acceptedOffer.id_duty = id_duty;
+		var dataToSubmit = angular.toJson(acceptedOffer);
+		
+		$http({
+		    method: 'post',
+		    url: 'test.php',
+		    data: dataToSubmit,
+		    responseType: 'JSON',
+		    headers: {
+				'Content-Type': 'application/json; charset=UTF-8'
+									}
+		  })
+		  .success(function(data, status, headers, config){
+		    console.log("success: " + status);
+		    console.log(data);
+		  })
+		  .error(function(data, status, headers, config){
+		    console.log("error: " + status);
+		  });
+		
 	}
 
-	$scope.refuseOffer = function(index)	
+	$scope.refuseOffer = function(id_duty)	
 	{
 		//salje se da je ponuda odbijena i obavestava se onaj ko je poslao ponudu
-		$("#ponude_dugmad"+index).empty();
-		$("#ponude_dugmad"+index).html("<p class='text-warning'><i>Послато извињење</i></p>");
-		$("#ponuda"+index).addClass("warning text-muted");
+		$("#ponude_dugmad"+id_duty).empty();
+		$("#ponude_dugmad"+id_duty).html("<p class='text-warning'><i>Послато извињење</i></p>");
+		$("#ponuda"+id_duty).addClass("warning text-muted");
 		
-		//zahtev za brisanjem ponude sa id-jem offer[index].id_obaveze, onim ko je ponudio offer[index].assistant i onim ko je ulogovan (user) 
+		var reffusedOffer = {};
+		reffusedOffer.id_who_reffused = user; //proveriti promenljivu user
+		reffusedOffer.id_duty = id_duty;
+		
+		var dataToDelete = angular.toJson(reffusedOffer);
+				
+ 		$http({
+			method: 'delete',
+			url: 'test.php',
+			data: dataToSubmit,
+			responseType: 'JSON',
+			headers: {
+					'Content-Type': 'application/json; charset=UTF-8'
+								}
+		})
+			.success(function(data, status, headers, config){
+			  console.log("success: " + status);
+			  console.log(data);
+		})
+			.error(function(data, status, headers, config){
+			  console.log("error: " + status);
+		});
 	}
 });
 
 
 
 
-account.controller('CommentsController', function($scope, $http){
+account.controller('CommentsController', function($scope, $http, $timeout){
 /*
 	$scope.comments = [];  //[komentar, asistent, predmet, datum]
 	  
@@ -702,26 +727,37 @@ account.controller('CommentsController', function($scope, $http){
  	 $scope.comments = angular.fromJson(data);
 	});
 
-	 $scope.checkedComments = [];
-	 $scope.isChecked = function(item){
-		var match = false;
-		
-			for(var i=0 ; i < $scope.checkedComments.length; i++)
-				if($scope.checkedComments[i] === item)
-					match = true;
-		return match;
-	};
 
-	$scope.sync = function(bool, item, mod)
+	$scope.markComment  = function(item)
 	{
-			if(bool)
-			 	$scope.checkedComments.push(item); 
-		 	else 
-		 	{
-				for(var i=0 ; i < $scope.checkedComments.length; i++) 
-					if($scope.checkedComments[i] === item)
-				  	$scope.checkedComments.splice(i,1);
-			}
+		for(var i=0 ; i < $scope.comments.length; i++) 
+			if($scope.comments[i].id_duty === item)
+				  {
+				  	$("#komentar"+item).slideToggle(1000);
+				   
+				   	var markedComment = {};
+				   	markedComment.id_duty = item;
+				   	markedComment.id_assistant = user; // promenljiva u kojoj cuvamo id ulogovanog ??
+				   	var dataToSubmit = angular.toJson(markedComment)
+						$http({
+						method: 'post',
+						url: 'test.php',
+						data: dataToSubmit,
+						responseType: 'JSON',
+						headers: {
+						'Content-Type': 'application/json; charset=UTF-8'
+											}
+					})
+					.success(function(data, status, headers, config){
+						console.log("success: " + status);
+						console.log(data);
+					})
+					.error(function(data, status, headers, config){
+						console.log("error: " + status);
+					});
+				    
+				    $timeout(function() { $scope.comments.splice(i,1); }, 1000); // da li ovde treba da se opet pozove get metoda za komentare?
+				  }
 	};
 
 });

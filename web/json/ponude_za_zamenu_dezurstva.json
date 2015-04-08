@@ -3,7 +3,7 @@
 		"id_assistant": "1",
 		"assistant": "Анђелка Зечевић",
 		"course": "Програмирање за веб",
-		"id_obaveze": "1",
+		"id_duty": "1",
 		"date": "29-10-2104",
 		"time": "09:00-10:00"
 	},
@@ -11,7 +11,7 @@
 		"id_assistant": "2",
 		"assistant": "Мирјана Маљковић",
 		"course": "Развој софтвера",
-		"id_obaveze": "2", 
+		"id_duty": "2", 
 		"date": "10-05-2014", 
 		"time": "09:00-10:00"
 	},
@@ -19,7 +19,7 @@
 		"id_assistant": "3",
 		"assistant": "Иван Чукић",
 		"course": "Развој софтвера", 
-		"id_obaveze": "3",
+		"id_duty": "3",
 		"date": "10-05-2014", 
 		"time": "09:00-10:00"
 	}
