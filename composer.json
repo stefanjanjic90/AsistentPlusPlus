@@ -1,4 +1,11 @@
 {
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.php.net"
+        }
+    ],
+
     "require": {
         "doctrine/orm": "2.4.*",
         "pear-pear.php.net/pear": "1.9.5",
