@@ -230,7 +230,6 @@ account.controller('PrimDutyController', function($scope, $http){
 						alert("Отказивање обавезе није успело!");
 					});*/			
 			}		
-			alert("da");
 			}); 	
 		}
 
