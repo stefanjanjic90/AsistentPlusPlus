@@ -2,7 +2,7 @@
 				<ul class="nav nav-tabs">
 					<li ng-class="{ active:tabSec === 1}" > <a href ng-click="tabSec = 1">Главна дежурства</a></li>
 					<li ng-class="{ active:tabSec === 2}" > <a href ng-click="tabSec = 2">Споредна дежурства</a></li>
-					<li ng-class="{ active:tabSec === 3}" > <a href ng-click="tabSec = 3">Понуђена дежурства</a></li>
+					<!--<li ng-class="{ active:tabSec === 3}" > <a href ng-click="tabSec = 3">Понуђена дежурства</a></li>-->
 				</ul>
 				</section>
 									
@@ -167,10 +167,9 @@
 								<span> Напомена:</span> <br/> <textarea class="napomena" rows="1" disabled>{{dezurstvo.remark}}</textarea> 
 							</div> 
 						</div>   <!-- div kartica -->	
-					</div>	<!-- div sporedna forma dezurstva -->
-					
+						
 					<!-- div ponudjena dezurstva -->
-					<div class="forme_dezurstava" ng-controller="SecDutyController" ng-show="tabSec === 3">
+					<div class="forme_dezurstava">
 						<p class="imenaFormi">Понуђена дежурства</p>	
 						<div ng-repeat="dezurstvo in offeredDuty" >
 							<div class = "header" >															
@@ -182,5 +181,7 @@
 							</div>
 						</div>   <!-- div kartica -->
 					</div>	<!-- div ponudjena dezurstva -->
+						
+					</div>	<!-- div sporedna forma dezurstva -->
 					
 				</div> <!-- kraj tab-a dezurstvo -->

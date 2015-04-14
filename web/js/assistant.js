@@ -10,6 +10,15 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
 	$scope.possibleRotate = []; // [lista asistenata koji su slobodni]
 	$scope.offeredDuty = [];
 
+	$scope.separateDuty = function (element, index, array)
+	{
+		if(element.offered === "true")
+		{
+			$scope.offeredDuty.push(angular.copy(element));
+		}
+	}
+  
+
 	/*  
 	$http.get('sporedna_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
 		success(function(data, status, headers, config){
@@ -20,13 +29,6 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
 			console.log("error: " + status);
 	});
 	*/
-  $scope.separateDuty = function (element, index, array)
-  {
-  	if(element.offered === "true")
-  	{
-  		$scope.offeredDuty.push(angular.copy(element));
-  	}
-  }
   
    $http.get('json/sporedna_dezurstva.json').success(function(data){ 
 	 	 $scope.duty = angular.fromJson(data);
@@ -34,6 +36,7 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
 	 	 $scope.duty = $scope.duty.filter(function (item) {
                      										return item.offered === "false";
                        							});
+                       							
 		});
 			
 	/*
@@ -92,6 +95,7 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
       return match;
   };
   
+
   
 
 	$scope.sendRequest = function(index)
@@ -102,6 +106,9 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
  		offer.date = $scope.duty[index].date;
  		offer.time = $scope.duty[index].time;
  		offer.toAssistants = angular.copy($scope.checkedReplace);
+ 		$scope.offeredDuty.push(angular.copy($scope.duty[index])); //ovo mozda ne treba zato sto se posle opet uradi ajax poziv
+ 		$scope.duty.splice(index, 1); 														// -||-
+
 		 
  		var dataToSubmit = angular.toJson(offer); 			
   	
@@ -119,8 +126,8 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
 		    console.log(data);
 		 		$scope.toggle(index); 
 
-				$timeout(function() {
-				 $http.get('json/sporedna_dezurstva.json').success(function(data){  //vratiti stari link, ovo je zbog probe
+				/*$timeout(function() {
+				 $http.get('json/sporedna_dezurstva.json').success(function(data){  //sve radi, ostaje isto prikazano na stranici zato sto se ne promeni status offered na true
 			 	 $scope.duty = angular.fromJson(data);
 			 	 $scope.offeredDuty = [];
 			 	 $scope.duty.forEach($scope.separateDuty);
@@ -128,12 +135,12 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
 						               										return item.offered === "false";
 						                 							});
 													});
-					},1000);  
+					},1000); */ 
 		 	})
 		  .error(function(data, status, headers, config){
 		    console.log("error: " + status);
 		  });
-		  
+ 
 		offer.id_duty = "";
  		offer.date = "";
  		offer.time = "";
@@ -230,6 +237,7 @@ account.controller('PrimDutyController', function($scope, $http){
 						alert("Отказивање обавезе није успело!");
 					});*/			
 			}		
+			
 			}); 	
 		}
 
@@ -609,6 +617,7 @@ account.controller('CompletedDutyController', function($scope, $http){
 account.controller('UserOfferController', function($scope, $http){
 
 	$scope.offer = []; // [asistent_koji_salje, predmet, id_obaveze, datum, vreme]
+	$scope.dutyAccepted = [];
 /*		
 	    			$http.get('ponude_za_zamenu_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
 						success(function(data, status, headers, config){
@@ -624,6 +633,21 @@ account.controller('UserOfferController', function($scope, $http){
  	 $scope.offer = angular.fromJson(data);
 	});
 
+/*		
+	    			$http.get('prihvacena_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
+						success(function(data, status, headers, config){
+							if(data!=="null")
+								$scope.dutyAccepted = angular.fromJson(data);
+						}).
+						error(function(data, status, headers, config){
+							console.log("error: " + status);
+						});
+*/
+
+	$http.get('json/prihvacena_dezurstva.json').success(function(data){
+ 	 $scope.dutyAccepted = angular.fromJson(data);
+	});
+	
 
 	$scope.tableVisible = false;
 	
@@ -667,7 +691,7 @@ account.controller('UserOfferController', function($scope, $http){
 		    console.log(data);
 		  })
 		  .error(function(data, status, headers, config){
-		    console.log("error: " + status);
+		    console.log("error: " + status); // kakva greska se vraca ukoliko je ponuda vec prihvacena u medjuvremenu, treba prikazati poruku
 		  });
 		
 	}
@@ -702,6 +726,39 @@ account.controller('UserOfferController', function($scope, $http){
 			  console.log("error: " + status);
 		});
 	}
+	
+	$scope.seenNotice = function(index)
+	{
+		var seen = {};
+		seen.id_user = user; // proveriti promenljivu user ??
+		seen.id_duty = $scope.dutyAccepted[index].id_duty;
+		var dataToSubmit = angular.toJson(seen);
+
+		
+		$http({
+		    method: 'post',
+		    url: 'test.php',
+		    data: dataToSubmit,
+		    responseType: 'JSON',
+		    headers: {
+				'Content-Type': 'application/json; charset=UTF-8'
+									}
+		  })
+		  .success(function(data, status, headers, config){
+		    console.log("success: " + status);
+		    console.log(data);
+		    	/*$http.get('json/prihvacena_dezurstva.json').success(function(data){  // da li treba da se ponovi ajax poziv ili ce pri refreshu to da se uradi
+ 					 $scope.dutyAccepted = angular.fromJson(data);
+					});*/
+		  })
+		  .error(function(data, status, headers, config){
+		    console.log("error: " + status);
+		  });
+		  
+		$("#notice"+index).addClass("text-muted");
+		$("#okBtn"+index).addClass("disabled");
+	}
+	
 });
 
 

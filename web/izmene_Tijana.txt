@@ -22,6 +22,14 @@ Izmene u json-u i napomene:
 
 *ponude_za_zamenu_dezurstva.json -> id_obaveze je preimenovano u id_duty
 
+* prihvacena_dezurstva.json -> novi json, salje se id_ulogovanog, vraca se niz dezurstava koje je on ponudio i neko prihvatio, treba da postoji oznaka da li je obavestenje o tome vidjeno ili ne
+		- id_assistant -> ko je prihvatio dezurstvo
+		- assistant -> ime asistenta koji je prihvatio
+		- course -> ime kursa
+		- id_duty -> id_dezurstva(kursa)
+		- date -> datum
+		- time -> vreme
+
 ** kod glavnog_dezurstva treba vracati i one obaveze koje su zavrsene ukoliko nije prosao jedan ceo dan od tada, zbog naknadnog ostavljanja komentara
 	 od strane glavnog dezurnog, a ako se postavi komentar za to vreme onda se vise ne vraca obaveza 
 
@@ -31,6 +39,11 @@ Izmene u json-u i napomene:
 
 Ono sto vam saljem sa post metodom za upis u bazu:
 
+* oznacavanje da je vidjeno obavestenje o tome da je neko prihvatio ponudu dezurstva koje je ulogovani ponudio
+		- saljem objekat seen -> {id_user, id_duty}
+				- id_user -> ko je video obavestenje o tome da je obaveza prihvacena, odnosno ulogovani
+				- id_duti -> za koje dezurstvo
+				
 * postavljanje komentara na nivou cele obaveze od glavnog dezurnog
 		- saljem objekat comment -> {id_obaveze, text, public} 
 			  public -> da li je javan komentar ili ne
@@ -95,3 +108,5 @@ Ono sto saljem delete metodom:
 		-salje se objekat reffusedOffer -> {id_who_reffused, id_duty}
 
 ** format datuma sam svuda stavila da bude DD-MM-YYY
+
+** kada ponudu za dezurstvo niko ne prihvati, treba da se obrise iz baze kao ponudjena ukoliko istekne neko vreme, npr. do jednog dana pre obaveze. Da li treba da se obavesti onaj ko je ponudio?
