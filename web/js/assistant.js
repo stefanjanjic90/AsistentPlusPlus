@@ -245,6 +245,7 @@ account.controller('PrimDutyController', function($scope, $http){
 	$scope.recipientsString = "";
 	$scope.emails = "";
 	$scope.idForMsg = "";	
+	$scope.msgText = "";
 
 	$scope.showMsgModal = function(id, arg)
 	{
@@ -318,10 +319,38 @@ account.controller('PrimDutyController', function($scope, $http){
 		  });
 	}
 	
+	
 	$scope.sendMessage = function()
 	{
 		//treba poslati mailove onima koji se nalaze u $scope.recipientsString vezano za obavezu ciji je id $scope.idForMsg
-		$scope.recipientsString = "";  
+		var messageObject = {};
+		messageObject.recipients = $scope.recipientsString;
+		messageObject.msgText = $scope.msgText;
+		messageObject.id_duti = $scope.idForMsg;
+		
+		var dataToSubmit = angular.toJson(messageObject);
+		
+		$http({
+		    method: 'post',
+		    url: 'test.php',
+		    data: dataToSubmit,
+		    responseType: 'JSON',
+		    headers: {
+				'Content-Type': 'application/json; charset=UTF-8'
+									}
+		  })
+		  .success(function(data, status, headers, config){
+		    console.log("success: " + status);
+		    console.log(data);
+		   	$scope.recipientsString = "";
+		   	$scope.msgText = "";
+		   	$scope.id_duti = "";
+
+		  })
+		  .error(function(data, status, headers, config){
+		    console.log("error: " + status);
+		  });
+		
 	}
 	
 });

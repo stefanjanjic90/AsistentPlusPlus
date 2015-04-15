@@ -124,18 +124,17 @@
 													</div>
 													<div class="form-group">
 														<label class="control-label">Порука:</label>
-														<textarea class="form-control"></textarea>
+														<textarea class="form-control" ng-model="msgText"></textarea>
 													</div>
 												</form>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
-												<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sendMessage()">Послати поруку</button>
+												<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sendMessage()" ng-disabled="!msgText.length">Послати поруку</button>
 											</div>
 										</div>
 									</div>
 								</div>
-							
   
 						</div>  <!-- kraj div kartica -->
 					</div> <!-- kraj div glavna dezurstva -->

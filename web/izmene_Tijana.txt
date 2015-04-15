@@ -39,6 +39,12 @@ Izmene u json-u i napomene:
 
 Ono sto vam saljem sa post metodom za upis u bazu:
 
+* slanje mail-a svim dezurnim nastavnicima na obavezi ili server sali ili u jagicevoj;
+		- salje se objekat messageObject -> {recipients, msgText, id_duti}
+				- recipients -> mailovi asistenata kao string (mika@matf.bg.ac.rs, mika@matf.bg.ac.rs,... ili samo mail server sale ili jagiceve)
+				- msgText -> text poruke
+				- id_duti -> za koju obavezu
+				
 * oznacavanje da je vidjeno obavestenje o tome da je neko prihvatio ponudu dezurstva koje je ulogovani ponudio
 		- saljem objekat seen -> {id_user, id_duty}
 				- id_user -> ko je video obavestenje o tome da je obaveza prihvacena, odnosno ulogovani
