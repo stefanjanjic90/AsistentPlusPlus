@@ -32,10 +32,10 @@ publicpages.controller('rasporedControler', function($scope, $http) {
   $scope.meseci = ['Јануар', 'Фебруар', 'Март', 'Април', 'Мај', 'Јун', 'Јул', 'Август', 'Септембар', 'Октобар', 'Новембар', 'Децембар'];
   $scope.nedelje = [];
   
-  // TODO: ajax poziv
-//   $http.get("aktivnegodine.php").success(function(data) {
-//     $scope.godine = angular.fromJson(data);
-//   });
+  /*TODO: ajax poziv
+   $http.get("aktivnegodine.php").success(function(data) {
+     $scope.godine = angular.fromJson(data);
+   });*/
     
   // trenutni datum
   var datum = new Date();
@@ -76,10 +76,6 @@ publicpages.controller('rasporedControler', function($scope, $http) {
     
     for(var i = 0; i < brojNedeljaUMesecu; i++)
       $scope.nedelje[i] = i + 1;
-    
-    //console.log("poslednjiUMesecu: " + poslednjiUMesecu.getDate());
-    //console.log("brojNedeljaUMesecu: " + brojNedeljaUMesecu);
-    //console.log("nedelje: " + $scope.nedelje);
   }
   
   $scope.nedeljeUMesecu();
@@ -93,33 +89,9 @@ publicpages.controller('rasporedControler', function($scope, $http) {
   
   
   $scope.raspored = {};
- 
-  // citamo raspored iz .json fajla
-  $http({
-    method: 'post',
-    url: 'json/raspored.json',
-    data: angular.toJson($scope.rasporedObaveza),
-    responseType: 'JSON',
-    headers: {
-      'Content-Type': 'application/json; charset=UFT-8'
-    }
-  })
-  .success(function(data, status, headers, config) {
-    // ...
-    $scope.raspored = angular.fromJson(data);
-  })
-  .error(function(data, status, headers, config) {
-    // ...
-  });
   
-  // raspored je aktivan ukoliko datum zakazane obaveze nije jos prosao
-  // ukoliko je raspored aktivan i korisnik je ulogovan kao koordinator, korisnik ima na raspolaganju opciju da otkaze obavezu
-  $scope.aktivanRaspored = function(d) {
-    return ((new Date(d)).getTime() > (new Date()).getTime());
-  }
-  
-  $scope.filtrirajRaspored = function() {
-    console.log("filtrirajRaspored: " + angular.toJson($scope.rasporedObaveza));
+  $scope.dohvatiRaspored = function() {
+    // citamo raspored iz .json fajla
     $http({
       method: 'post',
       url: 'json/raspored.json',
@@ -130,12 +102,31 @@ publicpages.controller('rasporedControler', function($scope, $http) {
       }
     })
     .success(function(data, status, headers, config) {
-      $scope.raspored = angular.fromJson(data);
-      // TODO: raspored je prazan za trazzeni termin - ispisi obavestenje
+      // ...
+      if(data != null) 
+	$scope.raspored = angular.fromJson(data);
+      else 
+	window.alert("Не постоји распоред за тражени термин!");
     })
     .error(function(data, status, headers, config) {
-      // ...
+      window.alert("Проблем приликом читања распореда!");
     });
+  }
+  
+  $scope.dohvatiRaspored();
+  
+  
+  // raspored je aktivan ukoliko datum zakazane obaveze nije jos prosao
+  // ukoliko je raspored aktivan i korisnik je ulogovan kao koordinator, korisnik ima na raspolaganju opciju da otkaze obavezu
+  $scope.aktivanRaspored = function(d) {
+    return ((new Date(d)).getTime() > (new Date()).getTime());
+  }
+  
+  $scope.filtrirajRaspored = function() {
+    console.log("filtrirajRaspored: " + angular.toJson($scope.rasporedObaveza));
+    
+    $scope.dohvatiRaspored();
+    
   } // filtrirajRaspored()
   
   $scope.otkaziObavezu = function(id) {
@@ -176,7 +167,6 @@ publicpages.controller('rasporedControler', function($scope, $http) {
   $scope.isNedelja = function(dan) {
     if((new Date(dan)).getDay() == 0) {
       return true;
-    
     }
     return false;
   }
@@ -202,7 +192,6 @@ publicpages.filter('filterRaspored', function() {
   }
   
 });
-
 
 
 publicpages.controller('HoursOnCallController', function($scope, $http){
@@ -299,4 +288,3 @@ publicpages.controller('HoursOnCallController', function($scope, $http){
 	}
 
 });
-

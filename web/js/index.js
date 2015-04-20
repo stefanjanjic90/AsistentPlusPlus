@@ -34,29 +34,17 @@ app.config(
 	  controller: 'CompletedDutyController'
 	})
 	.when('/p7', {
-	  templateUrl: 'pages/asistent/podesavanjenaloga.html'
-	  //controller: ''
+	  templateUrl: 'pages/asistent/podesavanjenaloga.html',
+	  controller: 'SetUpController'
 	})
-	//.when('/p7', {
-	//  templateUrl: 'pages/asistent/poruke.html',
-	//  controller: ''
-	//})
 	.when('/p8', {
 	  templateUrl: 'pages/koordinator/pristigleobaveze.html',
 	  controller: 'SecDutyController'
 	})
 	.when('/p9', {
 	  templateUrl: 'pages/koordinator/zakazivanjeobaveza.html',
-	  controller: 'NewDutyController'
+	  controller: 'NewDutyControllerCoordinator'
 	})
-// 	.when('/p9', {
-// 	  templateUrl: 'pages/koordinator/pristigleobaveze.html',
-// 	  controller: 'SecDutyController'
-// 	})
-// 	.when('/p10', {
-// 	  templateUrl: 'pages/koordinator/zakazivanjeobaveza.html',
-// 	  controller: 'NewDutyController'
-// 	})
 	.when('/p10', {
 	  templateUrl: 'pages/administrator/info.html',
 	  controller: 'infoControler'
@@ -83,29 +71,15 @@ app.config(
 
 app.controller('indexControler', function($scope, $http, $location) {
  
-  /*
-  if(typeof(Storage) !== "undefined") {
-    // Code for localStorage/sessionStorage.
-    console.log("localStorage is supported");
-  } else {
-    // Sorry! No Web Storage support..
-    console.log("localStorage is'n supported");
-  }
-  */
-  
-  // TODO: tab u localStorage
-  // tabovi...
+  /* tab promenljiva - za indeks trenutne stranice */
   if(!localStorage.tab)
     localStorage.setItem('tab', 1);
   
-  //$scope.tab = 1;
   $scope.setTab = function(t) {
-    if(!isNaN(t) && t>0 /*&& t < 10*/)
-      //$scope.tab = t;
+    if(!isNaN(t) && t>0 && t < 14)
       localStorage.setItem('tab', t);
     else
       localStorage.setItem('tab', 1);
-      //$scope.tab = 1;
   }
   $scope.returnTab = function() {
     return parseInt(localStorage.getItem('tab'));//$scope.tab;
@@ -114,6 +88,7 @@ app.controller('indexControler', function($scope, $http, $location) {
   // podaci koje cuvamo o korisniku kad se uloguje
   var user = {
     username: '',
+    ime_prezime: '',
     administrator: false,
     koordinator: false,
     asistent: false,
@@ -130,22 +105,26 @@ app.controller('indexControler', function($scope, $http, $location) {
     return Boolean(user.logedin);
   }
   
-  // funkcija vraca username ulogovanog korisnika
+  // funkcija vraca ime_prezime ulogovanog korisnika
   $scope.whoAmI = function() {
+    return user.ime_prezime;
+  }
+  
+  $scope.user_identification = function() {
     return user.username;
   }
  
  // vracamo mod za ulogovanog korisnika
   $scope.asist = function() {
-    user = angular.fromJson(localStorage.getItem('user'));
+    //user = angular.fromJson(localStorage.getItem('user'));
     return user.asistent;   
   }
   $scope.admin = function() {
-    user = angular.fromJson(localStorage.getItem('user'));
+    //user = angular.fromJson(localStorage.getItem('user'));
     return user.administrator;
   }
   $scope.koord = function() {
-    user = angular.fromJson(localStorage.getItem('user'));
+    //user = angular.fromJson(localStorage.getItem('user'));
     return user.koordinator;
   }
   

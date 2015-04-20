@@ -1,8 +1,7 @@
 Izmene u json-u i napomene:
 
 * glavna_dezurstva.json -> izmenjen format (na Andjelkin format dodato jos nesto --)
-* komentari.json -> novi json, svi komentari koji su ostavljeni ulogovanom asistentu, id_duty je id obaveze za  koju je ostavljen komentar, salju se samo oni koji su 	
-										oznaceni kao neprocitani
+* komentari.json -> novi json, svi komentari koji su ostavljeni ulogovanom asistentu
 * pristigle_obaveze.json -> novi json, za koordinatora, sve obaveze koje su najavljene, one koje koordinator treba da obradi, 
 														slati uredjeno po datumu kako su zakazivane(najkasnije zakazane su posednje) 
 * sati_na_dezurstvu.json -> salje se id_asistenta, vraca se koliko ima sati na dezurstvu i ime asistenta
@@ -20,16 +19,6 @@ Izmene u json-u i napomene:
 
 (* sporedna_dezurstva1.json -> pomocni fajl, ne treba da se implementira)
 
-*ponude_za_zamenu_dezurstva.json -> id_obaveze je preimenovano u id_duty
-
-* prihvacena_dezurstva.json -> novi json, salje se id_ulogovanog, vraca se niz dezurstava koje je on ponudio i neko prihvatio, treba da postoji oznaka da li je obavestenje o tome vidjeno ili ne
-		- id_assistant -> ko je prihvatio dezurstvo
-		- assistant -> ime asistenta koji je prihvatio
-		- course -> ime kursa
-		- id_duty -> id_dezurstva(kursa)
-		- date -> datum
-		- time -> vreme
-
 ** kod glavnog_dezurstva treba vracati i one obaveze koje su zavrsene ukoliko nije prosao jedan ceo dan od tada, zbog naknadnog ostavljanja komentara
 	 od strane glavnog dezurnog, a ako se postavi komentar za to vreme onda se vise ne vraca obaveza 
 
@@ -39,17 +28,6 @@ Izmene u json-u i napomene:
 
 Ono sto vam saljem sa post metodom za upis u bazu:
 
-* slanje mail-a svim dezurnim nastavnicima na obavezi ili server sali ili u jagicevoj;
-		- salje se objekat messageObject -> {recipients, msgText, id_duti}
-				- recipients -> mailovi asistenata kao string (mika@matf.bg.ac.rs, mika@matf.bg.ac.rs,... ili samo mail server sale ili jagiceve)
-				- msgText -> text poruke
-				- id_duti -> za koju obavezu
-				
-* oznacavanje da je vidjeno obavestenje o tome da je neko prihvatio ponudu dezurstva koje je ulogovani ponudio
-		- saljem objekat seen -> {id_user, id_duty}
-				- id_user -> ko je video obavestenje o tome da je obaveza prihvacena, odnosno ulogovani
-				- id_duti -> za koje dezurstvo
-				
 * postavljanje komentara na nivou cele obaveze od glavnog dezurnog
 		- saljem objekat comment -> {id_obaveze, text, public} 
 			  public -> da li je javan komentar ili ne
@@ -95,24 +73,9 @@ Ono sto vam saljem sa post metodom za upis u bazu:
 				- date -> datum
 				- time -> vreme
 				- toAssistants -> niz onima kojima se nudi zamena (id-evi asistenata)
-
-* oznacavanje komentara kao ne procitan
-		- salje se objekat markedComment -> {id_duty, id_assistant}
-			- id_duty -> id obaveze
-			- id_assistant -> asistent koji je oznacio komentar kao procitan
-
-* slanje zahteva da je prihvacena ponuda za zamenu dezurstva
-		- saljem se objekat acceptedOffer -> {id_who_accepted, id_duty}
-		- id_who_accepted -> ko je prihvatio
-		- id_duty -> koju obavezu 	
-
+		
 Ono sto saljem delete metodom:
 
 * za brisanje obaveze, salje se samo id obaveze;
 
-* za brisanje ponude za zamenu dezurstvo koja je odbijena, ponuda valjda treba da se brise onda iz baze
-		-salje se objekat reffusedOffer -> {id_who_reffused, id_duty}
-
 ** format datuma sam svuda stavila da bude DD-MM-YYY
-
-** kada ponudu za dezurstvo niko ne prihvati, treba da se obrise iz baze kao ponudjena ukoliko istekne neko vreme, npr. do jednog dana pre obaveze. Da li treba da se obavesti onaj ko je ponudio?

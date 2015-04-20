@@ -34,7 +34,7 @@
 	<tr ng-repeat="korisnik in korisnici | orderBy:sort:reverse">
 	  <td><a href="">{{ korisnik.imeprezime }}</a></td> 
 	  <td>{{ korisnik.status }}</td>
-	  <td><button type="submit" class="btn btn-primary btn-sm" ng-click="promeniStatus(korisnik.imeprezime)" title="Кориснику ће бити промењен статус.">Промени статус</button></td>
+	  <td><button type="submit" class="btn btn-primary btn-sm" ng-click="promeniStatus(korisnik.id)" title="Кориснику ће бити промењен статус.">Промени статус</button></td>
 	</tr>
       </tbody>
     </table>

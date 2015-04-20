@@ -1,5 +1,6 @@
 {
-  "username": "Владимир Глигоров",
+  "username": "login",
+  "ime_prezime": "Владимир Глигоров",
   "administrator": "true",
   "koordinator": "true",
   "asistent": "true",

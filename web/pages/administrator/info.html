@@ -12,14 +12,14 @@
   
   
   <!-- poruka o uspesnosti -->
-  <div class="alert alert-dismissable alert-success" ng-show="success()">
-    <button type="button" class="close" data-dismiss="alert" ng-click="successSet(false)">×</button>
+  <div class="alert alert-dismissable alert-success" ng-show="showMsg">
+    <button type="button" class="close" data-dismiss="alert" ng-click="showMsg=!showMsg;">×</button>
     <strong>Успешна промена!</strong> {{msg}}
   </div>
   
   <!-- poruka o gresci -->
-  <div class="alert alert-dismissable alert-danger" ng-show="error()">
-    <button type="button" class="close" data-dismiss="alert" ng-click="errorSet(false)">×</button>
+  <div class="alert alert-dismissable alert-danger" ng-show="err">
+    <button type="button" class="close" data-dismiss="alert" ng-click="err=!err;">×</button>
     <strong>Грешка!</strong> Дошло је до грешке. Молимо вас покушајте поново са променом.
   </div>
   

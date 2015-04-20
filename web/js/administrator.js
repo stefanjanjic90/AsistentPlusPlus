@@ -7,6 +7,7 @@ administrator.controller('infoControler', function($scope, $http) {
   $scope.infoData = {};
   $scope.currentData = {};
   
+  // TODO: stvarni url
   $http.get('json/info.json').success(function(data){
     $scope.currentData = angular.fromJson(data);
   });
@@ -16,24 +17,9 @@ administrator.controller('infoControler', function($scope, $http) {
   $scope.msg = "";
   $scope.showMsg = false;
   
-  $scope.success = function() {
-    return $scope.showMsg;
-  }
-  $scope.successSet = function(arg) {
-    $scope.showMsg = arg;
-  }
-  
   // TODO: sredi ispis kad se zatvori prozor sa porukom...
   // u slucaju greske
   $scope.err = false;
-  
-  $scope.error = function() {
-    return $scope.err;
-  }
-  
-  $scope.errorSet = function(arg) {
-    $scope.err = arg;
-  }
   
   $scope.submitData = function() {
     
@@ -42,35 +28,22 @@ administrator.controller('infoControler', function($scope, $http) {
     
     $http({
 	method: 'post',
-	url: 'test.php', // TODO: stvarna adresa...
+	url: 'json/info.json', // TODO: stvarna adresa...
 	data: infoDataJson,
 	responseType: 'JSON',
 	headers: {
-	  'Content-type': 'application/json; charset=utf-8'
+	  'Content-Type': 'application/json; charset=utf-8'
 	}
       }
     )
     .success(function(data, status, headers, config){
-      if(data != null) {
-	var tmp = "";
-	if(data.hasOwnProperty('godina')) {
-	  tmp = data.godina;
-	  $scope.currentData.godina = data.godina;
-	}
-	else if(data.hasOwnProperty('emailss')) {
-	  tmp = data.emailss;
-	  $scope.currentData.emailss = data.emailss;
-	}
-	else if(data.hasOwnProperty('emailjag')) {
-	  tmp = data.emailjag;
-	  $scope.currentData.emailjag = data.emailjag;
-	}
-	$scope.msg = "Успешна промена! Нова вредност је: " + tmp;
+	$scope.currentData = angular.fromJson(data);
+      
+	$scope.msg = "Успешна промена!";
 	$scope.showMsg = true;
 	
 	$scope.resetData();
 	 
-      }
     })
     .error(function(data, status, headers, config){
       $scope.err = true;
@@ -81,7 +54,7 @@ administrator.controller('infoControler', function($scope, $http) {
   
   $scope.resetData = function() {
     $scope.infoData = {};
-    console.log("resetData()");
+    // console.log("resetData()");
   }
   
 });
@@ -99,20 +72,9 @@ administrator.controller('newUserControler', function($scope, $http) {
   $scope.msg = "";
   $scope.showMsg = false;
   
-  $scope.success = function() {
-    return $scope.showMsg;
-  }
-  $scope.successSet = function(arg) {
-    $scope.showMsg = arg;
-  }
-  
   // u slucaju greske
   $scope.err = false;
-  
-  $scope.error = function() {
-    return $scope.err;
-  }
- 
+
   $scope.formData = {};   
   
   $scope.submitData = function() {
@@ -130,7 +92,7 @@ administrator.controller('newUserControler', function($scope, $http) {
       }
     )
     .success(function (data, status, headers, config){
-      if (data !== "null") {
+      if (data != null) {
 	$scope.msg = "Успешно је унет нови корисник!";
 	$scope.showMsg = true;
 	
@@ -155,26 +117,30 @@ administrator.controller('newUserControler', function($scope, $http) {
 administrator.controller('deleteUserControler', function($scope, $http) {
   
   $scope.korisnici = {};
-  $http.get('json/korisnici.json').success(function(data) {
-    $scope.korisnici = angular.fromJson(data);
-  });
+  $scope.ispisiKorisnike = function() {
+    $http.get('json/korisnici.json').success(function(data) {
+      $scope.korisnici = angular.fromJson(data);
+    });
+  }
+  $scope.ispisiKorisnike();
   
-  // TODO: promeni da se ne salje imeprezime vec korisnicko ime, ono je identifikator u bazi!!!
-  // TODO: da ti odmah ispise promenu statusa!!!
   // TODO: ispis poruka o uspesnosti i gresci
-  $scope.promeniStatus = function(username) {
-    var usernameJson = angular.toJson(username);
+  $scope.promeniStatus = function(user_id) {
+    var user_idJson = angular.toJson(user_id);
     
     $http({
       method: 'post',
       url: 'test.php',
-      data: usernameJson,
+      data: user_idJson,
       responseType: 'JSON',
       headers: {
 	'Content-Type': 'application/json; charset=UTF-8'
       }
     })
     .success(function(data, status, headers, config) {
+      
+      $scope.ispisiKorisnike();
+      
       console.log("success");
       console.log(data);
     })
@@ -187,9 +153,15 @@ administrator.controller('deleteUserControler', function($scope, $http) {
 
 administrator.controller('ucioniceControler', function($scope, $http) {
 
-  $http.get('json/ucionice.json').success(function(data){
-    $scope.ucionice = angular.fromJson(data);
-  });
+  $scope.ucionice = {};
+  
+  $scope.ispisiUcionice = function() {
+    $http.get('json/ucionice.json').success(function(data){
+      $scope.ucionice = angular.fromJson(data);
+    });
+  }
+  
+  $scope.ispisiUcionice();
   
   $scope.prikaziPromeniFormu = false;
   $scope.returnForm = function() {
@@ -219,6 +191,7 @@ administrator.controller('ucioniceControler', function($scope, $http) {
   
   $scope.ucionica = {};
   
+  /* otvara dijalog za promenu ucionice*/
   $scope.promeni = function(id, ime, kapacitet, racunari) {
     $scope.ucionica.id = id;
     $scope.ucionica.ime = ime;
@@ -253,6 +226,8 @@ administrator.controller('ucioniceControler', function($scope, $http) {
       $scope.msg = "Успешно су промењени подаци за изабрану салу!";
       $scope.showMsg = true;
       $scope.ucionica = {};
+      
+      $scope.ispisiUcionice();
     })
     .error(function(data, status, headers, config){
       console.log("error: " + status);
@@ -271,16 +246,16 @@ administrator.controller('ucioniceControler', function($scope, $http) {
 
 
 administrator.controller('resetControler', function($scope, $http) {
-  
-  // TODO; sredi ispis za ovoaj init(); da li ti treba?
-  
-  // $scope.asistenti = {};
+ 
+  $scope.asistenti = {};
   
   $scope.init = function() {
     $http.get('json/reset.json').success(function(data) {
       $scope.asistenti = angular.fromJson(data);
     });
   }
+  
+  $scope.init();
   
   // kad resetujemo cuvamo promene
   $scope.forSave= false;
@@ -303,8 +278,6 @@ administrator.controller('resetControler', function($scope, $http) {
       }
     })
     .success(function(data, status, headers, config) {
-      // $scope.asistenti = angular.fromJson(data);
-      
       // resetujemo podatke
       $scope.init();
       
@@ -322,6 +295,25 @@ administrator.controller('resetControler', function($scope, $http) {
   // sacuvaj izmene - kojim se vrednosti dobijene u prethodnom koraku mogu sacuvati u bazi podataka
   $scope.save = function() {
     // TODO: ...
+    
+    // sad se ovaj json trajno upisuje u bazu
+    $http({
+      method: 'post',
+      url: 'test.php',
+      data: $scope.asistenti,
+      responseType: 'JSON',
+      headers: {
+	'Content-Type': 'application/json; charset=utf-8'
+      }
+    })
+    .success(function(data, status, headers, config){
+      if(data != null)
+	$scope.asistenti = angular.fromJson(data);
+    })
+    .error(function(data, status, headers, config){
+      /*...*/
+    });
+    
     console.log("save()");
   }
   

@@ -34,9 +34,7 @@ raspored zakazanih obaveza
 	  <label class="col-lg-2 control-label">Школска година</label>
 	  <div class="col-lg-4">
 	    <select class="form-control" name="izabranaGodina" ng-model="rasporedObaveza.izabranaGodina" ng-click="filtrirajRaspored(); nedeljeUMesecu();">
-	      <option ng-repeat="g in godine"> {{ g }} </option> -->
-	      <!-- TODO: godine za koje postoji unos u ng-repeat -->
-	      <!-- podrazumevana godina je trenutna! -->
+	      <option ng-repeat="g in godine"> {{ g }} </option>
 	    </select>
 	  </div>
 	  <div class="col-lg-6"></div>
@@ -61,8 +59,6 @@ raspored zakazanih obaveza
 	  <div class="col-lg-4 ">
 	    <select class="form-control" name="izabranaNedelja" ng-model="rasporedObaveza.izabranaNedelja" ng-click="filtrirajRaspored()">
 	      <option ng-repeat="n in nedelje"> {{ n }} </option> -->
-	      <!-- TODO: godine za koje postoji unos u ng-repeat -->
-	      <!-- podrazumevana godina je trenutna! -->
 	    </select>
 	  </div>
 	  <div class="col-lg-6"></div>
@@ -85,7 +81,7 @@ raspored zakazanih obaveza
     <div ng-show="prikazPoDanima">
       <ul class="nav nav-tabs">
 	<li ng-class="{active: trenutniDan() === 1}"><a href="" ng-click="izabranDan=1" data-toggle="tab">Понедељак</a></li>
-	<li ng-class="{active: trenutniDan() === 2}"><a href="" ng-click="izabranDan=2" data-toggle="tab">Утокар</a></li>
+	<li ng-class="{active: trenutniDan() === 2}"><a href="" ng-click="izabranDan=2" data-toggle="tab">Уторак</a></li>
 	<li ng-class="{active: trenutniDan() === 3}"><a href="" ng-click="izabranDan=3" data-toggle="tab">Среда</a></li>
 	<li ng-class="{active: trenutniDan() === 4}"><a href="" ng-click="izabranDan=4" data-toggle="tab">Четвртак</a></li>
 	<li ng-class="{active: trenutniDan() === 5}"><a href="" ng-click="izabranDan=5" data-toggle="tab">Петак</a></li>
