@@ -1,15 +1,15 @@
-user.json - /AsistentPlusPlus/login
-logout uri - /AsistentPlusPlus/logout
-raspored.json - /AsistentPlusPlus/raspored
-katedre.json - /AsistentPlusPlus/katedre
-ucionice.json - /AsistentPlusPlus/ucionice
-katedre.json - /AsistentPlusPlus/katedre
+user.json - /AsistentPlusPlus/login - public
+logout uri - /AsistentPlusPlus/logout - private
+raspored.json - /AsistentPlusPlus/raspored/{godina- YYYY - integer} - public url // TODO
+katedre.json - /AsistentPlusPlus/katedre - private
+ucionice.json - /AsistentPlusPlus/ucionice - private
 korisnici.json /AsistentPlusPlus/korisnici
+
 
 glavna_dezurstva.json - /AsistentPlusPlus/glavnaDezurstva/{korisnckoIme}
 sporedna_dezurstva.json - /AsistentPlusPlus/sporednaDezurstva/{korisnickoIme}
 zavrsena_dezurstva.json - /AsistentPlusPlus/zavrsenaDezurstva/{korisnickoIme}
-sati_na_dezurstvu.json - /AsistentPlusPlus/satiNaDezurstvu/{korisnickoIme}
+sati_na_dezurstvu.json - /AsistentPlusPlus/satiNaDezurstvu/{korisnickoIme} -bez korisnickog imena za sve (sati_na_dezurstvu_svi.json) PUBLIC // TODO
 ponude_za_zamenu_dezurstva.json /AsistentPlusPlus/ponudjeneZamene/{korisnickoIme}/{rbrZakazivanja}
 
 info.json -  /AsistentPlusPlus/info
@@ -18,3 +18,19 @@ info.json -  /AsistentPlusPlus/info
 
 reset.json - TBD
 moguce_zamene.json - TBD
+
+
+-----VLADA
+info.html
+{"godina":2015} skolska godina
+{"emailss":"test@gmail.com"} mejl aerver sale
+{"emailjag":"test@gmail.com"} mejl jagiceva
+jedan json koji sadrzi sva ova polja /asistentplusplus/info
+
+novi_korisnik.json asistentplusplus/novi_korisnik
+obrisi_korisnika_korisnici /korisnici - spisak svih asistenata
+obrisi_korisnika.json /obrisi_korisnika - menja status korisnika iz aktivnog u neaktivni
+
+reset.json /reset - reset sistema, malkov i andjelka se nisu dogovorili sta ovo radi?
+ucionice.json /ucionice - spisak ucionica
+ucionica.json /ucionica - jedna ucionica za koju se menjaju parametri
