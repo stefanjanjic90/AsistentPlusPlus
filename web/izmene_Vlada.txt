@@ -1,0 +1,114 @@
+nisu uneti url-ovi, ali su napisana mesta gde se unose
+
+-------------------------------------------------------------------------------------------------------------------------------
+PUBLICPAGES.JS
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+rasporedControler
+-------------------------------------------------------------------------------------------------------------------------------
+raspored.json - datum i vreme moraju da budu u tom formatu i moraju da budu sting
+/AsistentPlusPlus/raspored
+unosi se u publicpages.js u funkciji dohvatiRaspored
+
+u funkciji otkaziObavezu:
+   - salje se samo id obaveze kao json
+   - treba da se u bazi otkaze obaveza
+   - kada se otkaze obaveza ponovo se zahteva raspored da bi se azurirao prikaz, tako da se i tu menja url u get pozivu na /AsistentPlusPlus/raspored
+   
+-------------------------------------------------------------------------------------------------------------------------------
+HoursOnCallController
+-------------------------------------------------------------------------------------------------------------------------------
+Tijana...
+-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+INDEX.JS
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+indexControler
+-------------------------------------------------------------------------------------------------------------------------------
+u funkciji login
+   - json sa podacima koje salje korisnik - login.json
+   - json koji se vraca se servera user.json
+   - /AsistentPlusPlus/login ili kako vec... (nisam siguran kako ste stavili)
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+ADMINISTRATOR.JS
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+infoControler
+-------------------------------------------------------------------------------------------------------------------------------
+info.json - trenutna mejl adresa server sale, jagiceve i trenutna skolska godin (valjda je trenutna skolska godina)
+   - u funkciji infoInit /AsistentPlusPlus/info
+
+u funkciji submitData svaka stavka se menja posebno i salje se sledece
+   {"godina":2015} ako se menja godina
+   {"emailss":"nova_mejl_adresa_server_sale@gmail.com"} ako se menja mejl server sale
+   {"emailjag":"nova_mejl_adresa_jagiceva@gmail.com"} ako se menja mejl u jagicevoj
+
+   ne znam gde se ovo nalazi u bazi, znam samo da ima kao zahtev u zadatku
+  
+-------------------------------------------------------------------------------------------------------------------------------
+newUserControler
+-------------------------------------------------------------------------------------------------------------------------------
+katedre.json vraca spisak svih katedri na fakultetu
+   - AsistentPlusPlus/katedre
+   - get poziv (trebalo bi prvi u kontroleru)
+
+funkcija submitData salje podatke o novom korisniku
+   - novikorisnik.json
+   - AsistentPlusPlus/novikorisnik
+
+-------------------------------------------------------------------------------------------------------------------------------
+deleteUserControler
+-------------------------------------------------------------------------------------------------------------------------------
+funkcija ispisiKorisnike
+   - korisnici.json - spisak korisnika, njihov id i status(aktivan/neaktivan)
+   - AsistentPlusPlus/spisakkorisnika
+   
+funkcija promeniStatus
+   - menja status korisnika iz aktivan u neaktivan i obrnuto (tako bi trebalo)
+   - salje se samo id korisnika za kojeg se menja status
+   - AsistentPlusPlus/promenastatusa
+
+-------------------------------------------------------------------------------------------------------------------------------
+resetControler
+-------------------------------------------------------------------------------------------------------------------------------
+funkcija init
+   - reset.json - asistent i broj sati koje je proveo na dezurstvu
+   - AsistentPlusPlus/resetdata (tako nesto)
+   
+funkcija reset
+   - resetuje podatke
+   - ne znam sta to znaci
+   - znam da treba da se vrate resetovani podaci
+
+funkcija save
+   - cuvamo trajno te resetovane podatke
+   
+ceo ovaj tab mi je nejasan, i to je onaj za koji se malkov i andjelka isto kao i za rspored nisu usaglasili sta treba da radi
+ZA OVO TREBA DA VIDIMO S NJIMA STA SE DESI
+
+-------------------------------------------------------------------------------------------------------------------------------
+ucioniceControler
+-------------------------------------------------------------------------------------------------------------------------------
+funckija ispisiUcionice
+   - spisak svih ucionica sa raspolozivim mestima, racunarima,...
+   - ucionice.json
+   - AsistentPlusPlus/ucionice
+
+funckija submitData
+   - salje podatke o ucionici
+   - ucionica.json
+   - te preomene se unose u bazu
+   - AsistentPlusPlus/ucionica
+-------------------------------------------------------------------------------------------------------------------------------
+
+Ako sam zaboravio jos nesto, ili budete videli da fali kad budete pravili servise, javite...
+

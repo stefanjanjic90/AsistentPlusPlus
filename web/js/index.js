@@ -82,10 +82,10 @@ app.controller('indexControler', function($scope, $http, $location) {
       localStorage.setItem('tab', 1);
   }
   $scope.returnTab = function() {
-    return parseInt(localStorage.getItem('tab'));//$scope.tab;
+    return parseInt(localStorage.getItem('tab')); /* $scope.tab; */
   }
   
-  // podaci koje cuvamo o korisniku kad se uloguje
+  /* podaci koje cuvamo o korisniku kad se uloguje */
   var user = {
     username: '',
     ime_prezime: '',
@@ -95,40 +95,41 @@ app.controller('indexControler', function($scope, $http, $location) {
     logedin: false
   };
   
-  // cuvamo ih u localStorage-u
+  /* cuvamo ih u localStorage-u */
   if(!localStorage.user)
     localStorage.setItem('user', angular.toJson(user));
     
-  // ng-show za log_out div
+  /* ng-show za log_out div */
   $scope.loged = function() {
     user = angular.fromJson(localStorage.getItem('user'));
     return Boolean(user.logedin);
   }
   
-  // funkcija vraca ime_prezime ulogovanog korisnika
+  /* funkcija vraca ime_prezime ulogovanog korisnika */
   $scope.whoAmI = function() {
     return user.ime_prezime;
   }
   
+  /* id korisnika */
   $scope.user_identification = function() {
     return user.username;
   }
  
- // vracamo mod za ulogovanog korisnika
+ /* vracamo mod za ulogovanog korisnika */
   $scope.asist = function() {
-    //user = angular.fromJson(localStorage.getItem('user'));
+    /* user = angular.fromJson(localStorage.getItem('user')); */
     return user.asistent;   
   }
   $scope.admin = function() {
-    //user = angular.fromJson(localStorage.getItem('user'));
+    /* user = angular.fromJson(localStorage.getItem('user')); */
     return user.administrator;
   }
   $scope.koord = function() {
-    //user = angular.fromJson(localStorage.getItem('user'));
+    /* user = angular.fromJson(localStorage.getItem('user')); */
     return user.koordinator;
   }
   
-  // za prikazivanje login forme
+  /* za prikazivanje login forme */
   $scope.visible = false;
   
   $scope.setVisible = function(arg) {
@@ -139,22 +140,23 @@ app.controller('indexControler', function($scope, $http, $location) {
     return $scope.visible;
   }
   
-  // username i password 
-  // ono sto se salje za login
+  /* username i password 
+   * ono sto se salje za login
+   */ 
   $scope.loginData = {};
   
-  // reset u login formi
+  /* reset u login formi */
   $scope.resetData = function() {
     $scope.loginData = {};
   }
   
-  // login
+  /* login */
   $scope.login = function() {
     var loginDataJson = angular.toJson($scope.loginData);
     
     $http({
-	method: 'post',
-	url: 'json/user.json', // TODO: stvarna adresa...
+	method: 'get',
+	url: 'json/user.json', /* TODO: stvarna adresa... */
 	data: loginDataJson,
 	responseType: 'JSON',
 	headers: {
@@ -171,13 +173,15 @@ app.controller('indexControler', function($scope, $http, $location) {
     })
     .error(function(data, status, headers, config) {
       console.log("error: " + status);
+      /* TODO: ispis greske */
     });
-  } // login()
+  } /* login() */
 	 
-  // logout - resetujemo podatke
+  /* logout - resetujemo podatke */
   $scope.logout = function() {
     user = {
       username: '',
+      ime_prezime: '',
       administrator: false,
       koordinator: false,
       asistent: false,
@@ -187,10 +191,10 @@ app.controller('indexControler', function($scope, $http, $location) {
     localStorage.setItem('user', angular.toJson(user));
     localStorage.setItem('tab', 1);
     
-    //vracamo korisnika na pocetnu stranu (raspored)
+    /* vracamo korisnika na pocetnu stranu (raspored) */
     $location.path('/p1');
     
     $scope.visible = false;
-  } // logout()
+  } /* logout() */
 
 });

@@ -1,0 +1,15 @@
+{ 
+  "korisnickoIme": "andjelkaz", 
+  "imePrezime": "Andjelka Zecevic", 
+  "email": "andjelka@gmail.com", 
+  "telefon": 641234567, 
+  "sifra": "andjelka", 
+  "sifraPotvrda": "andjelka", 
+  "dezurniAsistent": true, 
+  "administrator": true, 
+  "koordinator": false,
+  "kat": " Катедра за рачунарство и информатику ", 
+  "status": "aktivan",
+  "koeficijent": 90,
+  "napomena": "neka napomena"
+}  

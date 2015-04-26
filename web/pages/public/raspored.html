@@ -26,10 +26,10 @@ raspored zakazanih obaveza
       <strong>Грешка!</strong> Дошло је до грешке. Молимо вас покушајте поново са променом.
     </div>
     
-    
+    <!--
     <form class="form-horizontal">
       <fieldset>
-	<!-- select kontrola za odabir godine za raspored -->
+	 select kontrola za odabir godine za raspored
 	<div class="form-group">
 	  <label class="col-lg-2 control-label">Школска година</label>
 	  <div class="col-lg-4">
@@ -41,7 +41,7 @@ raspored zakazanih obaveza
 	</div>
     
     
-	<!-- select kontrola za odabir meseca za raspored -->
+	 select kontrola za odabir meseca za raspored 
 	<div class="form-group">
 	  <label class="col-lg-2 control-label">Месец</label>
 	  <div class="col-lg-4">
@@ -53,18 +53,18 @@ raspored zakazanih obaveza
 	</div>
     
     
-	<!-- select kontrola za odabir nedelje za raspored -->
+	 select kontrola za odabir nedelje za raspored 
 	<div class="form-group">
 	  <label class="col-lg-2 control-label">Недеља</label>
 	  <div class="col-lg-4 ">
 	    <select class="form-control" name="izabranaNedelja" ng-model="rasporedObaveza.izabranaNedelja" ng-click="filtrirajRaspored()">
-	      <option ng-repeat="n in nedelje"> {{ n }} </option> -->
+	      <option ng-repeat="n in nedelje"> {{ n }} </option> 
 	    </select>
 	  </div>
 	  <div class="col-lg-6"></div>
 	</div>
 	
-	<!-- mogucnost filtriranja rasporeda po danima u nedelji -->
+	 mogucnost filtriranja rasporeda po danima u nedelji 
 	<div class="form-group">
 	  <div class="col-lg-4 col-lg-offset-2">
 	    <label class="checkbox-inline">
@@ -77,7 +77,6 @@ raspored zakazanih obaveza
       </fieldset>
     </form>
     
-    
     <div ng-show="prikazPoDanima">
       <ul class="nav nav-tabs">
 	<li ng-class="{active: trenutniDan() === 1}"><a href="" ng-click="izabranDan=1" data-toggle="tab">Понедељак</a></li>
@@ -89,7 +88,8 @@ raspored zakazanih obaveza
 	<li ng-class="{active: trenutniDan() === 0}"><a href="" ng-click="izabranDan=0" data-toggle="tab">Недеља</a></li>
       </ul>
     </div>
-
+    -->
+    
     <div class="tab-content">
     <div class="tab-pane fade active in" id="home">
     <div class="table-responsive"> 
@@ -106,17 +106,17 @@ raspored zakazanih obaveza
 	</thead>
 	<tbody>
 	  <!-- kada nije ukljucen prikaz po danima -->
-	  <tr ng-show="!prikazPoDanima" ng-repeat="aktivnost in raspored | orderBy:sort:reverse" ng-class="{info: isNedelja(aktivnost.datum), bold: isNedelja(aktivnost.datum)}" title="{{isNedelja(aktivnost.datum) ? 'Изабран датум је недеља!' : ''}}">
+	  <tr ng-show="!prikazPoDanima" ng-repeat="aktivnost in raspored | orderBy:sort:reverse" ng-class="{info: isNedelja(aktivnost.datum, aktivnost.vreme), bold: isNedelja(aktivnost.datum, aktivnost.vreme)}" title="{{isNedelja(aktivnost.datum, aktivnost.vreme) ? 'Изабран датум је недеља!' : ''}}">
 	    <td>{{ aktivnost.datum }}</td>
             <td>{{ aktivnost.vreme }}</td>
             <td>{{ aktivnost.ucionice }}</td>
             <td>{{ aktivnost.opis }}</td>
             <td>{{ aktivnost.glavni_dezurni }}</td>
-            <td ng-show="loged() && koord()"><button type="submit" class="btn btn-primary btn-sm" name="submit" ng-show="aktivanRaspored(aktivnost.datum)" ng-click="otkaziObavezu(aktivnost.id)"> Откажи обавезу </button></td>
+            <td ng-show="loged() && koord()"><button type="submit" class="btn btn-primary btn-sm" name="submit" ng-show="aktivanRaspored(aktivnost.datum, aktivnost.vreme)" ng-click="otkaziObavezu(aktivnost.id)"> Откажи обавезу </button></td>
 	  </tr>
 	  
 	  <!-- kada je ukljucen prikaz po danima -->
-	  <tr ng-show="prikazPoDanima" ng-repeat="aktivnost in raspored | filterRaspored: this | orderBy:sort:reverse" ng-class="{info: isNedelja(aktivnost.datum), bold: isNedelja(aktivnost.datum)}" title="{{isNedelja(aktivnost.datum) ? 'Изабран датум је недеља!' : ''}}"> 
+	  <tr ng-show="prikazPoDanima" ng-repeat="aktivnost in raspored | filterRaspored: this | orderBy:sort:reverse" ng-class="{info: isNedelja(aktivnost.datum, aktivnost.vreme), bold: isNedelja(aktivnost.datum, aktivnost.vreme)}" title="{{isNedelja(aktivnost.datum, aktivnost.vreme) ? 'Изабран датум је недеља!' : ''}}"> 
 	    <td>{{ aktivnost.datum }}</td>
             <td>{{ aktivnost.vreme }}</td>
             <td>{{ aktivnost.ucionice }}</td>
