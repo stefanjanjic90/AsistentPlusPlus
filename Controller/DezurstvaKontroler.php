@@ -22,7 +22,7 @@ class DezurstvaKontroler
         $this->zakazanaGrupaDezurniServis = new ZakazanaGrupaDezurniServis();
         $this->nalogServis = new NalogServis();
     }
-
+    // TODO MILICE PROVERI METODU
     public function glavnaDezurstva($parametri){
 
         $korisnickoIme = $parametri[0][1];
@@ -75,21 +75,21 @@ class DezurstvaKontroler
                 //classrooms
                 $zakazanaGrupaSale = $zakazanaGrupa->getZakazaneGrupeSala();
                 $zakazanaGrupaObject->classrooms = array();
-                foreach($zakazanaGrupaSale as $zakazanaGrupaSala){
-                    $zakazanaGrupaObject->classrooms[]=$zakazanaGrupaSala->getSala()->getOznaka();
 
-                    $trg=0;
-                    $jag=0;
+                foreach($zakazanaGrupaSale as $zakazanaGrupaSala) {
+                    $zakazanaGrupaObject->classrooms[] = $zakazanaGrupaSala->getSala()->getOznaka();
+
+                    $trg = 0;
+                    $jag = 0;
 
                     //TODO srediti u dogovoru sa Tijanom
-                    if(strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(),'trg')!== false)
-                    {
-                        $trg+=1;
+                    if (strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(), 'trg') !== false) {
+                        $trg += 1;
                     }
-                    if(strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(),'Jag')!== false)
-                    {
-                        $jag+=1;
+                    if (strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(), 'Jag') !== false) {
+                        $jag += 1;
                     }
+                }
 
                 foreach ($zakazanaGrupaSale as $zakazanaGrupaSala) {
                     $zakazanaGrupaObject->classrooms[] = $zakazanaGrupaSala->getSala()->getOznaka();
@@ -127,6 +127,7 @@ class DezurstvaKontroler
 
             $glavnaDezurstva[] = $dezurstvoObject;
         }
+
         header('Content-Type: application/json');
         echo json_encode($glavnaDezurstva, JSON_PRETTY_PRINT, 512);
     }
