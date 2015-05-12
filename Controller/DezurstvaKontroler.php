@@ -1,34 +1,37 @@
 <?php
 namespace AsistentPlusPlus\Controller;
 
-require_once __DIR__.'\..\vendor\autoload.php';
+require_once __DIR__ . '\..\vendor\autoload.php';
 use AsistentPlusPlus\Service\NalogServis;
 use AsistentPlusPlus\Service\ObavezaServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaDezurniServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaServis;
 
-class DezurstvaKontroler {
+class DezurstvaKontroler
+{
 
     private $obavezaServis;
     private $zakazanaGrupaServis;
     private $zakazanaGrupaDezurniServis;
     private $nalogServis;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->obavezaServis = new ObavezaServis();
         $this->zakazanaGrupaServis = new ZakazanaGrupaServis();
         $this->zakazanaGrupaDezurniServis = new ZakazanaGrupaDezurniServis();
         $this->nalogServis = new NalogServis();
     }
 
-    public function glavnaDezurstva($parametri){
+    public function glavnaDezurstva($parametri)
+    {
 
         $korisnickoIme = $parametri[0][1];
 
         $obavezeGlavnogDezurnog = $this->obavezaServis->pronadjiPoKorisnickomImenuGlavnogDezurnog($korisnickoIme);
         $glavnaDezurstva = array();
 
-        foreach($obavezeGlavnogDezurnog as $obavezaGlavnogDezurnog){
+        foreach ($obavezeGlavnogDezurnog as $obavezaGlavnogDezurnog) {
 
             $dezurstvoObject = new \stdClass();
 
@@ -40,7 +43,7 @@ class DezurstvaKontroler {
             // groups
             $dezurstvoObject->groups = array();
             $zakazaneGrupeNaObavezi = $this->zakazanaGrupaServis->pronadjiSveAktivnePoObavezi($obavezaGlavnogDezurnog->getId());
-            foreach($zakazaneGrupeNaObavezi as $zakazanaGrupa){
+            foreach ($zakazaneGrupeNaObavezi as $zakazanaGrupa) {
                 $zakazanaGrupaObject = new \stdClass();
 
                 $zakazanaGrupaObject->name = $zakazanaGrupa->getGrupa();
@@ -56,16 +59,16 @@ class DezurstvaKontroler {
 
                 // assistants
                 $asistentiNaObavezi = $zakazanaGrupa->getZakazaneGrupeDezurni();
-                $zakazanaGrupaObject->assistants=array();
-                foreach($asistentiNaObavezi as $asistentNaObavezi){
-                    $zakazanaGrupaObject->assistants[] = $asistentNaObavezi->getKorisnickoIme()->getIme(). " " .$asistentNaObavezi->getKorisnickoIme()->getPrezime();
+                $zakazanaGrupaObject->assistants = array();
+                foreach ($asistentiNaObavezi as $asistentNaObavezi) {
+                    $zakazanaGrupaObject->assistants[] = $asistentNaObavezi->getKorisnickoIme()->getIme() . " " . $asistentNaObavezi->getKorisnickoIme()->getPrezime();
                 }
 
                 //classrooms
                 $zakazanaGrupaSale = $zakazanaGrupa->getZakazaneGrupeSala();
                 $zakazanaGrupaObject->classrooms = array();
-                foreach($zakazanaGrupaSale as $zakazanaGrupaSala){
-                    $zakazanaGrupaObject->classrooms[]=$zakazanaGrupaSala->getSala()->getOznaka();
+                foreach ($zakazanaGrupaSale as $zakazanaGrupaSala) {
+                    $zakazanaGrupaObject->classrooms[] = $zakazanaGrupaSala->getSala()->getOznaka();
                 }
 
                 // date
@@ -90,40 +93,41 @@ class DezurstvaKontroler {
             $glavnaDezurstva[] = $dezurstvoObject;
         }
         header('Content-Type: application/json');
-        echo json_encode($glavnaDezurstva, JSON_PRETTY_PRINT,512);
+        echo json_encode($glavnaDezurstva, JSON_PRETTY_PRINT, 512);
     }
 
-    public function sporednaDezurstva($parametri){
+    public function sporednaDezurstva($parametri)
+    {
         $korisnickoIme = $parametri[0][1];
 
         $zakazaneGrupeDezurni = $this->zakazanaGrupaDezurniServis->pronadjiAktivnePoKorisnickomImenu($korisnickoIme);
 
         $sporednaDezurstva = array();
 
-        foreach($zakazaneGrupeDezurni as $zakazanaGrupaDezurni){
+        foreach ($zakazaneGrupeDezurni as $zakazanaGrupaDezurni) {
 
             $dezurstvoObject = new \stdClass();
 
             $zakazanaGrupa = $zakazanaGrupaDezurni->getRbrZakazivanja();
 
             // course
-            $dezurstvoObject->course = $zakazanaGrupa->getObaveza()-> getNazivObaveze();
+            $dezurstvoObject->course = $zakazanaGrupa->getObaveza()->getNazivObaveze();
 
             // assistant
             $nalogGlavnogDezurnog = $zakazanaGrupa->getObaveza()->getKorisnickoImeGlavnogDezurnog();
-            $assistantVar = $nalogGlavnogDezurnog->getIme() ." ".$nalogGlavnogDezurnog->getPrezime();
+            $assistantVar = $nalogGlavnogDezurnog->getIme() . " " . $nalogGlavnogDezurnog->getPrezime();
             $dezurstvoObject->assistant = $assistantVar;
 
             // date
-            $dezurstvoObject->date = $zakazanaGrupa->getDatum()-> format("d.m.Y");
+            $dezurstvoObject->date = $zakazanaGrupa->getDatum()->format("d.m.Y");
 
             // time
-            $dezurstvoObject->time = $zakazanaGrupa->getPocetakDezurstvaPomocnogDezurnog()-> format("H:i");
+            $dezurstvoObject->time = $zakazanaGrupa->getPocetakDezurstvaPomocnogDezurnog()->format("H:i");
 
             // classroom
             $zakazanaGrupaSale = $zakazanaGrupa->getZakazaneGrupeSala();
             $classrooms = array();
-            foreach($zakazanaGrupaSale as $zakazanaGrupaSala){
+            foreach ($zakazanaGrupaSale as $zakazanaGrupaSala) {
                 $classrooms[] = $zakazanaGrupaSala->getSala()->getOznaka();
             }
             $dezurstvoObject->classrooms = $classrooms;
@@ -140,19 +144,42 @@ class DezurstvaKontroler {
     }
 
 
-
     public function satiNaDezurstvu($parametri)
     {
-        $korisnickoIme = $parametri[0][1];
+        if (array_key_exists(1, $parametri[0])) {
+            $korisnickoIme = $parametri[0][1];
+        } else {
+            $korisnickoIme = null;
+        }
 
-        $nalog=$this->nalogServis->pronadjiPoKorisnickomImenu($korisnickoIme);
+        if ($korisnickoIme !== null) {
+            $nalog = $this->nalogServis->pronadjiPoKorisnickomImenu($korisnickoIme);
 
-        $jsonObject = new \stdClass();
-        $jsonObject->assistant=$nalog->getIme()." ".$nalog->getPrezime();
-        $jsonObject->time=$nalog->getOpterecenje()." sati";
+            $jsonObject = new \stdClass();
+            $jsonObject->id_assistant = $nalog->getKorisnickoIme();
+            $jsonObject->name = $nalog->getIme() . " " . $nalog->getPrezime();
+            $jsonObject->time = $nalog->getOpterecenje();
 
-        header('Content-Type: application/json');
-        echo json_encode($jsonObject, JSON_PRETTY_PRINT);
+            header('Content-Type: application/json');
+            echo json_encode($jsonObject, JSON_PRETTY_PRINT);
+        } else {
+            $nalogArray = $this->nalogServis->pronadjiSveKorisnike();
+
+            $jsonObjectArray = array();
+
+            foreach ($nalogArray as $nalog) {
+                $jsonObject = new \stdClass();
+                $jsonObject->id_assistant = $nalog->getKorisnickoIme();
+                $jsonObject->name = $nalog->getIme() . " " . $nalog->getPrezime();
+                $jsonObject->time = $nalog->getOpterecenje();
+
+                $jsonObjectArray[] = $jsonObject;
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($jsonObjectArray, JSON_PRETTY_PRINT);
+        }
+
     }
 
     public function ponudjeneZamene($parametri)
@@ -160,20 +187,20 @@ class DezurstvaKontroler {
         $korisnickoIme = $parametri[0][1];
         $rbrZakazivanja = $parametri[0][2];
 
-        $nalog=$this->nalogServis->pronadjiPoKorisnickomImenu($korisnickoIme);
-        $zakazanaGrupa=$this->zakazanaGrupaServis->pronadjiSveAktivnePoRbrZakazivanja($rbrZakazivanja);
+        $nalog = $this->nalogServis->pronadjiPoKorisnickomImenu($korisnickoIme);
+        $zakazanaGrupa = $this->zakazanaGrupaServis->pronadjiSveAktivnePoRbrZakazivanja($rbrZakazivanja);
 
-        $dezurstvoOd=$zakazanaGrupa->getPocetakDezurstvaPomocnogDezurnog();
-        $dezurstvoDo=new \DateTime($dezurstvoOd->format("H:i"));
-        $dezurstvoDo=$dezurstvoDo->add(new \DateInterval('PT'.$zakazanaGrupa->getTrajanjeDezurstvaPomocnogDezurnog().'H'));
+        $dezurstvoOd = $zakazanaGrupa->getPocetakDezurstvaPomocnogDezurnog();
+        $dezurstvoDo = new \DateTime($dezurstvoOd->format("H:i"));
+        $dezurstvoDo = $dezurstvoDo->add(new \DateInterval('PT' . $zakazanaGrupa->getTrajanjeDezurstvaPomocnogDezurnog() . 'H'));
 
         $jsonObject = new \stdClass();
-        $jsonObject->id_assistant=$nalog->getKorisnickoIme();
-        $jsonObject->assistant=$nalog->getIme()." ".$nalog->getPrezime();
-        $jsonObject->course=$zakazanaGrupa->getObaveza()->getNazivObaveze();
-        $jsonObject->id_obaveze=$zakazanaGrupa->getObaveza()->getId();
-        $jsonObject->date=$zakazanaGrupa->getDatum()->format("d.m.Y");
-        $jsonObject->time=$dezurstvoOd->format("H:i")."-".$dezurstvoDo->format("H:i");
+        $jsonObject->id_assistant = $nalog->getKorisnickoIme();
+        $jsonObject->assistant = $nalog->getIme() . " " . $nalog->getPrezime();
+        $jsonObject->course = $zakazanaGrupa->getObaveza()->getNazivObaveze();
+        $jsonObject->id_obaveze = $zakazanaGrupa->getObaveza()->getId();
+        $jsonObject->date = $zakazanaGrupa->getDatum()->format("d.m.Y");
+        $jsonObject->time = $dezurstvoOd->format("H:i") . "-" . $dezurstvoDo->format("H:i");
 
         header('Content-Type: application/json');
         echo json_encode($jsonObject, JSON_PRETTY_PRINT);
@@ -186,16 +213,16 @@ class DezurstvaKontroler {
         $zavrseneZakazaneGrupe = $this->zakazanaGrupaServis->pronadjiZavrsenePoKorisnickomImenu($korisnickoIme);
 
         $zavrseneDezurstvaJson = array();
-        foreach ($zavrseneZakazaneGrupe as $zavrsenaZakazanaGrupa){
+        foreach ($zavrseneZakazaneGrupe as $zavrsenaZakazanaGrupa) {
             $zavrsenaZakazanaGrupaObject = new \stdClass();
 
 
             $zavrsenaZakazanaGrupaObject->course = $zavrsenaZakazanaGrupa->getObaveza()->getNazivObaveze();
             $zavrsenaZakazanaGrupaObject->date = $zavrsenaZakazanaGrupa->getDatum()->format('d.m.Y');
 
-            if($zavrsenaZakazanaGrupa->getObaveza()->getKorisnickoImeGlavnogDezurnog() === $korisnickoIme){
+            if ($zavrsenaZakazanaGrupa->getObaveza()->getKorisnickoImeGlavnogDezurnog() === $korisnickoIme) {
                 $zavrsenaZakazanaGrupaObject->duration = $zavrsenaZakazanaGrupa->getTrajanjeDezurstvaPredmetnogAsistenta() . "h";
-            }else{
+            } else {
                 $zavrsenaZakazanaGrupaObject->duration = $zavrsenaZakazanaGrupa->getTrajanjeDezurstvaPomocnogDezurnog() . "h";
             }
 
@@ -215,7 +242,7 @@ class DezurstvaKontroler {
         $slobodniAsistenti = $this->zakazanaGrupaDezurniServis->pronadjiSveSlobodneAsistente($datum, $vreme);
         $slobodniJson = array();
 
-        foreach($slobodniAsistenti as $slobodan) {
+        foreach ($slobodniAsistenti as $slobodan) {
             $jsonObject = new \stdClass();
             $jsonObject->korisnickoIme = $slobodan->getKorisnickoIme();
             $jsonObject->imePrezime = $slobodan->getIme() . " " . $slobodan->getPrezime();

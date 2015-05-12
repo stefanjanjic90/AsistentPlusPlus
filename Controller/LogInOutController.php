@@ -46,23 +46,22 @@ class LogInOutController {
     public function logOut(){
         session_unset();
         session_destroy();
-        $this->redirectToIndexPage();
     }
 
     public function notLoggedIn(){
-        $this->redirectToIndexPage();
-    }
+        $genericObject = new \stdClass();
+        $genericObject -> username = "";
+        $genericObject -> administrator = false;
+        $genericObject -> koordinator = false;
+        $genericObject -> asistent = false;
+        $genericObject -> logedin = false;
 
-    private function redirectToIndexPage(){
-        echo '<script type="text/javascript"> window.location="web/index.html" </script>';
+        $userJson = json_encode($genericObject);
+        echo $userJson;
     }
 
     private function verifyUser(){
         return $this->nalogServis->autentifikacijaKorisnika($_POST['inputUN'],$_POST['inputP']);
     }
 
-    private function getUserJson(){
-
-
-    }
 }

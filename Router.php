@@ -3,7 +3,8 @@ include 'Route.php';
 include 'Controller/LogInOutController.php';
 class Router {
 
-    private $routeArray = array();
+    private $privateRouteArray = array();
+    private $publicRouteArray = array();
 
     private $logInRoute;
     private $notLoggedInRoute;
@@ -26,26 +27,48 @@ class Router {
         $this->logOutRoute->setUri("logout");
         $this->logOutRoute->setObject($logInOutController);
         $this->logOutRoute->setObjectMethod("logOut");
-        $this->routeArray[] = $this->logOutRoute;
+        $this->privateRouteArray[] = $this->logOutRoute;
     }
 
-    public function add($uri, $object, $objectMethod){
+    public function addPublicRoute($uri, $object, $objectMethod){
         $route = new Route();
         $route->setUri($uri);
         $route->setObject($object);
         $route->setObjectMethod($objectMethod);
-        $this->routeArray[] = $route;
+        $this->publicRouteArray[] = $route;
     }
 
-    public function routeRequest(){
-        $uri = isset($_REQUEST['requestedURI']) ? $_REQUEST['requestedURI'] : "/";
+    public function addPrivateRoute($uri, $object, $objectMethod){
+        $route = new Route();
+        $route->setUri($uri);
+        $route->setObject($object);
+        $route->setObjectMethod($objectMethod);
+        $this->privateRouteArray[] = $route;
+    }
 
-        foreach($this->routeArray as $key => $route){
+    public function routeRequest($userLoggedIn){
+
+        if($userLoggedIn === true){
+            $routeArray = array_merge($this->privateRouteArray, $this->publicRouteArray);
+        }else{
+            $routeArray = $this->publicRouteArray;
+        }
+
+        $uri = isset($_REQUEST['requestedURI']) ? $_REQUEST['requestedURI'] : "/";
+        $routeMatched = false;
+        foreach($routeArray as $key => $route){
             if(preg_match("#^" .$route->getUri() . "$#",$uri ,$params )){
                 $route->executeRouteFunctuion($params);
+                $routeMatched = true;
                 break;
-            }else{
-                // echo error page
+            }
+        }
+
+        if($routeMatched === false){
+            if($userLoggedIn === false){
+                $this->userNotLoggedIn();
+            }else {
+                // echo error pages
             }
         }
     }
