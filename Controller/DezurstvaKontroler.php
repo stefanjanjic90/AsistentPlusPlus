@@ -46,6 +46,15 @@ class DezurstvaKontroler {
                 $zakazanaGrupaObject->name = $zakazanaGrupa->getGrupa();
                 $zakazanaGrupaObject->start = $zakazanaGrupa->getPocetakRezervacije()->format('H:i');
                 $zakazanaGrupaObject->end = $zakazanaGrupa->getKrajRezervacije()->format('H:i');
+
+                // assistants
+                $asistentiNaObavezi = $zakazanaGrupa->getZakazaneGrupeDezurni();
+                $zakazanaGrupaObject->assistants=array();
+                foreach($asistentiNaObavezi as $asistentNaObavezi){
+                    //TODO id dezurnog ne postoji ne moze se prosledjivati
+                    $zakazanaGrupaObject->assistants[] = $asistentNaObavezi->getKorisnickoIme()->getIme(). " " .$asistentNaObavezi->getKorisnickoIme()->getPrezime();
+                }
+
                 $zakazanaGrupaObject->numOfStudents = $zakazanaGrupa->getBrojPrijavljenih();
 
                 /* TODO koristi se za timeSum - dogovor
@@ -54,18 +63,25 @@ class DezurstvaKontroler {
                 $timeSumValues[] = $zakazanaGrupa->getKrajRezervacije();
                 */
 
-                // assistants
-                $asistentiNaObavezi = $zakazanaGrupa->getZakazaneGrupeDezurni();
-                $zakazanaGrupaObject->assistants=array();
-                foreach($asistentiNaObavezi as $asistentNaObavezi){
-                    $zakazanaGrupaObject->assistants[] = $asistentNaObavezi->getKorisnickoIme()->getIme(). " " .$asistentNaObavezi->getKorisnickoIme()->getPrezime();
-                }
-
                 //classrooms
                 $zakazanaGrupaSale = $zakazanaGrupa->getZakazaneGrupeSala();
                 $zakazanaGrupaObject->classrooms = array();
                 foreach($zakazanaGrupaSale as $zakazanaGrupaSala){
                     $zakazanaGrupaObject->classrooms[]=$zakazanaGrupaSala->getSala()->getOznaka();
+
+                    $trg=0;
+                    $jag=0;
+
+                    //TODO srediti u dogovoru sa Tijanom
+                    if(strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(),'trg')!== false)
+                    {
+                        $trg+=1;
+                    }
+                    if(strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(),'Jag')!== false)
+                    {
+                        $jag+=1;
+                    }
+
                 }
 
                 // date
@@ -75,6 +91,17 @@ class DezurstvaKontroler {
                 $zakazanaGrupaObject->remark = $zakazanaGrupa->getNapomenaZaDezurne();
 
                 $dezurstvoObject->groups[] = $zakazanaGrupaObject;
+
+                if($jag>0)
+                    $dezurstvoObject->useJagRooms=true;
+                else
+                    $dezurstvoObject->useJagRooms=false;
+
+                if($trg>0)
+                    $dezurstvoObject->useSRooms=true;
+                else
+                    $dezurstvoObject->useSRooms=false;
+
             }
 
             /* TODO oko ovoga moramo jos da se dogovorimo
