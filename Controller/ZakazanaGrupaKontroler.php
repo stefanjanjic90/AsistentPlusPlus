@@ -1,6 +1,7 @@
 <?php
 namespace AsistentPlusPlus\Controller;
 
+use AsistentPlusPlus\Service\ZakazanaGrupaDezurniServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaServis;
 use AsistentPlusPlus\Service\NalogServis;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,11 +9,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 class ZakazanaGrupaKontroler {
 
     private $zakazanaGrupaServis;
+    private $zakazanaGrupaDezurniServis;
     private $nalogServis;
 
     function __construct()
     {
         $this->zakazanaGrupaServis=new ZakazanaGrupaServis();
+        $this->zakazanaGrupaDezurniServis=new ZakazanaGrupaDezurniServis();
         $this->nalogServis = new NalogServis();
     }
 
@@ -46,5 +49,29 @@ class ZakazanaGrupaKontroler {
         header('Content-Type: application/json');
         echo json_encode($jsonObject, JSON_PRETTY_PRINT);
 
+    }
+
+    public function vratiNapomeneZaAsistenta($parametri)
+    {
+        $korisnickoIme = $parametri[0][1];
+
+        $napomeneArray = array();
+
+        foreach($this->zakazanaGrupaDezurniServis->pronadjiNapomenePoKorisnickomImenu($korisnickoIme) as $napomena)
+        {
+            $napomenaObject = new \stdClass();
+            $napomenaObject->assistant=$napomena->getKorisnickoImeGlavnogDezurnog();
+
+            $napomenaObject->id_duty=$napomena->getZakazanaGrupaDezurniId()->getRbrZakazivanja()->getObaveza()->getId();
+
+            $napomenaObject->comment=$napomena->getNapomena();
+            $napomenaObject->course=$napomena->getZakazanaGrupaDezurniId()->getRbrZakazivanja()->getObaveza()->getNazivObaveze();
+            $napomenaObject->date=$napomena->getZakazanaGrupaDezurniId()->getRbrZakazivanja()->getDatum()->format("d.m.Y");
+
+            $napomeneArray[] = $napomenaObject;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($napomeneArray, JSON_PRETTY_PRINT);
     }
 } 

@@ -47,6 +47,17 @@ class ZakazanaGrupaDezurniServis {
         return $query->getResult();
     }
 
+    public function pronadjiNapomenePoKorisnickomImenu($korisnickoIme){
+        $query = $this->entityManager->createQuery('SELECT ngd FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupaDezurni zgd '
+            .' JOIN AsistentPlusPlus\Entity\ZakazanaGrupa zg WITH zgd.rbrZakazivanja = zg.rbrZakazivanja'
+            .' JOIN AsistentPlusPlus\Entity\NapomenaGrupaDezurni ngd WITH ngd.zakazanaGrupaDezurniId = zgd.id'
+            .' WHERE zgd.korisnickoIme = :korisnickoIme '
+            .' AND zg.status = false');
+        $query->setParameter('korisnickoIme',$korisnickoIme);
+        return $query->getResult();
+    }
+
     public function pronadjiSveSlobodneAsistente($datum, $vreme){
 
         $notInZauzet = $this->entityManager->createQueryBuilder()
