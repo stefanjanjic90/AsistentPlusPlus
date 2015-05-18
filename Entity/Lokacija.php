@@ -22,6 +22,14 @@ class Lokacija
      */
     private $id;
 
+
+    /**
+     * @var string
+     *
+     * @Column(name="sifra", type="string", length=5, nullable=false)
+     */
+    private $sifra;
+
     /**
      * @var string
      *
@@ -60,6 +68,18 @@ class Lokacija
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function setSifra($sifra)
+    {
+        $this->sifra = $sifra;
+
+        return $this;
+    }
+
+    public function getSifra()
+    {
+        return $this->sifra;
     }
 
     public function setOpis($opis)

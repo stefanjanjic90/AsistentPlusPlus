@@ -1,4 +1,4 @@
-Izmene u json-u i napomene:
+-Izmene u json-u i napomene:
 
 * glavna_dezurstva.json -> izmenjen format (na Andjelkin format dodato jos nesto --)
 * komentari.json -> novi json, svi komentari koji su ostavljeni ulogovanom asistentu

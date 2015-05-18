@@ -42,6 +42,10 @@ class DezurstvaKontroler
             // groups
             $dezurstvoObject->groups = array();
             $zakazaneGrupeNaObavezi = $this->zakazanaGrupaServis->pronadjiSveAktivnePoObavezi($obavezaGlavnogDezurnog->getId());
+
+            $trg = false;
+            $jag = false;
+
             foreach($zakazaneGrupeNaObavezi as $zakazanaGrupa){
                 $zakazanaGrupaObject = new \stdClass();
 
@@ -49,12 +53,6 @@ class DezurstvaKontroler
                 $zakazanaGrupaObject->start = $zakazanaGrupa->getPocetakRezervacije()->format('H:i');
                 $zakazanaGrupaObject->end = $zakazanaGrupa->getKrajRezervacije()->format('H:i');
                 $zakazanaGrupaObject->numOfStudents = $zakazanaGrupa->getBrojPrijavljenih();
-
-                /* TODO koristi se za timeSum - dogovor
-                // save start and end time for later calculation of timeSum field
-                $timeSumValues[] = $zakazanaGrupa->getPocetakRezervacije();
-                $timeSumValues[] = $zakazanaGrupa->getKrajRezervacije();
-                */
 
                 // assistants
                 $asistentiNaObavezi = $zakazanaGrupa->getZakazaneGrupeDezurni();
@@ -66,28 +64,45 @@ class DezurstvaKontroler
 
                 $zakazanaGrupaObject->numOfStudents = $zakazanaGrupa->getBrojPrijavljenih();
 
-                /* TODO koristi se za timeSum - dogovor
-                // save start and end time for later calculation of timeSum field
-                $timeSumValues[] = $zakazanaGrupa->getPocetakRezervacije();
-                $timeSumValues[] = $zakazanaGrupa->getKrajRezervacije();
-                */
+                $timeSumObject = new \stdClass();
+
+                $zakazaneGrupePoDatumu=$this->zakazanaGrupaServis->pronadjiSveAktivnePoObaveziIDatumu($obavezaGlavnogDezurnog->getId(),$zakazanaGrupa->getDatum());
+
+                foreach($zakazaneGrupePoDatumu as $zakazanaGrupaPoDatumu)
+                {
+                    // TODO koristi se za timeSum - dogovor
+                    // save start and end time for later calculation of timeSum field
+                    $timeSumValues[] = $zakazanaGrupaPoDatumu->getPocetakRezervacije();
+                    $timeSumValues[] = $zakazanaGrupaPoDatumu->getKrajRezervacije();
+
+                    //TODO ne radi dobro vracanje $do
+                    //timeSum
+                    sort($timeSumValues);
+                    reset($timeSumValues);
+                    $od = current($timeSumValues);
+                    reset($timeSumValues);
+                    end($timeSumValues);
+                    $do = current($timeSumValues);
+                    $timeSumObject->date = $zakazanaGrupa->getDatum()->format('d.m.Y');
+                    $timeSumObject->sum = $od->format("H:i") ."-". $do->format("H:i");
+                }
+
 
                 //classrooms
                 $zakazanaGrupaSale = $zakazanaGrupa->getZakazaneGrupeSala();
                 $zakazanaGrupaObject->classrooms = array();
 
+
+
                 foreach($zakazanaGrupaSale as $zakazanaGrupaSala) {
                     $zakazanaGrupaObject->classrooms[] = $zakazanaGrupaSala->getSala()->getOznaka();
 
-                    $trg = 0;
-                    $jag = 0;
-
                     //TODO srediti u dogovoru sa Tijanom
-                    if (strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(), 'trg') !== false) {
-                        $trg += 1;
+                    if (strpos($zakazanaGrupaSala->getSala()->getLokacija()->getSifra(), 'Trg') !== false) {
+                        $trg = true;
                     }
-                    if (strpos($zakazanaGrupaSala->getSala()->getLokacija()->getAdresa(), 'Jag') !== false) {
-                        $jag += 1;
+                    if (strpos($zakazanaGrupaSala->getSala()->getLokacija()->getSifra(), 'Jag') !== false) {
+                        $jag = true;
                     }
                 }
 
@@ -103,27 +118,13 @@ class DezurstvaKontroler
 
                 $dezurstvoObject->groups[] = $zakazanaGrupaObject;
 
-                if($jag>0)
-                    $dezurstvoObject->useJagRooms=true;
-                else
-                    $dezurstvoObject->useJagRooms=false;
 
-                if($trg>0)
-                    $dezurstvoObject->useSRooms=true;
-                else
-                    $dezurstvoObject->useSRooms=false;
+                $dezurstvoObject->useSRooms=$trg;
 
+                $dezurstvoObject->useJagRooms=$jag;
+
+                $dezurstvoObject->timeSum[]=$timeSumObject;
             }
-
-            /* TODO oko ovoga moramo jos da se dogovorimo
-            //timeSum
-            sort($timeSumValues);
-            reset($timeSumValues);
-            $od = current($timeSumValues);
-            end($timeSumValues);
-            $do = current($timeSumValues);
-            $dezurstvoObject->timeSum = $od->format("H:i") ."-". $do->format("H:i");
-            */
 
             $glavnaDezurstva[] = $dezurstvoObject;
         }
