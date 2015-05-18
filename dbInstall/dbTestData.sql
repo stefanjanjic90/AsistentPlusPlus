@@ -6,13 +6,15 @@ insert into nalog values ("andjelkaz","Andjelka","Zečević","andjelkaz@matf.bg.
 
 insert into nalog values ("aspasic","Ana","Spasić","aspasic@matf.bg.ac.rs","060123456","anas",2,true,false,false,0.2,true,"napomena",1.0);
 
-insert into obaveza values (1,"Kolokvijum iz UVITa","andjelkaz"),(2,"Kolokvijum iz PPJa","aspasic");
+insert into obaveza values (1,"Kolokvijum iz UVITa","andjelkaz"),(2,"Kolokvijum iz PPJa","aspasic"), (3, "Kolokvijum iz PWEB", "andjelkaz");
 
-insert into predmetniasistentinaobavezi values (1,"andjelkaz",1),(2,"aspasic",1),(3,"andjelkaz",2),(4,"aspasic",2);
+insert into predmetniasistentinaobavezi values (1,"andjelkaz",1),(2,"aspasic",1),(3,"andjelkaz",2),(4,"aspasic",2),(5,"andjelkaz",3);
 
 insert into najavljenagrupa values (1,1,1,"UVIT prva grupa","2014-03-15",null,null,2,null,2,true,2,null,"Njo njo net",20,"2014-02-12",false),
 (2,2,1,"UVIT druga grupa","2014-03-15",null,null,2,null,2,true,2,null,"Njo njo net",20,"2014-02-12",false),
-(3,3,1,"UVIT treca grupa","2014-03-15",null,null,2,null,2,true,2,null,"Njo njo net",20,"2014-02-12",false);
+(3,3,1,"UVIT treca grupa","2014-03-15",null,null,2,null,2,true,2,null,"Njo njo net",20,"2014-02-12",false),
+(4,1,3,"PWEB prva grupa","2015-05-18",null,null,3,null,3,true,2,null,"Bez neta",25,"2015-05-10",false),
+(5,2,3,"PWEB druga grupa","2015-05-20",null,null,3,null,3,true,2,null,"Bez neta",25,"2015-05-10",false);
 
 
 
@@ -41,3 +43,4 @@ insert into zakazanagrupasala values (3,5,3);
 insert into zakazanagrupadezurni values (1,"aspasic",1);
 insert into zakazanagrupadezurni values (2,"andjelkaz",2);
 insert into zakazanagrupadezurni values (3,"andjelkaz",3);
+
