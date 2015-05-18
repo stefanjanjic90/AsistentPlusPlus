@@ -34,7 +34,7 @@ $router->addPrivateRoute("info", $administracijaKontroler, "info");
 
 $zakazanaGrupaKontroler = new ZakazanaGrupaKontroler();
 $router->addPublicRoute("raspored", $zakazanaGrupaKontroler, "vratiZakazaneGrupe");
-$router->addPublicRoute("komentari/([_A-Za-z0-9]+)", $zakazanaGrupaKontroler, "vratiNapomeneZaAsistenta");
+$router->addPrivateRoute("komentari/([_A-Za-z0-9]+)", $zakazanaGrupaKontroler, "vratiNapomeneZaAsistenta");
 
 if(!isset($_SESSION['LoggedIn']) && !isset($_SESSION['Username']) && !isset($_POST['inputUN']) && !isset($_POST['inputP'])){
     $router->routeRequest(false);
