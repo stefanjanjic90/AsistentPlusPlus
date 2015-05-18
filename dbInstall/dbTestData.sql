@@ -16,7 +16,7 @@ insert into najavljenagrupa values (1,1,1,"UVIT prva grupa","2014-03-15",null,nu
 
 
 
-insert into lokacija values (1,"Studentski trg 16","Stud trg","studentski@matf.bg.ac.rs"), (2,"Jag","Vatroslava Jagića 5","jagic@matf.bg.ac.rs");
+insert into lokacija values (1,"Trg","Studentski trg 16","Stud trg","studentski@matf.bg.ac.rs"), (2,"Jag","Jag","Vatroslava Jagića 5","jagic@matf.bg.ac.rs");
 
 insert into sala values (1,"718", 40, "25", 1), (2,"706", 90, "0", 1), (3,"830", 35, "25", 1), (4,"Jag1", 80, "0", 2),(5,"Jag3", 20, "20", 2);
 

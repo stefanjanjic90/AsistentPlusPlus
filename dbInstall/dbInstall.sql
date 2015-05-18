@@ -55,6 +55,7 @@ DROP TABLE IF EXISTS `mydb`.`Lokacija` ;
 
 CREATE  TABLE IF NOT EXISTS `mydb`.`Lokacija` (
   `id` INT NOT NULL AUTO_INCREMENT ,
+  `sifra` VARCHAR(5) NOT NULL ,
   `opis` VARCHAR(45) NOT NULL ,
   `adresa` VARCHAR(45) NOT NULL ,
   `email` VARCHAR(45) NOT NULL ,
