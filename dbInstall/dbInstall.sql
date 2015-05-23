@@ -1,203 +1,199 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+DROP SCHEMA IF EXISTS mydb ;
+CREATE SCHEMA IF NOT EXISTS mydb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 
-DROP SCHEMA IF EXISTS `mydb` ;
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-
+use mydb;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Katedra`
+-- katedra
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Katedra` ;
+DROP TABLE IF EXISTS katedra ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`Katedra` (
-  `id` INT NOT NULL ,
-  `naziv` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`id`) )
+CREATE  TABLE IF NOT EXISTS katedra (
+  id INT NOT NULL ,
+  naziv VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (id) )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Nalog`
+-- nalog
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Nalog` ;
+DROP TABLE IF EXISTS nalog ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`Nalog` (
-  `korisnickoIme` VARCHAR(20) NOT NULL ,
-  `ime` VARCHAR(45) NOT NULL ,
-  `prezime` VARCHAR(100) NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
-  `telefon` VARCHAR(20) NOT NULL ,
-  `lozinka` VARCHAR(32) NOT NULL ,
-  `katedra` INT NOT NULL ,
-  `jeDezurni` TINYINT(1) NOT NULL ,
-  `jeAdministrator` TINYINT(1) NOT NULL ,
-  `jeKoordinator` TINYINT(1) NOT NULL ,
-  `opterecenje` DECIMAL(3,2) NOT NULL ,
-  `status` TINYINT(1) NOT NULL ,
-  `napomena` VARCHAR(100) NULL ,
-  `koeficijentAngazovanja` FLOAT NOT NULL ,
-  PRIMARY KEY (`korisnickoIme`) ,
-  INDEX `fk_Nalog_Katedra_idx` (`katedra` ASC) ,
-  CONSTRAINT `fk_Nalog_Katedra`
-    FOREIGN KEY (`katedra` )
-    REFERENCES `mydb`.`Katedra` (`id` )
+CREATE  TABLE IF NOT EXISTS nalog (
+  korisnickoIme VARCHAR(20) NOT NULL ,
+  ime VARCHAR(45) NOT NULL ,
+  prezime VARCHAR(100) NOT NULL ,
+  email VARCHAR(45) NOT NULL ,
+  telefon VARCHAR(20) NOT NULL ,
+  lozinka VARCHAR(32) NOT NULL ,
+  katedra INT NOT NULL ,
+  jeDezurni TINYINT(1) NOT NULL ,
+  jeAdministrator TINYINT(1) NOT NULL ,
+  jeKoordinator TINYINT(1) NOT NULL ,
+  opterecenje DECIMAL(3,2) NOT NULL ,
+  status TINYINT(1) NOT NULL ,
+  napomena VARCHAR(100) NULL ,
+  koeficijentAngazovanja FLOAT NOT NULL ,
+  PRIMARY KEY (korisnickoIme) ,
+  INDEX fk_Nalog_Katedra_idx (katedra ASC) ,
+  CONSTRAINT fk_Nalog_Katedra
+    FOREIGN KEY (katedra )
+    REFERENCES katedra (id )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Lokacija`
+-- lokacija
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Lokacija` ;
+DROP TABLE IF EXISTS lokacija ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`Lokacija` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `sifra` VARCHAR(5) NOT NULL ,
-  `opis` VARCHAR(45) NOT NULL ,
-  `adresa` VARCHAR(45) NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
+CREATE  TABLE IF NOT EXISTS lokacija (
+  id INT NOT NULL AUTO_INCREMENT ,
+  sifra VARCHAR(5) NOT NULL ,
+  opis VARCHAR(45) NOT NULL ,
+  adresa VARCHAR(45) NOT NULL ,
+  email VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Sala`
+-- sala
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Sala` ;
+DROP TABLE IF EXISTS sala ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`Sala` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `oznaka` VARCHAR(45) NOT NULL ,
-  `kapacitet` INT NOT NULL ,
-  `racunariKapacitet` VARCHAR(45) NOT NULL ,
-  `lokacija` INT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_Sala_Lokacija1_idx` (`lokacija` ASC) ,
-  CONSTRAINT `fk_Sala_Lokacija1`
-    FOREIGN KEY (`lokacija` )
-    REFERENCES `mydb`.`Lokacija` (`id` )
+CREATE  TABLE IF NOT EXISTS sala (
+  id INT NOT NULL AUTO_INCREMENT ,
+  oznaka VARCHAR(45) NOT NULL ,
+  kapacitet INT NOT NULL ,
+  racunariKapacitet VARCHAR(45) NOT NULL ,
+  lokacija INT NOT NULL ,
+  PRIMARY KEY (id) ,
+  INDEX fk_Sala_Lokacija1_idx (lokacija ASC) ,
+  CONSTRAINT fk_Sala_Lokacija1
+    FOREIGN KEY (lokacija )
+    REFERENCES lokacija (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Obaveza`
+-- obaveza
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Obaveza` ;
+DROP TABLE IF EXISTS obaveza ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`obaveza` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nazivObaveze` VARCHAR(45) NOT NULL,
-  `korisnickoImeGlavnogDezurnog` VARCHAR(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS obaveza (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  nazivObaveze VARCHAR(45) NOT NULL,
+  korisnickoImeGlavnogDezurnog VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Obaveza_Nalog1_idx` (`korisnickoImeGlavnogDezurnog` ASC),
-  CONSTRAINT `fk_Obaveza_Nalog1`
-    FOREIGN KEY (`korisnickoImeGlavnogDezurnog`)
-    REFERENCES `mydb`.`nalog` (`korisnickoIme`)
+  INDEX fk_Obaveza_Nalog1_idx (korisnickoImeGlavnogDezurnog ASC),
+  CONSTRAINT fk_Obaveza_Nalog1
+    FOREIGN KEY (korisnickoImeGlavnogDezurnog)
+    REFERENCES nalog (korisnickoIme)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`NajavljenaGrupa`
+-- najavljenaGrupa
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`NajavljenaGrupa` ;
+DROP TABLE IF EXISTS najavljenagrupa ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`NajavljenaGrupa` (
-  `rbrNajave` INT NOT NULL AUTO_INCREMENT ,
-  `grupa` INT NOT NULL ,
-  `obaveza` INT NOT NULL ,
-  `oznaka` VARCHAR(45) NOT NULL ,
-  `datum` DATE NULL ,
-  `pocetakRezervacije` TIME NULL ,
-  `krajRezervacije` TIME NULL ,
-  `trajanjeDezurstvaPredmetnogAsistenta` TINYINT NOT NULL ,
-  `pocetakDezurstvaPomocnogDezurnog` TIME NULL ,
-  `trajanjeDezurstvaPomocnogDezurnog` TINYINT NOT NULL ,
-  `radNaRacunarima` TINYINT(1) NOT NULL ,
-  `brojDezurnih` TINYINT NOT NULL ,
-  `napomenaZaKoordinatora` VARCHAR(45) NULL ,
-  `napomenaZaDezurne` VARCHAR(45) NULL ,
-  `brojOcekivanihStudenata` INT NULL ,
-  `datumNajave` DATE NOT NULL ,
-  `status` TINYINT(1) NOT NULL ,
-  INDEX `fk_Grupa_Obaveza2_idx` (`obaveza` ASC) ,
-  INDEX `key` (`rbrNajave` ASC) ,
-  PRIMARY KEY (`rbrNajave`) ,
-  CONSTRAINT `fk_Grupa_Obaveza2`
-    FOREIGN KEY (`obaveza` )
-    REFERENCES `mydb`.`Obaveza` (`id` )
+CREATE  TABLE IF NOT EXISTS najavljenagrupa (
+  rbrNajave INT NOT NULL AUTO_INCREMENT ,
+  grupa INT NOT NULL ,
+  obaveza INT NOT NULL ,
+  oznaka VARCHAR(45) NOT NULL ,
+  datum DATE NULL ,
+  pocetakRezervacije TIME NULL ,
+  krajRezervacije TIME NULL ,
+  trajanjeDezurstvaPredmetnogAsistenta TINYINT NOT NULL ,
+  pocetakDezurstvaPomocnogDezurnog TIME NULL ,
+  trajanjeDezurstvaPomocnogDezurnog TINYINT NOT NULL ,
+  radNaRacunarima TINYINT(1) NOT NULL ,
+  brojDezurnih TINYINT NOT NULL ,
+  napomenaZaKoordinatora VARCHAR(45) NULL ,
+  napomenaZaDezurne VARCHAR(45) NULL ,
+  brojOcekivanihStudenata INT NULL ,
+  datumNajave DATE NOT NULL ,
+  status TINYINT(1) NOT NULL ,
+  INDEX fk_Grupa_Obaveza2_idx (obaveza ASC) ,
+  INDEX `key` (rbrNajave ASC) ,
+  PRIMARY KEY (rbrNajave) ,
+  CONSTRAINT fk_Grupa_Obaveza2
+    FOREIGN KEY (obaveza )
+    REFERENCES obaveza (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`predmetniAsistentiNaObavezi`
+-- predmetniAsistentiNaObavezi
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`predmetniAsistentiNaObavezi` ;
+DROP TABLE IF EXISTS predmetniasistentinaobavezi ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`predmetniAsistentiNaObavezi` (
-  `id` INT NOT NULL AUTO_INCREMENT,  
-  `korisnickoIme` VARCHAR(20) NOT NULL ,
-  `obaveza` INT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_asistentiNaObavezi_Obaveza1_idx` (`obaveza` ASC) ,
-  CONSTRAINT `fk_asistentiNaObavezi_Nalog1`
-    FOREIGN KEY (`korisnickoIme` )
-    REFERENCES `mydb`.`Nalog` (`korisnickoIme` )
+CREATE  TABLE IF NOT EXISTS predmetniasistentinaobavezi (
+  id INT NOT NULL AUTO_INCREMENT,  
+  korisnickoIme VARCHAR(20) NOT NULL ,
+  obaveza INT NOT NULL ,
+  PRIMARY KEY (id) ,
+  INDEX fk_asistentiNaObavezi_Obaveza1_idx (obaveza ASC) ,
+  CONSTRAINT fk_asistentiNaObavezi_Nalog1
+    FOREIGN KEY (korisnickoIme )
+    REFERENCES nalog (korisnickoIme)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_asistentiNaObavezi_Obaveza1`
-    FOREIGN KEY (`obaveza` )
-    REFERENCES `mydb`.`Obaveza` (`id` )
+  CONSTRAINT fk_asistentiNaObavezi_Obaveza1
+    FOREIGN KEY (obaveza)
+    REFERENCES obaveza (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_korisnickoImeObaveza` UNIQUE (`korisnickoIme`,`obaveza`)
+  CONSTRAINT uc_korisnickoImeObaveza UNIQUE (korisnickoIme,obaveza)
   )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`ZakazanaGrupa`
+-- zakazanagrupa
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`ZakazanaGrupa` ;
--- izbacena obaeza umesto nje stavljen rbrNajave
-CREATE  TABLE IF NOT EXISTS `mydb`.`ZakazanaGrupa` (
-  `rbrZakazivanja` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `rbrNajave` int NOT NULL,
-  `grupa` INT NOT NULL ,
-  `obaveza` INT NOT NULL,
-  `oznaka` VARCHAR(45) NOT NULL ,
-  `datum` DATE NOT NULL ,
-  `pocetakRezervacije` TIME NOT NULL ,
-  `krajRezervacije` TIME NOT NULL ,
-  `trajanjeDezurstvaPredmetnogAsistenta` TINYINT NOT NULL ,
-  `pocetakDezurstvaPomocnogDezurnog` TIME NOT NULL ,
-  `trajanjeDezurstvaPomocnogDezurnog` TINYINT NOT NULL ,
-  `radNaRacunarima` TINYINT(1) NOT NULL ,
-  `brojDezurnih` TINYINT NOT NULL ,
-  `napomenaZaDezurne` VARCHAR(45) NULL ,
-  `brojOcekivanihStudenata` INT NULL ,
-  `brojPrijavljenih` INT NULL ,
-  `brojIzaslih` INT NULL ,
-  `datumObrade` DATE NOT NULL ,
+DROP TABLE IF EXISTS zakazanagrupa ;
+CREATE  TABLE IF NOT EXISTS zakazanagrupa (
+  rbrZakazivanja INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  rbrNajave int NOT NULL,
+  grupa INT NOT NULL ,
+  obaveza INT NOT NULL,
+  oznaka VARCHAR(45) NOT NULL ,
+  datum DATE NOT NULL ,
+  pocetakRezervacije TIME NOT NULL ,
+  krajRezervacije TIME NOT NULL ,
+  trajanjeDezurstvaPredmetnogAsistenta TINYINT NOT NULL ,
+  pocetakDezurstvaPomocnogDezurnog TIME NOT NULL ,
+  trajanjeDezurstvaPomocnogDezurnog TINYINT NOT NULL ,
+  radNaRacunarima TINYINT(1) NOT NULL ,
+  brojDezurnih TINYINT NOT NULL ,
+  napomenaZaDezurne VARCHAR(45) NULL ,
+  brojOcekivanihStudenata INT NULL ,
+  brojPrijavljenih INT NULL ,
+  brojIzaslih INT NULL ,
+  datumObrade DATE NOT NULL ,
   `status` TINYINT(1) NOT NULL ,
-  PRIMARY KEY (`rbrZakazivanja`) ,
-  INDEX `fk_ZakazanaGrupa_NajavljenaGrupa1_idx` (`rbrNajave` ASC) ,
-  CONSTRAINT `fk_ZakazanaGrupa_NajavljenaGrupa1`
-    FOREIGN KEY (`rbrNajave` )
-    REFERENCES `mydb`.`NajavljenaGrupa` (`rbrNajave` )
+  PRIMARY KEY (rbrZakazivanja) ,
+  INDEX fk_ZakazanaGrupa_NajavljenaGrupa1_idx (rbrNajave ASC) ,
+  CONSTRAINT fk_ZakazanaGrupa_NajavljenaGrupa1
+    FOREIGN KEY (rbrNajave)
+    REFERENCES najavljenagrupa (rbrNajave )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
- CONSTRAINT `fk_ZakazanaGrupa_Obaveza`
-    FOREIGN KEY (`obaveza` )
-    REFERENCES `mydb`.`Obaveza` (`id` )
+ CONSTRAINT fk_ZakazanaGrupa_Obaveza
+    FOREIGN KEY (obaveza)
+    REFERENCES obaveza (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -206,163 +202,156 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`NajavljenaGrupaSala`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`NajavljenaGrupaSala` ;
+DROP TABLE IF EXISTS najavljenagrupasala ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`NajavljenaGrupaSala` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `sala` INT NOT NULL ,
-  `rbrNajave` INT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_NajavljenaGrupaSala_NajavljenaGrupa1_idx` (`rbrNajave` ASC) ,
-  CONSTRAINT `fk_NajavljenaGrupaSala_Sala1`
-    FOREIGN KEY (`sala` )
-    REFERENCES `mydb`.`Sala` (`id` )
+CREATE  TABLE IF NOT EXISTS najavljenagrupasala (
+  id INT NOT NULL AUTO_INCREMENT,  
+  sala INT NOT NULL ,
+  rbrNajave INT NOT NULL ,
+  PRIMARY KEY (id) ,
+  INDEX fk_NajavljenaGrupaSala_NajavljenaGrupa1_idx (rbrNajave ASC) ,
+  CONSTRAINT fk_NajavljenaGrupaSala_Sala1
+    FOREIGN KEY (sala)
+    REFERENCES sala (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_NajavljenaGrupaSala_NajavljenaGrupa1`
-    FOREIGN KEY (`rbrNajave` )
-    REFERENCES `mydb`.`NajavljenaGrupa` (`rbrNajave` )
+  CONSTRAINT fk_NajavljenaGrupaSala_NajavljenaGrupa1
+    FOREIGN KEY (rbrNajave)
+    REFERENCES najavljenagrupa (rbrNajave )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_salaRbrNajave` UNIQUE (`sala`, `rbrNajave`)
+  CONSTRAINT uc_salaRbrNajave UNIQUE (sala, rbrNajave)
   )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`ZakazanaGrupaSala`
+-- zakazanagrupasala
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`ZakazanaGrupaSala` ;
+DROP TABLE IF EXISTS zakazanagrupasala ;
 
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`ZakazanaGrupaSala` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `sala` INT NOT NULL ,
-  `rbrZakazivanja` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_ZakazanaGrupaSala_ZakazanaGrupa1_idx` (`rbrZakazivanja` ASC) ,
-  CONSTRAINT `fk_ZakazanaGrupaSala_Sala1`
-    FOREIGN KEY (`sala` )
-    REFERENCES `mydb`.`Sala` (`id` )
+CREATE  TABLE IF NOT EXISTS zakazanagrupasala (
+  id INT NOT NULL AUTO_INCREMENT,
+  sala INT NOT NULL ,
+  rbrZakazivanja INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (id) ,
+  INDEX fk_ZakazanaGrupaSala_ZakazanaGrupa1_idx (rbrZakazivanja ASC) ,
+  CONSTRAINT fk_ZakazanaGrupaSala_Sala1
+    FOREIGN KEY (sala)
+    REFERENCES sala (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ZakazanaGrupaSala_ZakazanaGrupa1`
-    FOREIGN KEY (`rbrZakazivanja` )
-    REFERENCES `mydb`.`ZakazanaGrupa` (`rbrZakazivanja` )
+  CONSTRAINT fk_ZakazanaGrupaSala_ZakazanaGrupa1
+    FOREIGN KEY (rbrZakazivanja)
+    REFERENCES zakazanagrupa (rbrZakazivanja)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_salaRbrZakazivanja` UNIQUE (`sala`, `rbrZakazivanja`)
+  CONSTRAINT uc_salaRbrZakazivanja UNIQUE (sala, rbrZakazivanja)
 	)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`ZakazanaGrupaDezurni`
+-- zakazanagrupadezurni
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`ZakazanaGrupaDezurni` ;
+DROP TABLE IF EXISTS zakazanagrupadezurni ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`ZakazanaGrupaDezurni` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `korisnickoIme` VARCHAR(20) NOT NULL ,
-  `rbrZakazivanja` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_ZakazanaGrupaDezurni_Nalog1_idx` (`korisnickoIme` ASC) ,
-  INDEX `fk_ZakazanaGrupaDezurni_ZakazanaGrupa1_idx` (`rbrZakazivanja` ASC) ,
-  CONSTRAINT `fk_ZakazanaGrupaDezurni_Nalog1`
-    FOREIGN KEY (`korisnickoIme` )
-    REFERENCES `mydb`.`Nalog` (`korisnickoIme` )
+CREATE  TABLE IF NOT EXISTS zakazanagrupadezurni (
+  id INT NOT NULL AUTO_INCREMENT ,
+  korisnickoIme VARCHAR(20) NOT NULL ,
+  rbrZakazivanja INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (id) ,
+  INDEX fk_ZakazanaGrupaDezurni_Nalog1_idx (korisnickoIme ASC) ,
+  INDEX fk_ZakazanaGrupaDezurni_ZakazanaGrupa1_idx (rbrZakazivanja ASC) ,
+  CONSTRAINT fk_ZakazanaGrupaDezurni_Nalog1
+    FOREIGN KEY (korisnickoIme)
+    REFERENCES nalog (korisnickoIme)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ZakazanaGrupaDezurni_ZakazanaGrupa1`
-    FOREIGN KEY (`rbrZakazivanja` )
-    REFERENCES `mydb`.`ZakazanaGrupa` (`rbrZakazivanja` )
+  CONSTRAINT fk_ZakazanaGrupaDezurni_ZakazanaGrupa1
+    FOREIGN KEY (rbrZakazivanja )
+    REFERENCES zakazanagrupa (rbrZakazivanja)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_korisnickoImeRbrZakazivanja` UNIQUE (`korisnickoIme`, `rbrZakazivanja`)
+  CONSTRAINT uc_korisnickoImeRbrZakazivanja UNIQUE (korisnickoIme, rbrZakazivanja)
   )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`NapomenaGrupaDezurni`
+-- napomenagrupadezurni
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`NapomenaGrupaDezurni` ;
+DROP TABLE IF EXISTS napomenagrupadezurni ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`NapomenaGrupaDezurni` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `korisnickoImeGlavnogDezurnog` VARCHAR(20) NOT NULL ,
-  `napomena` VARCHAR(100) NOT NULL ,
-  `datumNapomene` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `vidljivost` TINYINT(1) NULL ,
-  `procitano` TINYINT(1) NULL ,
-  `zakazanaGrupaDezurniId` INT NOT NULL,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1_idx` (`zakazanaGrupaDezurniId` ASC) ,
-  CONSTRAINT `fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1`
-    FOREIGN KEY (`zakazanaGrupaDezurniId` )
-    REFERENCES `mydb`.`ZakazanaGrupaDezurni` (`id`)
+CREATE  TABLE IF NOT EXISTS napomenagrupadezurni (
+  id INT NOT NULL AUTO_INCREMENT,
+  korisnickoImeGlavnogDezurnog VARCHAR(20) NOT NULL ,
+  napomena VARCHAR(100) NOT NULL ,
+  datumNapomene TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  vidljivost TINYINT(1) NULL ,
+  procitano TINYINT(1) NULL ,
+  zakazanaGrupaDezurniId INT NOT NULL,
+  PRIMARY KEY (id) ,
+  INDEX fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1_idx (zakazanaGrupaDezurniId ASC) ,
+  CONSTRAINT fk_NapomenaGrupaDezurni_ZakazanaGrupaDezurni1
+    FOREIGN KEY (zakazanaGrupaDezurniId)
+    REFERENCES zakazanagrupadezurni (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_korisnickoImeGlavnogDezurnogKorisnickoImeRbrZakazivanja` UNIQUE (`zakazanaGrupaDezurniId`, `korisnickoImeGlavnogDezurnog`)
+  CONSTRAINT uc_korisnickoImeGlavnogDezurnogKorisnickoImeRbrZakazivanja UNIQUE (zakazanaGrupaDezurniId, korisnickoImeGlavnogDezurnog)
   )
 ENGINE = InnoDB;
 
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`NapomenaGrupa`
+-- napomenagrupa
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`NapomenaGrupa` ;
+DROP TABLE IF EXISTS napomenagrupa ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`NapomenaGrupa` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `korisnickoImeGlavnogDezurnog` VARCHAR(20) NOT NULL ,
-  `rbrZakazivanja` INT UNSIGNED NOT NULL ,
-  `napomena` VARCHAR(100) NOT NULL ,
-  `datumNapomene` DATE NOT NULL ,
-  `vidljivost` TINYINT(1) NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_NapomenaGrupa_ZakazanaGrupa1_idx` (`rbrZakazivanja` ASC) ,
-  CONSTRAINT `fk_NapomenaGrupa_ZakazanaGrupa1`
-    FOREIGN KEY (`rbrZakazivanja` )
-    REFERENCES `mydb`.`ZakazanaGrupa` (`rbrZakazivanja` )
+CREATE  TABLE IF NOT EXISTS napomenagrupa (
+  id INT NOT NULL AUTO_INCREMENT,
+  korisnickoImeGlavnogDezurnog VARCHAR(20) NOT NULL ,
+  rbrZakazivanja INT UNSIGNED NOT NULL ,
+  napomena VARCHAR(100) NOT NULL ,
+  datumNapomene DATE NOT NULL ,
+  vidljivost TINYINT(1) NULL ,
+  PRIMARY KEY (id) ,
+  INDEX fk_NapomenaGrupa_ZakazanaGrupa1_idx (rbrZakazivanja ASC) ,
+  CONSTRAINT fk_NapomenaGrupa_ZakazanaGrupa1
+    FOREIGN KEY (rbrZakazivanja)
+    REFERENCES zakazanagrupa (rbrZakazivanja)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_korisnickoImeGlavnogDezurnogRbrZakazivanja` UNIQUE (`korisnickoImeGlavnogDezurnog`,`rbrZakazivanja`)
+  CONSTRAINT uc_korisnickoImeGlavnogDezurnogRbrZakazivanja UNIQUE (korisnickoImeGlavnogDezurnog,rbrZakazivanja)
   )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`PonudjeneZamene`
+-- ponudjenezamene
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`PonudjeneZamene` ;
+DROP TABLE IF EXISTS ponudjenezamene ;
 
-CREATE  TABLE IF NOT EXISTS `mydb`.`PonudjeneZamene` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `korisnickoImePrimaoca` VARCHAR(20) NOT NULL ,
+CREATE  TABLE IF NOT EXISTS ponudjenezamene (
+  id INT NOT NULL AUTO_INCREMENT,
+  korisnickoImePrimaoca VARCHAR(20) NOT NULL ,
   `status` TINYINT(1) NOT NULL ,
-  `zakazanaGrupaDezurniId` INT NOT NULL,
-  INDEX `fk_PonudjeneZamene_Nalog1_idx` (`korisnickoImePrimaoca` ASC) ,
-  PRIMARY KEY (`id`) ,
-  CONSTRAINT `fk_PonudjeneZamene_Nalog1`
-    FOREIGN KEY (`korisnickoImePrimaoca` )
-    REFERENCES `mydb`.`Nalog` (`korisnickoIme` )
+  zakazanaGrupaDezurniId INT NOT NULL,
+  INDEX fk_PonudjeneZamene_Nalog1_idx (korisnickoImePrimaoca ASC) ,
+  PRIMARY KEY (id) ,
+  CONSTRAINT fk_PonudjeneZamene_Nalog1
+    FOREIGN KEY (korisnickoImePrimaoca)
+    REFERENCES nalog (korisnickoIme )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_PonudjeneZamene_ZakazanaGrupaDezurni1`
-    FOREIGN KEY (`zakazanaGrupaDezurniId`)
-    REFERENCES `mydb`.`ZakazanaGrupaDezurni` (`id`)
+  CONSTRAINT fk_PonudjeneZamene_ZakazanaGrupaDezurni1
+    FOREIGN KEY (zakazanaGrupaDezurniId)
+    REFERENCES zakazanagrupadezurni (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `uc_korisnickoImePosiljaocaKorisnickoImePrimaocaRbrZakazivanja` UNIQUE (`zakazanaGrupaDezurniId`, `korisnickoImePrimaoca`)
+  CONSTRAINT uc_korisnickoImePosiljaocaKorisnickoImePrimaocaRbrZakazivanja UNIQUE (zakazanaGrupaDezurniId, korisnickoImePrimaoca)
 
 	)
 ENGINE = InnoDB;
-
-USE `mydb` ;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
