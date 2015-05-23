@@ -2,7 +2,7 @@ var app = angular.module('App', ['ngRoute', 'userControllers', 'userDirectives']
 
 app.config(
   ['$routeProvider',
-  
+
    function($routeProvider){
       $routeProvider.
 	when('/', {
@@ -26,7 +26,7 @@ app.config(
 	  controllers: 'PrimDutyController, SecDutyController'
 	})
 	.when('/p5', {
-	  templateUrl: 'pages/asistent/najavljivanjeobaveze.html', 
+	  templateUrl: 'pages/asistent/najavljivanjeobaveze.html',
 	  controller: 'NewDutyController'
 	})
 	.when('/p6', {
@@ -70,11 +70,11 @@ app.config(
 
 
 app.controller('indexControler', function($scope, $http, $location) {
- 
+
   /* tab promenljiva - za indeks trenutne stranice */
   if(!localStorage.tab)
     localStorage.setItem('tab', 1);
-  
+
   $scope.setTab = function(t) {
     if(!isNaN(t) && t>0 && t < 14)
       localStorage.setItem('tab', t);
@@ -84,7 +84,7 @@ app.controller('indexControler', function($scope, $http, $location) {
   $scope.returnTab = function() {
     return parseInt(localStorage.getItem('tab')); /* $scope.tab; */
   }
-  
+
   /* podaci koje cuvamo o korisniku kad se uloguje */
   var user = {
     username: '',
@@ -94,31 +94,31 @@ app.controller('indexControler', function($scope, $http, $location) {
     asistent: false,
     logedin: false
   };
-  
+
   /* cuvamo ih u localStorage-u */
   if(!localStorage.user)
     localStorage.setItem('user', angular.toJson(user));
-    
+
   /* ng-show za log_out div */
   $scope.loged = function() {
     user = angular.fromJson(localStorage.getItem('user'));
     return Boolean(user.logedin);
   }
-  
+
   /* funkcija vraca ime_prezime ulogovanog korisnika */
   $scope.whoAmI = function() {
     return user.ime_prezime;
   }
-  
+
   /* id korisnika */
   $scope.user_identification = function() {
     return user.username;
   }
- 
+
  /* vracamo mod za ulogovanog korisnika */
   $scope.asist = function() {
     /* user = angular.fromJson(localStorage.getItem('user')); */
-    return user.asistent;   
+    return user.asistent;
   }
   $scope.admin = function() {
     /* user = angular.fromJson(localStorage.getItem('user')); */
@@ -128,47 +128,46 @@ app.controller('indexControler', function($scope, $http, $location) {
     /* user = angular.fromJson(localStorage.getItem('user')); */
     return user.koordinator;
   }
-  
+
   /* za prikazivanje login forme */
   $scope.visible = false;
-  
+
   $scope.setVisible = function(arg) {
     $scope.visible = arg;
   }
-  
+
   $scope.returnVisible = function() {
     return $scope.visible;
   }
-  
-  /* username i password 
+
+  /* username i password
    * ono sto se salje za login
-   */ 
+   */
   $scope.loginData = {};
-  
+
   /* reset u login formi */
   $scope.resetData = function() {
     $scope.loginData = {};
   }
-  
+
   /* login */
   $scope.login = function() {
-    var loginDataJson = angular.toJson($scope.loginData);
-    
+    var loginDataJson = $scope.loginData;
+
     $http({
-	method: 'get',
-	url: 'json/user.json', /* TODO: stvarna adresa... */
-	data: loginDataJson,
+	method: 'POST',
+	url: '/AsistentPlusPlus/login',
+	data: {"loginData":loginDataJson},
 	responseType: 'JSON',
 	headers: {
 	  'Content-Type': 'application/json; charset=UTF-8'
 	}
-      } 
+      }
     )
     .success(function(data, status, headers, config) {
       $scope.visible = false
-      
       localStorage.setItem('user', angular.toJson(data));
-      
+
       user = angular.fromJson(data);
     })
     .error(function(data, status, headers, config) {
@@ -176,7 +175,7 @@ app.controller('indexControler', function($scope, $http, $location) {
       /* TODO: ispis greske */
     });
   } /* login() */
-	 
+
   /* logout - resetujemo podatke */
   $scope.logout = function() {
     user = {
@@ -190,10 +189,28 @@ app.controller('indexControler', function($scope, $http, $location) {
     $scope.loginData = {};
     localStorage.setItem('user', angular.toJson(user));
     localStorage.setItem('tab', 1);
-    
+
+      $http({
+              method: 'GET',
+              url: '/AsistentPlusPlus/logout'
+          }
+      )
+          .success(function(data, status, headers, config) {
+              $scope.visible = false
+              console.log(data);
+              localStorage.setItem('user', angular.toJson(data));
+
+              user = angular.fromJson(data);
+          })
+          .error(function(data, status, headers, config) {
+              console.log("error: " + status);
+              /* TODO: ispis greske */
+          });
+
+
     /* vracamo korisnika na pocetnu stranu (raspored) */
     $location.path('/p1');
-    
+
     $scope.visible = false;
   } /* logout() */
 

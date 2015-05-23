@@ -60,7 +60,7 @@ class KorisniciKontroler
             $responseObject->requiredFields = $fieldsNotSet;
             header('Content-Type: application/json');
             echo json_encode($responseObject, JSON_PRETTY_PRINT);
-        } elseif ($noviKorisnikPodaci["sifra"] !== $noviKorisnikPodaci["sifraPotvrda"]){
+        } elseif ($noviKorisnikPodaci["sifra"] !== $noviKorisnikPodaci["sifraPotvrda"]) {
             $responseObject = new \stdClass();
             $responseObject->status = "error";
             $responseObject->message = "Šifra nije ispravna.";
@@ -105,5 +105,49 @@ class KorisniciKontroler
             header('Content-Type: application/json');
             echo json_encode($responseObject, JSON_PRETTY_PRINT);
         }
+    }
+
+    public function promeniStatus()
+    {
+        $korisnik = $_POST['korisnik'];
+
+        $requiredFields = ["korisnickoIme"];
+        $fieldsNotSet = [];
+        foreach ($requiredFields as $field) {
+            if (!isset($korisnik[$field])) {
+                $fieldsNotSet[] = $field;
+            }
+        }
+        if (!empty($fieldsNotSet)) {
+            $responseObject = new \stdClass();
+            $responseObject->status = "error";
+            $responseObject->message = "Nisu sva polja popunjena.";
+            $responseObject->requiredFields = $fieldsNotSet;
+            header('Content-Type: application/json');
+            echo json_encode($responseObject, JSON_PRETTY_PRINT);
+        } elseif (empty($this->nalogServis->pronadjiPoKorisnickomImenu($korisnik["korisnickoIme"]))) {
+            $responseObject = new \stdClass();
+            $responseObject->status = "error";
+            $responseObject->message = "Korisnik ne postoji.";
+            header('Content-Type: application/json');
+            echo json_encode($responseObject, JSON_PRETTY_PRINT);
+        } else {
+            $nalogEntity = $this->nalogServis->pronadjiPoKorisnickomImenu($korisnik["korisnickoIme"]);
+
+            if ($nalogEntity->getStatus()) {
+                $nalogEntity->setStatus(false);
+            }else{
+                $nalogEntity->setStatus(true);
+            }
+
+            $this->nalogServis->azurirajKorisnika($nalogEntity);
+
+            $responseObject = new \stdClass();
+            $responseObject->status = "success";
+            $responseObject->message = "Uspešno promenjen status korisnika";
+            header('Content-Type: application/json');
+            echo json_encode($responseObject, JSON_PRETTY_PRINT);
+        }
+
     }
 }

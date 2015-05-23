@@ -5,7 +5,7 @@
         <title></title>
     </head>
     <body>
-        Novi korisnik post test.
+        Nova ucionica post test.
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
@@ -13,15 +13,16 @@
         (function () {
 
             var ucionica = {
-                "ime": "Учионица 1",
-                "kapacitet": 10,
-                "racunari": 11,
-                "lokacijaId": 1
+                "id":6,
+                "ime": "Учионица 2",
+                "kapacitet": 11,
+                "racunari": 12,
+                "lokacijaId": 2
             };
 
             $.ajax({
                 type: "POST",
-                url: "/AsistentPlusPlus/ucionica",
+                url: "/AsistentPlusPlus/ucionica/6",
                 data: {'ucionica': ucionica},
                 success: function (data) {
                     alert(data);

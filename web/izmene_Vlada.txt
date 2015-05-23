@@ -34,6 +34,7 @@ u funkciji login
    - json koji se vraca se servera user.json
    - /AsistentPlusPlus/login ili kako vec... (nisam siguran kako ste stavili)
 
+    // done
 -------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -117,6 +118,12 @@ funkcija promeniStatus
    - menja status korisnika iz aktivan u neaktivan i obrnuto (tako bi trebalo)
    - salje se samo id korisnika za kojeg se menja status
    - AsistentPlusPlus/promenastatusa
+   // DONE saljes mi sledeci objekat post requestom
+   {
+      "korisnik":{
+                   "korisnickoIme":"andjelkaz
+                 }
+   }
 
 -------------------------------------------------------------------------------------------------------------------------------
 resetControler
@@ -156,8 +163,26 @@ funckija submitData
         2. /AsistentPlusPlus/ucionica/{id}
         saljete isti onaj json sa id-jem koji je u url-u preko ovog linka se radi update ucionice u bazi (UVEK SALJITE SVA POLJA u JSON-u)
         Napomena:
-        1.Osim ovih podataka morate da saljete i na kojoj je lokaciji ucionica, jag ili trg
+        1.Osim ovih podataka morate da saljete i na kojoj je lokaciji ucionica, morate da saljete id lokacije
         2. ime u jsonu je kod nas u bazi nekakva oznaka ja se iskreno nadam da je to isto :)
+        Predlog JSON-a
+        {
+            "id": 1, // ovo se salje samo u slucaju kada se updatuje sala
+            "ime": "Учионица 1",
+            "kapacitet": 10,
+            "racunari": 11,
+            "lokacijaId": 1
+        }
+        Kada saljete ovaj objekat kao i one prethodne ovaj stavite unutar objekta
+        {
+            "ucionica":{
+                           "id": 1, // ovo se salje samo u slucaju kada se updatuje sala
+                           "ime": "Учионица 1",
+                           "kapacitet": 10,
+                           "racunari": 11,
+                           "lokacijaId": 1
+                       }
+        }
 -------------------------------------------------------------------------------------------------------------------------------
 
 Ako sam zaboravio jos nesto, ili budete videli da fali kad budete pravili servise, javite...

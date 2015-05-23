@@ -16,6 +16,7 @@ class Router {
         $this->logInRoute = new Route();
         $this->logInRoute->setUri("login");
         $this->logInRoute->setObject($logInOutController);
+        $this->logInRoute->setMethod("POST");
         $this->logInRoute->setObjectMethod("logIn");
 
         $this->notLoggedInRoute = new Route();
@@ -26,6 +27,7 @@ class Router {
         $this->logOutRoute = new Route();
         $this->logOutRoute->setUri("logout");
         $this->logOutRoute->setObject($logInOutController);
+        $this->logOutRoute->setMethod("GET");
         $this->logOutRoute->setObjectMethod("logOut");
         $this->privateRouteArray[] = $this->logOutRoute;
     }

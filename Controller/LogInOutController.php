@@ -13,23 +13,22 @@ class LogInOutController {
 
     public function logIn(){
         $genericObject = new \stdClass();
-        if($this->verifyUser()){
-            $_SESSION["Username"] = $_POST['inputUN'];
-            $_SESSION["LoggedIn"] = 'true';
+        if($this->verifyUser($_POST['loginData']['username'], $_POST['loginData']['password'])){
+            $_SESSION["Username"] = $_POST['loginData']['username'];
+            $_SESSION["LoggedIn"] = $_POST['loginData']['password'];
 
-            $nalogEntity = $this->nalogServis->pronadjiPoKorisnickomImenu($_POST['inputUN']);
+            $nalogEntity = $this->nalogServis->pronadjiPoKorisnickomImenu($_SESSION["Username"]);
 
             $genericObject -> username = $nalogEntity->getKorisnickoIme();
+            $genericObject ->ime_prezime = $nalogEntity->getIme() . " " . $nalogEntity->getPrezime();
             $genericObject -> administrator = $nalogEntity->getJeAdministrator();
             $genericObject -> koordinator = $nalogEntity->getJeKoordinator();
             $genericObject -> asistent = $nalogEntity->getJeDezurni();
             $genericObject -> logedin = true;
 
+            header('Content-Type: application/json');
             $userJson = json_encode($genericObject);
             echo $userJson;
-
-            echo'<br><br> logedIn <br>';
-            echo '<br><form action="logout" method="post"> <button type="submit">logOut</button> </form><br>';
         }else{
             $genericObject -> username = "";
             $genericObject -> administrator = false;
@@ -46,6 +45,16 @@ class LogInOutController {
     public function logOut(){
         session_unset();
         session_destroy();
+
+        $genericObject = new \stdClass();
+        $genericObject -> username = "";
+        $genericObject -> administrator = false;
+        $genericObject -> koordinator = false;
+        $genericObject -> asistent = false;
+        $genericObject -> logedin = false;
+
+        $userJson = json_encode($genericObject);
+        echo $userJson;
     }
 
     public function notLoggedIn(){
@@ -60,8 +69,8 @@ class LogInOutController {
         echo $userJson;
     }
 
-    private function verifyUser(){
-        return $this->nalogServis->autentifikacijaKorisnika($_POST['inputUN'],$_POST['inputP']);
+    private function verifyUser($username,$password){
+        return $this->nalogServis->autentifikacijaKorisnika($username,$password);
     }
 
 }

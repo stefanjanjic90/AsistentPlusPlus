@@ -5,6 +5,32 @@
         <title></title>
     </head>
     <body>
-
+        Promeni status post test.
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+
+        (function () {
+
+            var korisnik = {
+                "korisnickoIme":"andjelkaz"
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/AsistentPlusPlus/promenastatusa",
+                data: {'korisnik': korisnik},
+                success: function (data) {
+                    alert(data);
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+        })();
+
+
+    </script>
+
 </html>

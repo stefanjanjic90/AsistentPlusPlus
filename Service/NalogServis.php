@@ -41,4 +41,10 @@ class NalogServis {
         $this->entityManager->persist($nalogEntity);
         $this->entityManager->flush();
     }
+
+    public function azurirajKorisnika(Nalog $nalogEntity)
+    {
+        $this->entityManager->merge($nalogEntity);
+        $this->entityManager->flush();
+    }
 } 

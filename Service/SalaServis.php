@@ -15,6 +15,10 @@ class SalaServis {
         $this->repository = $this->entityManager->getRepository('AsistentPlusPlus\Entity\Sala');
     }
 
+    public function pronadjiPoId($id){
+        return $this->repository->find($id);
+    }
+
     public function pronadjiSveSale(){
         return $this->repository->findAll();
     }
@@ -24,4 +28,8 @@ class SalaServis {
         $this->entityManager->flush();
     }
 
+    public function azurirajSalu(Sala $salaEntity){
+        $this->entityManager->merge($salaEntity);
+        $this->entityManager->flush();
+    }
 } 
