@@ -6,11 +6,11 @@ PUBLICPAGES.JS
 -------------------------------------------------------------------------------------------------------------------------------
 rasporedControler
 -------------------------------------------------------------------------------------------------------------------------------
-raspored.json - datum i vreme moraju da budu u tom formatu i moraju da budu sting
+raspored.json - datum i vreme moraju da budu u tom formatu i moraju da budu sting  // DONE - S
 /AsistentPlusPlus/raspored
 unosi se u publicpages.js u funkciji dohvatiRaspored
 
-u funkciji otkaziObavezu:
+u funkciji otkaziObavezu:  // DONE url je /AsistentPlusPlus/otkaziObavezu/{idObaveze}   - S
    - salje se samo id obaveze kao json
    - treba da se u bazi otkaze obaveza
    - kada se otkaze obaveza ponovo se zahteva raspored da bi se azurirao prikaz, tako da se i tu menja url u get pozivu na /AsistentPlusPlus/raspored
@@ -53,17 +53,56 @@ u funkciji submitData svaka stavka se menja posebno i salje se sledece
    {"emailjag":"nova_mejl_adresa_jagiceva@gmail.com"} ako se menja mejl u jagicevoj
 
    ne znam gde se ovo nalazi u bazi, znam samo da ima kao zahtev u zadatku
-  
+  // DONE GET metodom na /AsistentPlusPlus/info mogu se dobiti trazeni podaci
+          POST metodom na /AsistentPlusPlus/info mogu se menjati podaci ocekuje se objekat sa 1-3 polja
+          {
+            "godina":2015,
+            "emailss":"nova_mejl_adresa_server_sale@gmail.com",
+            "emailjag":"nova_mejl_adresa_jagiceva@gmail.com"
+          }
+          Objekat moze ali ne mora da sadrzi sva tri parametra. Moguce je poslati jedan,dva ili sva tri.
+          Ovaj objekat se salje na sledeci nacin
+          kao podaci u AJAX requestu (POST METODA) salje se objekat koji izleda ovako:
+          {
+            info:{
+                "godina":2015,
+                "emailss":"nova_mejl_adresa_server_sale@gmail.com",
+                "emailjag":"nova_mejl_adresa_jagiceva@gmail.com"
+            }
+          }
+          Mora ovako biti definisan jer mi po kljucu 'info' trazimo u $_POST nizu ovak objekat -S
 -------------------------------------------------------------------------------------------------------------------------------
 newUserControler
 -------------------------------------------------------------------------------------------------------------------------------
 katedre.json vraca spisak svih katedri na fakultetu
    - AsistentPlusPlus/katedre
    - get poziv (trebalo bi prvi u kontroleru)
+   // DONE ovaj request vec postoji /AsistentPlusPlus/katedre  - S
 
 funkcija submitData salje podatke o novom korisniku
    - novikorisnik.json
    - AsistentPlusPlus/novikorisnik
+
+   // DONE request se pravi na url (POST) /AsistentPlusPlus/novi_korisnik
+        data za slanje mora izgledati na sledeci nacin
+        {
+            'noviKorisnik:
+            {
+              "korisnickoIme": "andjelkaz",
+              "imePrezime": "Andjelka Zecevic",
+              "email": "andjelka@gmail.com",
+              "telefon": 641234567,
+              "sifra": "andjelka",
+              "sifraPotvrda": "andjelka",
+              "dezurniAsistent": true,
+              "administrator": true,
+              "koordinator": false,
+              "kat": 1, // ovo je izmenjeno morate slati id katedre ne njen naziv
+              "status": "aktivan",
+              "koeficijent": 90,
+              "napomena": "neka napomena"
+          };
+        }
 
 -------------------------------------------------------------------------------------------------------------------------------
 deleteUserControler
@@ -71,6 +110,8 @@ deleteUserControler
 funkcija ispisiKorisnike
    - korisnici.json - spisak korisnika, njihov id i status(aktivan/neaktivan)
    - AsistentPlusPlus/spisakkorisnika
+   // DONE spisak korisnika vec postoji dodato je korisnickoIme
+    (id ne postoji za korisnika) i koristi se url /AsistentPlusPlus/korisnici  -S
    
 funkcija promeniStatus
    - menja status korisnika iz aktivan u neaktivan i obrnuto (tako bi trebalo)
@@ -102,12 +143,21 @@ funckija ispisiUcionice
    - spisak svih ucionica sa raspolozivim mestima, racunarima,...
    - ucionice.json
    - AsistentPlusPlus/ucionice
+// DONE url vec postoji
 
 funckija submitData
    - salje podatke o ucionici
    - ucionica.json
    - te preomene se unose u bazu
    - AsistentPlusPlus/ucionica
+   // DONE napravili smo dva url-a
+        1. /AsistentPlusPlus/ucionica (post metoda) ovde saljete kad hocete da ubacite novu ucionicu i saljete isti onaj json
+        samo bez id polja
+        2. /AsistentPlusPlus/ucionica/{id}
+        saljete isti onaj json sa id-jem koji je u url-u preko ovog linka se radi update ucionice u bazi (UVEK SALJITE SVA POLJA u JSON-u)
+        Napomena:
+        1.Osim ovih podataka morate da saljete i na kojoj je lokaciji ucionica, jag ili trg
+        2. ime u jsonu je kod nas u bazi nekakva oznaka ja se iskreno nadam da je to isto :)
 -------------------------------------------------------------------------------------------------------------------------------
 
 Ako sam zaboravio jos nesto, ili budete videli da fali kad budete pravili servise, javite...

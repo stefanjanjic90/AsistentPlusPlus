@@ -30,17 +30,19 @@ class Router {
         $this->privateRouteArray[] = $this->logOutRoute;
     }
 
-    public function addPublicRoute($uri, $object, $objectMethod){
+    public function addPublicRoute($uri, $method,$object, $objectMethod){
         $route = new Route();
         $route->setUri($uri);
+        $route->setMethod($method);
         $route->setObject($object);
         $route->setObjectMethod($objectMethod);
         $this->publicRouteArray[] = $route;
     }
 
-    public function addPrivateRoute($uri, $object, $objectMethod){
+    public function addPrivateRoute($uri, $method,$object, $objectMethod){
         $route = new Route();
         $route->setUri($uri);
+        $route->setMethod($method);
         $route->setObject($object);
         $route->setObjectMethod($objectMethod);
         $this->privateRouteArray[] = $route;
@@ -55,9 +57,10 @@ class Router {
         }
 
         $uri = isset($_REQUEST['requestedURI']) ? $_REQUEST['requestedURI'] : "/";
+        $requestMethod =isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : "";
         $routeMatched = false;
         foreach($routeArray as $key => $route){
-            if(preg_match("#^" .$route->getUri() . "$#",$uri ,$params )){
+            if(preg_match("#^" .$route->getUri() . "$#",$uri ,$params ) && $route->getMethod() === $requestMethod){
                 $route->executeRouteFunctuion($params);
                 $routeMatched = true;
                 break;

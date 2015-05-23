@@ -1,6 +1,6 @@
 user.json - /AsistentPlusPlus/login - public
 logout uri - /AsistentPlusPlus/logout - private
-raspored.json - /AsistentPlusPlus/raspored/{godina- YYYY - integer} - public url // TODO
+raspored.json - /AsistentPlusPlus/raspored/{godina- YYYY-MM-DD - string} - public url // DONE
 katedre.json - /AsistentPlusPlus/katedre - private
 ucionice.json - /AsistentPlusPlus/ucionice - private
 korisnici.json /AsistentPlusPlus/korisnici
@@ -25,7 +25,7 @@ info.html
 {"godina":2015} skolska godina
 {"emailss":"test@gmail.com"} mejl aerver sale
 {"emailjag":"test@gmail.com"} mejl jagiceva
-jedan json koji sadrzi sva ova polja /asistentplusplus/info URADJENO, POSTOJI URL
+jedan json koji sadrzi sva ova polja /AsistentPlusPlus/info URADJENO, POSTOJI URL
 
 novi_korisnik.json asistentplusplus/novi_korisnik
 obrisi_korisnika_korisnici /korisnici - spisak svih asistenata

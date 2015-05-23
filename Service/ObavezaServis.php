@@ -10,7 +10,7 @@ class ObavezaServis {
     private $repository;
     public function __construct(){
         require_once __DIR__.'\..\src\bootstrap.php';
-        $this->entityManager = getEntityManager();
+        $this->entityManager = \Bootstrap::getEntityManager();
         $this->repository = $this->entityManager->getRepository('AsistentPlusPlus\Entity\Obaveza');
     }
 
@@ -62,6 +62,10 @@ class ObavezaServis {
     public function unesi(Obaveza $obavezaEntity)
     {
         $this->entityManager->persist($obavezaEntity);
+        $this->entityManager->flush();
+    }
+
+    public function obrisi(Obaveza $obavezaEntity){
         $this->entityManager->flush();
     }
 } 

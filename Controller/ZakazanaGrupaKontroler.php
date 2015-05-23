@@ -19,14 +19,18 @@ class ZakazanaGrupaKontroler {
         $this->nalogServis = new NalogServis();
     }
 
-    public function vratiZakazaneGrupe()
+    public function vratiZakazaneGrupe($parametri)
     {
-        $jsonObject = new \stdClass();
+        $datum = $parametri[0][1];
 
-        foreach ($this->zakazanaGrupaServis->pronadjiSveAktivne() as $zakazanaGrupa)
+        $objectArray = [];
+
+        foreach ($this->zakazanaGrupaServis->pronadjiSveOdDatumaNaDalje($datum) as $zakazanaGrupa)
         {
+            $jsonObject = new \stdClass();
+
             $jsonObject->id = $zakazanaGrupa->getRbrZakazivanja();
-            $jsonObject->datum = $zakazanaGrupa->getDatum()->format('m-d-Y');
+            $jsonObject->datum = $zakazanaGrupa->getDatum()->format('d-m-Y');
             $jsonObject->vreme = $zakazanaGrupa->getPocetakRezervacije()->format('H:i');
 
             $saleNiz=array();
@@ -44,10 +48,12 @@ class ZakazanaGrupaKontroler {
 
             $jsonObject->glavni_dezurni = $nalog->getIme()." ".$nalog->getPrezime();
 
+            $objectArray [] = $jsonObject;
+
         }
 
         header('Content-Type: application/json');
-        echo json_encode($jsonObject, JSON_PRETTY_PRINT);
+        echo json_encode($objectArray, JSON_PRETTY_PRINT);
 
     }
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+        Novi korisnik post test.
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+
+        (function () {
+
+            var noviKorisnik = {
+                "korisnickoIme": "andjelkaz",
+                        "imePrezime": "Andjelka Zecevic",
+                        "email": "andjelka@gmail.com",
+                        "sifra": "andjelka",
+                        "sifraPotvrda": "andjelka",
+                        "dezurniAsistent": true,
+                        "administrator": true,
+                        "koordinator": false,
+                        "kat": 1,
+                        "status": "aktivan",
+                        "koeficijent": 90,
+                        "napomena": "neka napomena"
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/AsistentPlusPlus/novi_korisnik",
+                data: {'noviKorisnik': noviKorisnik},
+                success: function (data) {
+                    alert(data);
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+        })();
+
+
+    </script>
+
+</html>

@@ -2,6 +2,8 @@
 
 namespace AsistentPlusPlus\Service;
 
+use AsistentPlusPlus\Entity\Nalog;
+
 class NalogServis {
 
     private $entityManager;
@@ -10,7 +12,7 @@ class NalogServis {
 
     public function __construct(){
         require_once __DIR__.'\..\src\bootstrap.php';
-        $this->entityManager = getEntityManager();
+        $this->entityManager = \Bootstrap::getEntityManager();
         $this->repository = $this->entityManager->getRepository('AsistentPlusPlus\Entity\Nalog');
     }
 
@@ -32,5 +34,11 @@ class NalogServis {
 
     public function pronadjiSveKorisnike(){
         return $this->repository->findAll();
+    }
+
+    public function dodajKorisnika(Nalog $nalogEntity)
+    {
+        $this->entityManager->persist($nalogEntity);
+        $this->entityManager->flush();
     }
 } 

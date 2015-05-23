@@ -12,7 +12,7 @@ class NajavljenaGrupaServis {
 
     public function __construct(){
         require_once __DIR__.'\..\src\bootstrap.php';
-        $this->entityManager = getEntityManager();
+        $this->entityManager = \Bootstrap::getEntityManager();
         $this->repository = $this->entityManager->getRepository('AsistentPlusPlus\Entity\NajavljenaGrupa');
     }
 
@@ -35,6 +35,11 @@ class NajavljenaGrupaServis {
     public function unesi(NajavljenaGrupa $najavljenaGrupaEntity)
     {
         $this->entityManager->persist($najavljenaGrupaEntity);
+        $this->entityManager->flush();
+    }
+
+    public function obrisi(NajavljenaGrupa $najavljenaGrupaEntity){
+        $this->entityManager->remove($najavljenaGrupaEntity);
         $this->entityManager->flush();
     }
 }

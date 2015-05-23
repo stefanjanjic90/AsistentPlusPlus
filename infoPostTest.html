@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+        Info post test.
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+
+        (function () {
+
+            var info = {"godina": 2014, "emailss":"nova_mail_adressa@gmail.com"};
+
+            $.ajax({
+                type: "POST",
+                url: "/AsistentPlusPlus/info",
+                data:{'info':info},
+                success: function (data) {
+                    alert(data);
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+        })();
+
+
+    </script>
+
+</html>

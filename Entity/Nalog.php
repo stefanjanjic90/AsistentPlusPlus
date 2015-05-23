@@ -18,7 +18,6 @@ class Nalog
      *
      * @Column(name="korisnickoIme", type="string", length=20, nullable=false)
      * @Id
-     * @GeneratedValue(strategy="IDENTITY")
      */
     private $korisnickoIme;
 

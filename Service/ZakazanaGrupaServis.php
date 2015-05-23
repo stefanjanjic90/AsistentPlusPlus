@@ -19,7 +19,7 @@ class ZakazanaGrupaServis {
 
     public function __construct(){
         require_once __DIR__.'\..\src\bootstrap.php';
-        $this->entityManager = getEntityManager();
+        $this->entityManager = \Bootstrap::getEntityManager();
         $this->repository = $this->entityManager->getRepository('AsistentPlusPlus\Entity\ZakazanaGrupa');
     }
 
@@ -46,6 +46,18 @@ class ZakazanaGrupaServis {
         return $query->getResult();
     }
 
+    public function pronadjiSvePoObavezi($obavezaId){
+        $query = $this->entityManager->createQuery(
+            ' SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' JOIN AsistentPlusPlus\Entity\Obaveza o '
+            .' WHERE zg.obaveza = o.id AND o.id = :obavezaId');
+
+        $query->setParameter('obavezaId',$obavezaId);
+
+        return $query->getResult();
+    }
+
     public function pronadjiZavrsenePoKorisnickomImenu($korisnickoIme){
         $query = $this->entityManager->createQuery('SELECT zg FROM '
             .' AsistentPlusPlus\Entity\ZakazanaGrupaDezurni zgd '
@@ -61,6 +73,17 @@ class ZakazanaGrupaServis {
         return $this->repository->findAll();
     }
 
+    public function pronadjiSveOdDatumaNaDalje($datum){
+        $query = $this->entityManager->createQuery('SELECT zg FROM '
+            .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
+            .' WHERE zg.datum >= :datum ');
+        $datumObject = \DateTime::createFromFormat("Y-m-d",$datum);
+        $datumObject->setTime(0,0,0);
+        $query->setParameter('datum',$datumObject);
+        $queryResult =$query->getResult();
+        return $queryResult;
+    }
+
     public function pronadjiSveAktivne(){
         $query = $this->entityManager->createQuery('SELECT zg FROM '
             .' AsistentPlusPlus\Entity\ZakazanaGrupa zg '
@@ -74,4 +97,4 @@ class ZakazanaGrupaServis {
         $this->entityManager->persist($zakazanaGrupaEntity);
         $this->entityManager->flush();
     }
-} 
+}

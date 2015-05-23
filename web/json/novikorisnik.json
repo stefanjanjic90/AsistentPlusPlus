@@ -1,14 +1,14 @@
-{ 
-  "korisnickoIme": "andjelkaz", 
-  "imePrezime": "Andjelka Zecevic", 
-  "email": "andjelka@gmail.com", 
-  "telefon": 641234567, 
-  "sifra": "andjelka", 
-  "sifraPotvrda": "andjelka", 
-  "dezurniAsistent": true, 
-  "administrator": true, 
+{
+  "korisnickoIme": "andjelkaz",
+  "imePrezime": "Andjelka Zecevic",
+  "email": "andjelka@gmail.com",
+  "telefon": 641234567,
+  "sifra": "andjelka",
+  "sifraPotvrda": "andjelka",
+  "dezurniAsistent": true,
+  "administrator": true,
   "koordinator": false,
-  "kat": " Катедра за рачунарство и информатику ", 
+  "kat": " Катедра за рачунарство и информатику ", // mora biti promenjeno u numerickou vrednost (id katedre)
   "status": "aktivan",
   "koeficijent": 90,
   "napomena": "neka napomena"

@@ -3,6 +3,7 @@
 class Route {
 
     private $uri;
+    private $method;
     private $object;
     private $objectMethod;
 
@@ -21,6 +22,16 @@ class Route {
     public function setUri($uri)
     {
         $this->uri = $uri;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function setMethod($method)
+    {
+        $this->method = $method;
     }
 
     public function getObject()

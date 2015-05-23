@@ -2,24 +2,31 @@
 namespace AsistentPlusPlus\Controller;
 
 require_once __DIR__ . '\..\vendor\autoload.php';
+use AsistentPlusPlus\Service\NajavljenaGrupaServis;
 use AsistentPlusPlus\Service\NalogServis;
 use AsistentPlusPlus\Service\ObavezaServis;
+use AsistentPlusPlus\Service\PredmetniAsistentiNaObaveziServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaDezurniServis;
 use AsistentPlusPlus\Service\ZakazanaGrupaServis;
+use Doctrine\ORM\Query\ParameterTypeInferer;
 
 class DezurstvaKontroler
 {
 
     private $obavezaServis;
     private $zakazanaGrupaServis;
+    private $najavljenaGrupaServis;
     private $zakazanaGrupaDezurniServis;
+    private $predmetniAsistentNaObaveziServis;
     private $nalogServis;
 
     public function __construct()
     {
         $this->obavezaServis = new ObavezaServis();
         $this->zakazanaGrupaServis = new ZakazanaGrupaServis();
+        $this->najavljenaGrupaServis = new NajavljenaGrupaServis();
         $this->zakazanaGrupaDezurniServis = new ZakazanaGrupaDezurniServis();
+        $this->predmetniAsistentNaObaveziServis = new PredmetniAsistentiNaObaveziServis();
         $this->nalogServis = new NalogServis();
     }
     // TODO MILICE PROVERI METODU
@@ -285,5 +292,42 @@ class DezurstvaKontroler
         echo json_encode($slobodniJson, JSON_PRETTY_PRINT);
     }
 
+    public function otkaziObavezu($parametri){
+
+        $obavezaId = $parametri[0][1];
+
+        $zakazaneGrupe = $this->zakazanaGrupaServis->pronadjiSvePoObavezi($obavezaId);
+
+        $responseObject = new \stdClass();
+        if(!empty($zakazaneGrupe)){
+
+            $responseObject->status = "error";
+            $responseObject->message = "Nije moguće obrisati zakazanu obavezu!";
+
+            header('Content-Type: application/json');
+            echo json_encode($responseObject, JSON_PRETTY_PRINT);
+        }else{
+
+            $predmetniAsistenti = $this->predmetniAsistentNaObaveziServis->pronadjiPoIdObaveze($obavezaId);
+            foreach($predmetniAsistenti as $predmetniAsistent){
+                $this->predmetniAsistentNaObaveziServis->obrisi($predmetniAsistent);
+            }
+
+            $najavljeneGrupe = $this->najavljenaGrupaServis->pronadjiSvePoObavezi($obavezaId);
+            foreach($najavljeneGrupe as $najavljenaGrupa){
+                $this->najavljenaGrupaServis->obrisi($najavljenaGrupa);
+            }
+
+            $obaveza = $this->obavezaServis->pronadjiPoId($obavezaId);
+            $this->obavezaServis->obrisi($obaveza);
+
+            $responseObject->status = 'success';
+            $responseObject->message='Uspešno brisanje';
+
+            header('Content-Type: application/json');
+            echo json_encode($responseObject, JSON_PRETTY_PRINT);
+        }
+
+    }
 
 }
