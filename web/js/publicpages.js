@@ -219,7 +219,7 @@ publicpages.controller('HoursOnCallController', function($scope, $http){
 	$scope.reverseSort = false;
 	
 	/*   			
-	$http.get('sati_na_dezurstvu_svi.php?user='+$scope.user, {responseType: 'JSON'}).
+	$http.get('/AsistentPlusPlus/satiNaDezurstvu/'+user, {responseType: 'JSON'}).  //u promenljivoj user treba da se ulogovani-nije uradjeno
 		success(function(data, status, headers, config){
 			if(data!=="null")
 				$scope.totalHoursOfDuty = angular.fromJson(data);

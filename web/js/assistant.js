@@ -20,7 +20,7 @@ account.controller('SecDutyController', function($scope, $http, $timeout){
   
 
 	/*  
-	$http.get('sporedna_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
+	$http.get('/AsistentPlusPlus/sporednaDezurstva/'+user, {responseType: 'JSON'}).
 		success(function(data, status, headers, config){
 			if(data!=="null")
 				$scope.duty = angular.fromJson(data);
@@ -156,7 +156,7 @@ account.controller('PrimDutyController', function($scope, $http){
 	$scope.duty = []; // [course, assistants, number_of_student, date, time, remark]
 
 /*   			
-	$http.get('glavna_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
+	$http.get('/AsistentPlusPlus/glavnaDezurstva/'+user, {responseType: 'JSON'}).
 		success(function(data, status, headers, config){
 			if(data!=="null")
 				$scope.duty = angular.fromJson(data);
@@ -358,7 +358,7 @@ account.controller('PrimDutyController', function($scope, $http){
 
 account.controller('NewDutyController', function($scope, $http){
 
-		/*$http.get('json/ucionice.json', {responseType: 'JSON'})
+		/*$http.get('/AsistentPlusPlus/ucionice', {responseType: 'JSON'})
 			.success(function(data, status, headers, config){
 				if(data != "null")
 						$scope.classrooms = angular.fromJson(data);
@@ -580,6 +580,7 @@ account.controller('NewDutyController', function($scope, $http){
 		$scope.brGrupa = undefined;
 	}
 	
+
 	
 	$scope.validGroupForm = function(index)
 	{
@@ -618,7 +619,7 @@ account.controller('CompletedDutyController', function($scope, $http){
 	$scope.reverseSort = false;
 	
 /*		  
-  $http.get('zavrsena_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).  
+  $http.get('/AsistentPlusPlus/zavrsenaDezurstva/'+user, {responseType: 'JSON'}).  
 		success(function(data, status, headers, config){
 			if(data!=="null")
 				$scope.compDutytmp = angular.fromJson(data);
@@ -648,7 +649,7 @@ account.controller('UserOfferController', function($scope, $http){
 	$scope.offer = []; // [asistent_koji_salje, predmet, id_obaveze, datum, vreme]
 	$scope.dutyAccepted = [];
 /*		
-	    			$http.get('ponude_za_zamenu_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
+	    			$http.get('/AsistentPlusPlus/ponudjeneZamene/'+user+'/'+, {responseType: 'JSON'}). //TODO ne znam kakav redni broj zakayivanja treba da se prosledi
 						success(function(data, status, headers, config){
 							if(data!=="null")
 								$scope.offer = angular.fromJson(data);
@@ -663,7 +664,7 @@ account.controller('UserOfferController', function($scope, $http){
 	});
 
 /*		
-	    			$http.get('prihvacena_dezurstva.php?user='+$scope.user, {responseType: 'JSON'}).
+	    			$http.get('prihvacena_dezurstva.php?user='+user, {responseType: 'JSON'}).
 						success(function(data, status, headers, config){
 							if(data!=="null")
 								$scope.dutyAccepted = angular.fromJson(data);
@@ -797,7 +798,7 @@ account.controller('CommentsController', function($scope, $http, $timeout){
 /*
 	$scope.comments = [];  //[komentar, asistent, predmet, datum]
 	  
-    			$http.get('komentari.php?user='+$scope.user, {responseType: 'JSON'}).
+    			$http.get('komentari.php?user='+user, {responseType: 'JSON'}).
 						success(function(data, status, headers, config){
 							if(data!=="null")
 								$scope.comments = angular.fromJson(data);
@@ -863,6 +864,7 @@ account.controller('SetUpController', function($scope, $http){
 		{
 			if(arg1 == 1)
 				$scope.showSuccessMsg = arg2;
+
 			else if(arg1 == 2)
 				$scope.showErrorMsg = arg2;
 			else
@@ -907,7 +909,7 @@ account.controller('SetUpController', function($scope, $http){
 						var dataToSubmit = angular.toJson($scope.newPassObject); 			
 			
 						$http({
-						method: 'post',
+						method: 'post',SetUpController
 						url: 'test.php',
 						data: dataToSubmit,
 						responseType: 'JSON',
@@ -971,48 +973,5 @@ account.controller('SetUpController', function($scope, $http){
 					$scope.newEmail.email = "";
 		}
 });
-
-
-account.controller('NewOrderController', function($scope, $http){
-
-	$scope.duty = []; // [date, time, course, assistant]
-	$scope.selected = 'orderByRecentFunc';
-	$scope.sort;
-	
-	
-	/*  
-	$http.get('pristigle_obaveze.php?user='+$scope.user, {responseType: 'JSON'}).
-		success(function(data, status, headers, config){
-			if(data!=="null")
-				$scope.duty = angular.fromJson(data);
-			}).
-		error(function(data, status, headers, config){
-			console.log("error: " + status);
-	});
-	*/
-  
-	$http.get('json/pristigle_obaveze.json').success(function(data){ 
- 	 $scope.duty = angular.fromJson(data);
-	});
-	
-		$scope.setSort = function()
-	{
-		if($scope.selected.localeCompare('orderByRecentFunc') == 0)
-			$scope.sort = function(item)
-			{
-				return 1;
-			}
-		else if($scope.selected.localeCompare('orderByDateFunc') == 0)
-			$scope.sort = function(item) 
-			{
-				var parts = item.date.split('-');
-				var date = new Date(parseInt(parts[2]), parseInt(parts[1]), parseInt(parts[0]),0,0,0,0);
-
-				return date.getTime();
-			}
-	}
-	
-});
-
 
 	

@@ -39,7 +39,7 @@ app.config(
 	})
 	.when('/p8', {
 	  templateUrl: 'pages/koordinator/pristigleobaveze.html',
-	  controller: 'SecDutyController'
+	  controller: 'NewOrderController'
 	})
 	.when('/p9', {
 	  templateUrl: 'pages/koordinator/zakazivanjeobaveza.html',

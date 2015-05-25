@@ -1,0 +1,70 @@
+PUBLICPAGES.JS
+
+
+	HoursOnCallController
+	
+	- sati_na_dezurstvu_svi.json -> /AsistentPlusPlus/sporednaDezurstva/{user} (u komentaru je napisan get poziv u fajlu)
+	---------------------------------------------------------------------------------------------------------------------
+	
+	
+ASSISTANT.JS
+
+ 
+ 	SecDutyController
+ 	------------------
+ 	
+ 	- sporedna_dezurstva.json -> /AsistentPlusPlus/sporednaDezurstva/{user} (u komentaru je napisan get poziv u fajlu)
+ 	- moguce_zamene.js -> u samom kontroloru se nalazi poziv, napisan je poziv u komentaru
+ 	- u funkciji sendRequest() salje se ponuda obaveze post metodom	
+ 	---------------------------------------------------------------------------------------------------------------------	
+ 	
+ 	PrimDutyController
+ 	------------------
+ 	
+ 	- glavna_dezurstva.json -> /AsistentPlusPlus/glavnaDezurstva/{user} (u komentaru je napisan get poziv u fajlu)
+ 	- u funkciji saveComment salje se post metodom komentar za obavezu od glavnog dezurnog
+ 	- u funkciji closeDuty salje se delete metodom zahtev za brisanje obaveze(to radi glavni dezurni) (u komentaru je napisan poziv u fajlu)
+ 	- assistantsEmails.json poziva se get metod u funkciji showMsgModal() (napisan je get poziv u komentaru)
+ 	- u funkciji saveSingleComment() se post metodom ostavlja komentar za pojedinacnog asistenta
+ 	- u funkciji sendMessage() post metodom se salje zahtev za slanjem mail-a
+ 	----------------------------------------------------------------------------------------------------------------------
+ 	
+ 	NewDutyController
+ 	-----------------
+ 	
+ 	- u samom kontroloru ucionice.json -> /AsistentPlusPlus/ucionice (napisan je poziv u komentaru)
+ 	- u funkciji submitData() salje se post metodom zahtev za najavljivanje nove obaveze
+ 	----------------------------------------------------------------------------------------------------------------------
+ 	
+ 	CompletedDutyController
+ 	-----------------------
+ 	
+ 	- u samom kontroloru zavrsena_dezurstva.json -> /AsistentPlusPlus/zavrsenaDezurstva/{user} (u komentaru je napisan get poziv)
+ 	----------------------------------------------------------------------------------------------------------------------
+ 	
+ 	UserOfferController
+ 	-------------------
+ 	
+ 	- u samom kontroleru ponude_za_zamenu_dezurstva.json -> /AsistentPlusPlus/ponudjeneZamene/{user}/{rbrZakazivanja} (ne znam kakav ovde broj treba da se posalje)
+  - u funkciji showTable() se get metodom sati_na_dezurstvu.json -> /AsistentPlusPlus/satiNaDezurstvu/{user}
+  - u funkciji acceptOffer() post metodom se salje da je neko prihvatio obavezu (napisan je poziv)
+  - u funkciji refuseOffer() post metodom se salje da je odbijena ponuda ya dezurstvom (napisan je poziv)
+  - u funkciji seenNotice() post metodom se salje da je neko video obavestenje
+  -----------------------------------------------------------------------------------------------------------------------
+  
+  CommentsController
+  ------------------
+  
+  - u samom kontroloru get metodom komentari.json (pod komentarom je napisan poziv)
+  - u funkciji markComment post metodom se salje da je procitan komentar(treba da se obelezi kao procitan da se vise ne bi prikazivao)
+  -----------------------------------------------------------------------------------------------------------------------
+  
+  SetUpController
+  ---------------
+  
+  - u funkciji sendNewPass() salje se zahtev za menjanje pasvorda
+  - u funkciji sendNewEmail() salje se zahtev za menjanje maila
+  
+  
+  
+   

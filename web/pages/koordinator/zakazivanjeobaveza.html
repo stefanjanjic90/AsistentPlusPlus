@@ -16,8 +16,8 @@
 					<div class="form-group">
 						<label class="col-lg-2 control-label">Асистент:</label>
 						<div class="col-lg-8">
-							<select class="form-control" ng-model="group.id_assistant" ng-required="true">
-								<option ng-repeat="asistent in assistants" ng-model="group.id_assistant"> {{ asistent }} </option>
+							<select class="form-control" ng-model="group.id_assistant" ng-required="true"> 
+								<option ng-repeat="asistent in assistants"> {{ asistent }} </option>
 							</select>
 						</div>
 					</div>
@@ -185,7 +185,7 @@
 						<div class="form-group">
 		  				<div class="col-lg-10 col-lg-offset-2">
 		    				<input type="button" class="btn btn-default" value="Поништи" ng-click="removeGroups()" />
-		    				<input type="submit" class="btn btn-primary" value="Најави обавезу" ng-click="submitData()" ng-disabled='!fZakazivanje.$valid' />
+		    				<input type="submit" class="btn btn-primary" value="Најави обавезу" ng-click="submitData()" ng-disabled='!validForm()'/>
 		  				</div>
 						</div>
 						

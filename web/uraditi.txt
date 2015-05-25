@@ -1,0 +1,27 @@
+1. kalendar -> najavljivanje_obaveze, izgleda da ne mozee...
+2. otkazivanje obaveza -> indeks
+3. cuvanje username-a ulogovanog
+4. ne radi asistent za koordinatora
+
+*	otkazivanje obaveze kod glavnog dezurstva -> da li treba da obrisem iz lokalne promenljive ili ce pri refreshu opet da se povuce iz baze pa ne moram?
+* ponuda dezurstva -> da li treba da se brise iz lokalne promenljive ili je dovoljno samo ponovo ajax poziv(get)?
+* sta se desava kada koordinator izabere obradu obaveze, pojava forme? 
+* kakva greska se vraca ukoliko je neka ponuda vec prihvacena kada neko hoce da prihvati ponudu, treba prikazati to?
+* kada ponudu niko ne prihvati, treba da se obrise iz baze kao ponudjena ukoliko istekne neko vreme, npr. do jednog dana pre obaveze.. obavestiti o tome onog ko je ponudio?
+  - 
+* kada se klikne da je vidjeno obavestenje o tome da je neko prihvatio ponudu koju je ulogovan ponudio, da li treba da se ponovo radi ajax poziv? 
+
+-- zakazivanjeObaveze.html -> kad zakazuje koordinator, radio Vlada, promeniti
+
+ (obrisati angular.js ? postoji angular.min.js - OBRISANO)
+
+-MORAS DA BUDES U ASISTENTPLUSPLUS - GLAVNI REPOZOITORIJUM /home/kostic/Desktop/GitRepo/AsistentPlusPlus
+BRISANJE SA GITA: 
+	git rm ime_fajla
+	git commit -m "poruka"
+	git push origin master
+	
+POSTAVLJANJE NA GIT:
+	git add *
+	git commit -m "poruka"
+	git push origin master

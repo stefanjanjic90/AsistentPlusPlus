@@ -19,8 +19,7 @@ koordinator.controller('NewDutyControllerCoordinator', function($scope, $http){
   });
 
 		$scope.assistants = ["Анђелка Зечевић", "Иван Чукић"];
-		$scope.id  = "tijana";
-
+		
 		$scope.bgColors=['bg-success','bg-info','bg-warning'];
 		$scope.counter = 0;
 		$scope.msg = "";
@@ -45,7 +44,6 @@ koordinator.controller('NewDutyControllerCoordinator', function($scope, $http){
 		$scope.group.id_assistant = "";
 		
 		
-		
 	$scope.returnArray = function(n)
 	{
 		var array =[];
@@ -57,7 +55,6 @@ koordinator.controller('NewDutyControllerCoordinator', function($scope, $http){
 
 	$scope.initGroup = function()
 	{
-
 		$scope.group.name = "";
 		$scope.group.dateRadio = "false";
 		$scope.group.startDuty = "";
@@ -205,8 +202,8 @@ koordinator.controller('NewDutyControllerCoordinator', function($scope, $http){
    	$scope.brGrupa = undefined;
    	$scope.counter = 0;
    	$scope.initGroup();
-  	$scope.groups = []; 	
-
+  	$scope.groups = [];
+  	$scope.group.id_assistant = "";
   };
 
 	$scope.editGroup = function(index)
@@ -257,6 +254,53 @@ koordinator.controller('NewDutyControllerCoordinator', function($scope, $http){
 		return true;
 	}
 	
+	$scope.validForm = function()
+	{
+		return fZakazivanje.$valid && groups.length != 0;
+	}
 	
 });
+
+
+account.controller('NewOrderController', function($scope, $http){
+
+	$scope.duty = []; // [date, time, course, assistant]
+	$scope.selected = 'orderByRecentFunc';
+	$scope.sort;
+	
+	
+	/*  
+	$http.get('pristigle_obaveze.php?user='+user, {responseType: 'JSON'}).
+		success(function(data, status, headers, config){
+			if(data!=="null")
+				$scope.duty = angular.fromJson(data);
+			}).
+		error(function(data, status, headers, config){
+			console.log("error: " + status);
+	});
+	*/
+  
+	$http.get('json/pristigle_obaveze.json').success(function(data){ 
+ 	 $scope.duty = angular.fromJson(data);
+	});
+	
+		$scope.setSort = function()
+	{
+		if($scope.selected.localeCompare('orderByRecentFunc') == 0)
+			$scope.sort = function(item)
+			{
+				return 1;
+			}
+		else if($scope.selected.localeCompare('orderByDateFunc') == 0)
+			$scope.sort = function(item) 
+			{
+				var parts = item.date.split('-');
+				var date = new Date(parseInt(parts[2]), parseInt(parts[1]), parseInt(parts[0]),0,0,0,0);
+
+				return date.getTime();
+			}
+	}
+	
+});
+
 

@@ -15,7 +15,18 @@
 
 * sporedna_dezurstva.json -> izmenjen fajl, dodat id obaveze i to da li je ponudjen ta obaveza nekom (offered)
 
-* moguce_zamene.json -> izmenjen, treba mi i id asistenta
+* moguce_zamene.json -> izmenjen, treba mi i id asistenta; ovo su svi asistenti kojima moze da se ponudi dezurstvo; ako sam dobro razumela oni hoce da racunaju ko koliki skor ima na dezurstvima, pa ko je najmanje dezurao ili ko je tad slobodan, njemu moze da se ponudi dezurstvo, e sad ne znam da li to treba vi da uradite ili ce to oni
+
+* assistantsEmails.json -> saljem id_obaveze, vracaju se mail-ovi svih asistenata na toj obavezi kao string ["mika@matf.bg.ac.rs", "mika@matf.bg.ac.rs", "mika@matf.bg.ac.rs"]
+
+* prihvacena_dezurstva.json -> ovo treba da budu ona obavestenja kad neko prihvati obavezu, da se obavesti onaj koji je ponudio; salje se id ulogovanog
+		- id_assistant -> id onog ko je prihvatio
+		- assistant -> ime asistenta koji je prihvatio
+		- course -> naziv obaveze
+		- id_duty -> id obaveze
+		- date ("29-10-2104") -> datum obaveze
+		- time ("09:00-10:00") -> vreme obaveze
+
 
 (* sporedna_dezurstva1.json -> pomocni fajl, ne treba da se implementira)
 
@@ -78,4 +89,4 @@ Ono sto saljem delete metodom:
 
 * za brisanje obaveze, salje se samo id obaveze;
 
-** format datuma sam svuda stavila da bude DD-MM-YYY
+** format datuma sam svuda stavila da bude DD-MM-YYYY
