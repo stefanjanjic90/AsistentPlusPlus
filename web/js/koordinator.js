@@ -262,7 +262,7 @@ koordinator.controller('NewDutyControllerCoordinator', function($scope, $http){
 });
 
 
-account.controller('NewOrderController', function($scope, $http){
+koordinator.controller('NewOrderController', function($scope, $http){
 
 	$scope.duty = []; // [date, time, course, assistant]
 	$scope.selected = 'orderByRecentFunc';
@@ -278,13 +278,13 @@ account.controller('NewOrderController', function($scope, $http){
 		error(function(data, status, headers, config){
 			console.log("error: " + status);
 	});
-	*/
+	*/	
   
 	$http.get('json/pristigle_obaveze.json').success(function(data){ 
  	 $scope.duty = angular.fromJson(data);
 	});
 	
-		$scope.setSort = function()
+	$scope.setSort = function()
 	{
 		if($scope.selected.localeCompare('orderByRecentFunc') == 0)
 			$scope.sort = function(item)

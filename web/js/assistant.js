@@ -909,7 +909,7 @@ account.controller('SetUpController', function($scope, $http){
 						var dataToSubmit = angular.toJson($scope.newPassObject); 			
 			
 						$http({
-						method: 'post',SetUpController
+						method: 'post',
 						url: 'test.php',
 						data: dataToSubmit,
 						responseType: 'JSON',

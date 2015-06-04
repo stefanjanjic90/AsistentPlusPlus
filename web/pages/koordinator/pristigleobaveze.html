@@ -10,14 +10,13 @@
 									<select class="form-control" ng-model="selected" ng-change="setSort()">
 										<option value='orderByRecentFunc'> Редоследу пристизања </option>
 										<option value='orderByDateFunc'> Датуму </option>
-									</select>
+									</select> 
 								</div>
 							</div>
 						</fieldset>
 						</form>	<br/>
 
-						<label class="col-lg-3 control-label">Претражи табелу: </label><input type="text" ng-model="search.$" /> <br/><br/>
-
+					<label class="col-lg-3 control-label">Претражи табелу: </label><input type="text" ng-model="search.$" /> <br/><br/>
 					<table class="table table-striped" ng-init="reverseSort = false">
 							<tr>
 								<th>Назив обавезе</th>
@@ -31,6 +30,6 @@
 								<td>{{obaveza.course}}</td><td>{{obaveza.date}}, {{obaveza.time}}</td><td>{{obaveza.assistant}}</td>
 								<td><button class="btn btn-primary" type="button" > Обради </button></td>
 						</tr>
-					</table>
+					</table> 
 					</div> <!-- forme dezurstva -->
 				</div> <!-- tab pristigle obaveze -->
